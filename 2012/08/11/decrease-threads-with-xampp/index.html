@@ -5,7 +5,7 @@
   <meta charset="utf-8" />
   <title>减少xampp内存占用 - DY.Feng's Blog 叶毅锋的博客</title>
   
-  <meta name="description" content="减少xampp内存占用 Aug 11th, 2012 Tags: linux, xampp, apache, moodle Included file 'JB/setup' not found in _includes directory 特别长的前话 最近有个改写moodle系统插件的项目， &hellip;" />
+  <meta name="description" content="减少xampp内存占用 Aug 11th, 2012 Tags: linux, xampp, apache, moodle Included file 'JB/setup' not found in _includes directory 最近有个改写moodle系统插件的项目， &hellip;" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
   <link rel="stylesheet" href="/stylesheets/screen.css" />
@@ -88,51 +88,66 @@ html,body{height:100%;overflow:hidden}
 
   <div class="entry-content typo"><p>Included file 'JB/setup' not found in _includes directory</p>
 
-<h2>特别长的前话</h2>
-
 <p>最近有个改写moodle系统插件的项目，所以我又重操起php的老行当。moodle是一个非常不错的考试系统，多种题型，多种计分方式，唯一的缺点就是文档太少，非常的缺...开发人员列表里面也看到了好几个中国人的名字。</p>
 
 <p>下载，放到htdocs，<code>sudo lampp start</code>，结果发现他竟然要求php5.3以上。我的php还是5.1的老版本，那没法，唯有下载个最新的xampp吧。一切还算顺利，除了xampp好像怪怪的。因为我改了配置文件后，再重启，他竟然好像没有反应，这个到现在还是个不解之谜。</p>
 
 <p>在开发的过程中，我还发现电脑卡了很多，<code>ps -A|grep httpd</code>一看，哇的一刷。内存给我用了几百兆了，虽然我有4G也不是这样浪费的嘛，我只是开发而已，没有必要开这么线程。下面记录一下给xampp减少线程的方法。</p>
 
-<h2>减少xampp线程数，享受低碳生活</h2>
+<h1>减少xampp线程数，享受低碳生活</h1>
 
-<h3>先看看Apache现在是在什么模式下工作</h3>
+<h2>先看看Apache现在是在什么模式下工作</h2>
 
-<pre><code>feng@feng:/opt/lampp$ /opt/lampp/bin/apachectl -lCompiled in modules:
-core.c
-prefork.c
-http_core.c
-mod_so.c
-</code></pre>
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>/opt/lampp/bin/apachectl -lCompiled in modules:
+</span><span class='line'>core.c
+</span><span class='line'>prefork.c
+</span><span class='line'>http_core.c
+</span><span class='line'>mod_so.c
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
 
 <p>看到了吧，原来xampp的Apache默认是在<em>prefork</em>模式下跑的，那我们得相应修改prefox模式的进程数。</p>
 
-<h3>修改Apache配置</h3>
+<h2>修改Apache配置</h2>
 
-<h4>修改httpd.conf</h4>
+<h3>修改httpd.conf</h3>
 
-<pre><code>feng@feng:/opt/lampp$ vim etc/httpd.conf
-</code></pre>
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>vim etc/httpd.conf
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
 
 <p>找到<code>#Include etc/extra/httpd-mpm.conf</code>去掉注释，保存。</p>
 
-<h4>修改httpd-mpm.conf</h4>
+<h3>修改httpd-mpm.conf</h3>
 
-<pre><code>feng@feng:/opt/lampp$ vim etc/extra/httpd-mpm.conf 
-</code></pre>
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>vim etc/extra/httpd-mpm.conf
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
 
 <p>找到</p>
 
-<pre><code>&lt;IfModule mpm_prefork_module&gt;
-StartServers          2
-MinSpareServers       2
-MaxSpareServers      5
-MaxClients          5
-MaxRequestsPerChild   0
-&lt;/IfModule&gt;
-</code></pre>
+<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;IfModule mpm_prefork_module>
+</span><span class='line'>    StartServers          2
+</span><span class='line'>    MinSpareServers       2
+</span><span class='line'>    MaxSpareServers      5
+</span><span class='line'>    MaxClients          5
+</span><span class='line'>    MaxRequestsPerChild   0
+</span><span class='line'> &lt;/IfModule></span></code></pre></td></tr></table></div></figure></notextile></div>
+
 
 <p>修改其中的参数，下面是这几个参数的详细解释：</p>
 
