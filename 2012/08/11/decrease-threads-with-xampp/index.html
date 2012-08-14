@@ -187,7 +187,7 @@ html,body{height:100%;overflow:hidden}
 <script>
 (function($){
     $(document).ready(function(){
-	var chapters=$(":header:not(:first)");
+	var chapters=$("section :header:not(:first)");
 	var curTagName,oldTagName=1;
 	var menu=$("<ul class='accordion' id='accordion-menu'></ul>");
 	var count=0;
@@ -249,7 +249,9 @@ html,body{height:100%;overflow:hidden}
     });
 })(jQuery); 
 </script>
-<div class="clean accordion-container" id="accordion-container"></div>
+<div class="clean accordion-container" id="accordion-container">
+<h1>减少xampp内存占用</h1>
+</div>
 
 
 <footer class="footer">
