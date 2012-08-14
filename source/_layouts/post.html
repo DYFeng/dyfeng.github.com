@@ -25,7 +25,7 @@ layout: default
 <script>
 (function($){
     $(document).ready(function(){
-	var chapters=$(":header:not(:first)");
+	var chapters=$("section :header:not(:first)");
 	var curTagName,oldTagName=1;
 	var menu=$("<ul class='accordion' id='accordion-menu'></ul>");
 	var count=0;
@@ -87,4 +87,6 @@ layout: default
     });
 })(jQuery); 
 </script>
-<div class="clean accordion-container" id="accordion-container"></div>
+<div class="clean accordion-container" id="accordion-container">
+<h1>{{ post_or_page_title }}</h1>
+</div>
