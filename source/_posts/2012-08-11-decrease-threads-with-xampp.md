@@ -8,52 +8,50 @@ tags: [linux , xampp , apache , moodle]
 {% include JB/setup %}
 
 
-## 特别长的前话
-
 最近有个改写moodle系统插件的项目，所以我又重操起php的老行当。moodle是一个非常不错的考试系统，多种题型，多种计分方式，唯一的缺点就是文档太少，非常的缺...开发人员列表里面也看到了好几个中国人的名字。
 
 下载，放到htdocs，`sudo lampp start`，结果发现他竟然要求php5.3以上。我的php还是5.1的老版本，那没法，唯有下载个最新的xampp吧。一切还算顺利，除了xampp好像怪怪的。因为我改了配置文件后，再重启，他竟然好像没有反应，这个到现在还是个不解之谜。
 
 在开发的过程中，我还发现电脑卡了很多，`ps -A|grep httpd`一看，哇的一刷。内存给我用了几百兆了，虽然我有4G也不是这样浪费的嘛，我只是开发而已，没有必要开这么线程。下面记录一下给xampp减少线程的方法。
 
-## 减少xampp线程数，享受低碳生活
+# 减少xampp线程数，享受低碳生活
 
 
-### 先看看Apache现在是在什么模式下工作
+## 先看看Apache现在是在什么模式下工作
 
-
-	feng@feng:/opt/lampp$ /opt/lampp/bin/apachectl -lCompiled in modules:
-	core.c
-	prefork.c
-	http_core.c
-	mod_so.c
-
+{% codeblock lang:bash %}
+$ /opt/lampp/bin/apachectl -lCompiled in modules:
+core.c
+prefork.c
+http_core.c
+mod_so.c
+{% endcodeblock %}
 
 看到了吧，原来xampp的Apache默认是在*prefork*模式下跑的，那我们得相应修改prefox模式的进程数。
 
 
-### 修改Apache配置
+## 修改Apache配置
 
-#### 修改httpd.conf
-
-	feng@feng:/opt/lampp$ vim etc/httpd.conf
-
+### 修改httpd.conf
+{% codeblock lang:bash %}
+$ vim etc/httpd.conf
+{% endcodeblock %}
 找到`#Include etc/extra/httpd-mpm.conf`去掉注释，保存。
 
-#### 修改httpd-mpm.conf
-
-	feng@feng:/opt/lampp$ vim etc/extra/httpd-mpm.conf 
-
+### 修改httpd-mpm.conf
+{% codeblock lang:bash %}
+$ vim etc/extra/httpd-mpm.conf 
+{% endcodeblock %}
 找到
-
-	<IfModule mpm_prefork_module>
+{% codeblock %}
+<IfModule mpm_prefork_module>
     StartServers          2
     MinSpareServers       2
     MaxSpareServers      5
     MaxClients          5
     MaxRequestsPerChild   0
- 	</IfModule>
-
+ </IfModule>
+{% endcodeblock %}
 修改其中的参数，下面是这几个参数的详细解释：
 
 Apache一开始会新建*StartServers*个子进程后，为了满足*MinSpareServers*设置的需要，创建一个进程，等待一秒钟，继续创建两个，再等待一秒钟，继续创建四个……如此按指数级增加创建的进程数，最多达到每秒32个，直到满足*MinSpareServers*设置的值为止。
