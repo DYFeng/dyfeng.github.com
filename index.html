@@ -5,7 +5,7 @@
   <meta charset="utf-8" />
   <title>DY.Feng's Blog 叶毅锋的博客</title>
   
-  <meta name="description" content="Using Octopress as Github Blog on Ubuntu 12.04 Aug 12th, 2012 Tags: github, octopress 前言 本来我的Github blog是使用Jekyll-Bootstrap作为生成引擎。不过他是把文章发给Github解析的 &hellip;" />
+  <meta name="description" content="Using Octopress as Github Blog on Ubuntu 12.04 Aug 12th, 2012 Tags: github, octopress 本来我的Github blog是使用Jekyll-Bootstrap作为生成引擎。不过他是把文章发给Github解析的， &hellip;" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
   <link rel="stylesheet" href="/stylesheets/screen.css" />
@@ -88,136 +88,14 @@ html,body{height:100%;overflow:hidden}
 </header>
 
 
-  <div class="entry-content typo"><h1>前言</h1>
+  <div class="entry-content typo"><p>本来我的Github blog是使用<code>Jekyll-Bootstrap</code>作为生成引擎。不过他是把文章发给Github解析的，由于Github出于安全考虑，限制ruby脚本的运行，这样就导致很多功能实现不了。这时候我发现了<code>Octopress</code>引擎，他把你的branch分成两个，一个master，负责放置静态的页面，一个是source，放置程序本身和Markdown日志。</p>
 
-<p>本来我的Github blog是使用<em>Jekyll-Bootstrap</em>作为生成引擎。不过他是把文章发给Github解析的，由于Github出于安全考虑，限制ruby脚本的运行，这样就导致很多功能实现不了。这时候我发现了<em>Octopress</em>引擎，他把你的branch分成两个，一个master，负责放置静态的页面，一个是source，放置程序本身和Markdown日志。</p>
-
-<h1>名词解释</h1>
-
-<p>无论是<em>Jekyll-Bootstrap</em>还是<em>Octopress</em>，他们都用到了<em>ruby</em>写的后端<em>jekyll</em>，我对<em>ruby</em>基本上没有多少接触，看到N个<em>ruby</em>的名词更是晕了，在此记录下</p>
-
-<ul>
-<li><p><strong>gem</strong>
-<em>ruby</em>的<em>easy_install</em>，用来安装各种库，是用<em>ruby</em>写的，全称叫<em>rubygems</em>。</p></li>
-<li><p><strong>bundler</strong>
-基于<em>gem</em>的更高级管理工具，<em>bundler</em>相对于<em>gem</em>就好比<em>apt-get</em>相对于<em>aptitude</em>。不过他不是单纯的下载安装，他会根据本目录的<em>Gemfile</em>文件，把你缺少的包给装上。</p></li>
-<li><p><strong>rvm</strong>
-<em>Ruby Version Manager</em>，用来安装各种版本的<em>ruby</em>，问题是<em>ubuntu</em>有apt-get，这个不大派上用场。</p></li>
-<li><p><strong>rbenv</strong>
-<em>Simple Ruby Version Management</em>，也是用来安装各种版本的<em>ruby</em>。</p></li>
-<li><p><strong>rake</strong>
-<em>Ruby Make</em>，顾名思义就是<em>ruby</em>写的<em>make</em>，他对于的<em>Makefile</em>是<em>Rakefile</em></p></li>
-</ul>
-
-
-<h1>安装Octopress</h1>
-
-<h2>配置安装环境</h2>
-
-<h3>安装<em>ruby 1.9.3</em></h3>
-
-<p>要安装<em>Octopress</em>，必须有<em>ruby 1.9.3</em>。因为我不喜欢用第三方软件来安装<em>ruby</em>，所以我是<a href="http://lenni.info/blog/2012/05/installing-ruby-1-9-3-on-ubuntu-12-04-precise-pengolin/" title="Installing Ruby on Ubuntu 12.04">用apt-get的方式安装Ruby</a>。</p>
-
-<pre><code>sudo apt-get update
-sudo apt-get install ruby1.9.1 ruby1.9.1-dev \
-rubygems1.9.1 irb1.9.1 ri1.9.1 rdoc1.9.1 \
-build-essential libopenssl-ruby1.9.1 libssl-dev zlib1g-dev
-
-sudo update-alternatives --install /usr/bin/ruby ruby /usr/bin/ruby1.9.1 400 \
---slave   /usr/share/man/man1/ruby.1.gz ruby.1.gz \
-/usr/share/man/man1/ruby1.9.1.1.gz \
---slave   /usr/bin/ri ri /usr/bin/ri1.9.1 \
---slave   /usr/bin/irb irb /usr/bin/irb1.9.1 \
---slave   /usr/bin/rdoc rdoc /usr/bin/rdoc1.9.1
-
-sudo update-alternatives --config ruby
-sudo update-alternatives --config gem
-
-ruby --version
-</code></pre>
-
-<p>这样子，我们就不需要用到<em>rvm</em>或者<em>rbenv</em>这些东西了。要注意一点的是，虽然看上去我们装的是<em>1.9.1</em>，其实他是<em>Ruby 1.9.3-p0</em>。为什么他又叫<em>1.9.1</em>呢？因为这个<em>1.9.1</em>只是一个<em>ABI</em>版本号而已。<em>ubuntu</em>有一个<em>ruby1.9.3</em>的虚包，其实也是指向<em>1.9.1</em>的。</p>
-
-<h3>下载安装Octopress</h3>
-
-<p>下载Octopress，再次确定<em>ruby</em>版本</p>
-
-<pre><code>git clone git://github.com/imathis/octopress.git octopress
-cd octopress    # If you use RVM, You'll be asked if you trust the .rvmrc file (say yes).
-ruby --version  # Should report Ruby 1.9.3
-</code></pre>
-
-<p>安装<em>bundler</em>并使用<em>bundler</em>安装依赖</p>
-
-<pre><code>gem install bundler
-bundle install
-</code></pre>
-
-<p>安装默认Octopress主题</p>
-
-<pre><code>rake install
-</code></pre>
-
-<h2>部署到Github</h2>
-
-<p>其实部署Github非常简单。</p>
-
-<p>交互式输入你的Github仓库地址（<em>git@github.com:username/username.github.com.git</em>，把<em>username</em>替换成你的用户名）。</p>
-
-<pre><code>rake setup_github_pages
-</code></pre>
-
-<p>把你的域名提交给Github。</p>
-
-<pre><code>echo 'www.dyfeng.org' &gt; source/CNAME
-</code></pre>
-
-<p>在<em>public</em>目录生成页面。</p>
-
-<pre><code>rake generate
-</code></pre>
-
-<p>将<em>public</em>里的静态页面复制到<em>_deploy</em>目录,上传到master branch</p>
-
-<pre><code>rake deploy
-</code></pre>
-
-<p>上传程序本身到source branch</p>
-
-<pre><code>git add .
-git commit -m 'init'
-git push origin source
-</code></pre>
-
-<p>这个时候，如果一切正常，你应该可以看到你的<em>Octopress Blog</em>了。</p>
-
-<h2>本地预览</h2>
-
-<p>打开<a href="http://localhost:4000">http://localhost:4000</a>即可看到效果。</p>
-
-<pre><code>rake preview
-</code></pre>
-
-<h1>配置Octopress</h1>
-
-<p>看看你的<em>_config.yml</em>文件，blog的基本设置都在里面了，包括第三方插件的设置。</p>
-
-<h1>使用Octopress</h1>
-
-<p>新建文章，很贴心的一点是中文的题目他会转换为拼音，一些特殊符号他都会帮你转成相应的英文。不过为了更好地SEO，最好还是起一个有意义的题目，而不是一堆拼音。</p>
-
-<pre><code>cd octopress
-rake new_post["The Title of Your Article"]
-</code></pre>
-
-<p>&#8220;`js</p>
-
-<pre><code>alert('hello')
-</code></pre>
-
-<p>&#8220;`</p>
 </div>
   
+  
+    <footer class="align-r">
+      <a href="/2012/08/12/using-octopress-as-github-blog/#ContinueReading">Read on &rarr;</a>
+    </footer>
   
 
 
