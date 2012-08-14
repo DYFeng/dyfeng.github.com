@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[My Octopress Blog]]></title>
-  <link href="http://DYFeng.github.com/atom.xml" rel="self"/>
-  <link href="http://DYFeng.github.com/"/>
-  <updated>2012-08-14T21:31:33+08:00</updated>
-  <id>http://DYFeng.github.com/</id>
+  <title><![CDATA[DY.Feng's Blog 叶毅锋的博客]]></title>
+  <link href="http://www.dyfeng.org/atom.xml" rel="self"/>
+  <link href="http://www.dyfeng.org/"/>
+  <updated>2012-08-14T22:02:54+08:00</updated>
+  <id>http://www.dyfeng.org/</id>
   <author>
-    <name><![CDATA[Your Name]]></name>
+    <name><![CDATA[（≧▼≦）喵喵]]></name>
     
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
@@ -15,36 +15,36 @@
   
   <entry>
     <title type="html"><![CDATA[test 测试 %%]]></title>
-    <link href="http://DYFeng.github.com/2012/08/12/test-ce-shi-percent-percent/"/>
+    <link href="http://www.dyfeng.org/2012/08/12/test-ce-shi-percent-percent/"/>
     <updated>2012-08-12T03:38:00+08:00</updated>
-    <id>http://DYFeng.github.com/2012/08/12/test-ce-shi-percent-percent</id>
+    <id>http://www.dyfeng.org/2012/08/12/test-ce-shi-percent-percent</id>
     <content type="html"><![CDATA[
 ]]></content>
   </entry>
   
   <entry>
     <title type="html"><![CDATA[test 测试 @]]></title>
-    <link href="http://DYFeng.github.com/2012/08/12/test-ce-shi-at/"/>
+    <link href="http://www.dyfeng.org/2012/08/12/test-ce-shi-at/"/>
     <updated>2012-08-12T03:38:00+08:00</updated>
-    <id>http://DYFeng.github.com/2012/08/12/test-ce-shi-at</id>
+    <id>http://www.dyfeng.org/2012/08/12/test-ce-shi-at</id>
     <content type="html"><![CDATA[
 ]]></content>
   </entry>
   
   <entry>
     <title type="html"><![CDATA[test 测试 ]]></title>
-    <link href="http://DYFeng.github.com/2012/08/12/test-ce-shi/"/>
+    <link href="http://www.dyfeng.org/2012/08/12/test-ce-shi/"/>
     <updated>2012-08-12T03:36:00+08:00</updated>
-    <id>http://DYFeng.github.com/2012/08/12/test-ce-shi</id>
+    <id>http://www.dyfeng.org/2012/08/12/test-ce-shi</id>
     <content type="html"><![CDATA[
 ]]></content>
   </entry>
   
   <entry>
     <title type="html"><![CDATA[Using Octopress as Github Blog on Ubuntu 12.04]]></title>
-    <link href="http://DYFeng.github.com/2012/08/12/using-octopress-as-github-blog/"/>
+    <link href="http://www.dyfeng.org/2012/08/12/using-octopress-as-github-blog/"/>
     <updated>2012-08-12T00:00:00+08:00</updated>
-    <id>http://DYFeng.github.com/2012/08/12/using-octopress-as-github-blog</id>
+    <id>http://www.dyfeng.org/2012/08/12/using-octopress-as-github-blog</id>
     <content type="html"><![CDATA[<h1>前言</h1>
 
 <p>本来我的Github blog是使用<em>Jekyll-Bootstrap</em>作为生成引擎。不过他是把文章发给Github解析的，由于Github出于安全考虑，限制ruby脚本的运行，这样就导致很多功能实现不了。这时候我发现了<em>Octopress</em>引擎，他把你的branch分成两个，一个master，负责放置静态的页面，一个是source，放置程序本身和Markdown日志。</p>
@@ -178,9 +178,9 @@ rake new_post["The Title of Your Article"]
   
   <entry>
     <title type="html"><![CDATA[First Post on Github]]></title>
-    <link href="http://DYFeng.github.com/2012/08/11/first-post-on-github/"/>
+    <link href="http://www.dyfeng.org/2012/08/11/first-post-on-github/"/>
     <updated>2012-08-11T00:00:00+08:00</updated>
-    <id>http://DYFeng.github.com/2012/08/11/first-post-on-github</id>
+    <id>http://www.dyfeng.org/2012/08/11/first-post-on-github</id>
     <content type="html"><![CDATA[<p>Included file &#8216;JB/setup&#8217; not found in _includes directory</p>
 
 <p>终于出炉了！！这是我第一篇用github做blog的文章！！小生愚钝，在Win7下弄了4个小时才弄出来。遇到了cygwin和gem不兼容、gem源被墙、jekyll在Win7下各种奇怪的症状&#8230;得感叹下在Windows下生活的孩子不容易吖。</p>
@@ -239,9 +239,9 @@ puts markdown.to_html
   
   <entry>
     <title type="html"><![CDATA[减少xampp内存占用]]></title>
-    <link href="http://DYFeng.github.com/2012/08/11/decrease-threads-with-xampp/"/>
+    <link href="http://www.dyfeng.org/2012/08/11/decrease-threads-with-xampp/"/>
     <updated>2012-08-11T00:00:00+08:00</updated>
-    <id>http://DYFeng.github.com/2012/08/11/decrease-threads-with-xampp</id>
+    <id>http://www.dyfeng.org/2012/08/11/decrease-threads-with-xampp</id>
     <content type="html"><![CDATA[<p>Included file &#8216;JB/setup&#8217; not found in _includes directory</p>
 
 <h2>特别长的前话</h2>

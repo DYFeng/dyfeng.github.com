@@ -1,39 +1,43 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
     <url>
-        <loc>http://DYFeng.github.com/2012/08/11/decrease-threads-with-xampp/</loc>
+        <loc>http://www.dyfeng.org/2012/08/11/decrease-threads-with-xampp/</loc>
         <lastmod>2012-08-14T21:13:17+08:00</lastmod>
     </url>
     <url>
-        <loc>http://DYFeng.github.com/2012/08/11/first-post-on-github/</loc>
+        <loc>http://www.dyfeng.org/2012/08/11/first-post-on-github/</loc>
         <lastmod>2012-08-14T21:13:17+08:00</lastmod>
     </url>
     <url>
-        <loc>http://DYFeng.github.com/2012/08/12/using-octopress-as-github-blog/</loc>
+        <loc>http://www.dyfeng.org/2012/08/12/using-octopress-as-github-blog/</loc>
         <lastmod>2012-08-14T21:13:17+08:00</lastmod>
     </url>
     <url>
-        <loc>http://DYFeng.github.com/2012/08/12/test-ce-shi/</loc>
+        <loc>http://www.dyfeng.org/2012/08/12/test-ce-shi/</loc>
         <lastmod>2012-08-14T21:13:17+08:00</lastmod>
     </url>
     <url>
-        <loc>http://DYFeng.github.com/2012/08/12/test-ce-shi-at/</loc>
+        <loc>http://www.dyfeng.org/2012/08/12/test-ce-shi-at/</loc>
         <lastmod>2012-08-14T21:13:17+08:00</lastmod>
     </url>
     <url>
-        <loc>http://DYFeng.github.com/2012/08/12/test-ce-shi-percent-percent/</loc>
+        <loc>http://www.dyfeng.org/2012/08/12/test-ce-shi-percent-percent/</loc>
         <lastmod>2012-08-14T21:13:17+08:00</lastmod>
     </url>
     <url>
-        <loc>http://DYFeng.github.com/404.html</loc>
+        <loc>http://www.dyfeng.org/404.html</loc>
         <lastmod>2012-08-14T19:54:20+08:00</lastmod>
     </url>
     <url>
-        <loc>http://DYFeng.github.com/blog/archives/</loc>
+        <loc>http://www.dyfeng.org/about/</loc>
+        <lastmod>2012-08-14T22:00:51+08:00</lastmod>
+    </url>
+    <url>
+        <loc>http://www.dyfeng.org/blog/archives/</loc>
         <lastmod>2012-08-14T21:09:30+08:00</lastmod>
     </url>
     <url>
-        <loc>http://DYFeng.github.com/</loc>
+        <loc>http://www.dyfeng.org/</loc>
         <lastmod>2012-08-14T21:09:30+08:00</lastmod>
     </url>
 </urlset>
