@@ -2,7 +2,7 @@
 layout: default
 ---
 
-<link rel="stylesheet" href="{{ root_url }}/stylesheets/dcjqaccordion.css" />
+<link rel="stylesheet" href="{{ root_url }}/stylesheets/clean.css" />
 <section class="main-wrap clearfix">
   <article role="article">
     {% include article.html %}

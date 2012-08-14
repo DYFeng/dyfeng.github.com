@@ -10,6 +10,7 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
   <link rel="stylesheet" href="{{ root_url }}/stylesheets/screen.css" />
   <link rel="stylesheet" href="{{ root_url }}/stylesheets/pygments.css" />
+  <link rel="stylesheet" href="{{ root_url }}/stylesheets/clean.css" />
   {% for css in page.css %}
   <link rel="stylesheet" href="{{ root_url }}/stylesheets/custom/{{ css }}.css" />{% endfor %}
   <link rel="alternate" href="{{ site.subscribe_rss }}" type="application/atom+xml" />
