@@ -3,7 +3,7 @@
 <html>
 <head>
   <meta charset="utf-8" />
-  <title>DY.Feng's Blog 叶毅锋的博客</title>
+  <title>Git使用大全 - DY.Feng's Blog 叶毅锋的博客</title>
   
   <meta name="description" content="Git使用大全 Aug 15th, 2012 Tag: git 虽然关于Git的使用有很多文章，但是没有一篇是全面而且解释清楚的，以致我到现在还只是通晓几个Git的命令而已。 在一个本地Git仓库里面，我们会按顺序遇到3个地方： 本地文件，他持有实际文件。
 缓存区（index），临时保存你的改动 &hellip;" />
@@ -42,16 +42,14 @@ html,body{height:100%;overflow:hidden}
 
 <header class="my-nickname"><em title="">(≧▼≦) 喵喵</em></header>
 
+<link rel="stylesheet" href="/stylesheets/dcjqaccordion.css" />
 <section class="main-wrap clearfix">
-  
-  
-  
-    <article>
-      
+  <article role="article">
+    
 
 <header>
   
-    <h1 class="entry-title"><a href="/2012/08/15/all-about-git/">Git使用大全</a></h1>
+    <h1 class="entry-title">Git使用大全</h1>
   
   
     <p class="meta">
@@ -104,303 +102,379 @@ html,body{height:100%;overflow:hidden}
 
 <p>下面开始试验。</p>
 
+<!--more-->
+
+
+<h1>Local本地</h1>
+
+<h2>初始化</h2>
+
+<h3>设置全局变量</h3>
+
+<p>名字和Email会作为Github显示的依据。你不设置，没问题，只是Github的提交里显示不出你的用户名而已。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git config --global user.name "DY.Feng"
+</span><span class='line'>git config --global user.email "yyfeng88625"
+</span><span class='line'>git config --global color.ui "always"</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>初始化新版本库</h3>
+
+<p>初始化，只会在根目录下创建一个<code>.git</code>的文件夹。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git init</span></code></pre></td></tr></table></div></figure>
+
+
+<p>初始化后的目录结构</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ tree .git/
+</span><span class='line'>.git/
+</span><span class='line'>├── branches
+</span><span class='line'>├── config
+</span><span class='line'>├── description
+</span><span class='line'>├── HEAD
+</span><span class='line'>├── hooks
+</span><span class='line'>│   ├── applypatch-msg.sample
+</span><span class='line'>│   ├── commit-msg.sample
+</span><span class='line'>│   ├── post-update.sample
+</span><span class='line'>│   ├── pre-applypatch.sample
+</span><span class='line'>│   ├── pre-commit.sample
+</span><span class='line'>│   ├── prepare-commit-msg.sample
+</span><span class='line'>│   ├── pre-rebase.sample
+</span><span class='line'>│   └── update.sample
+</span><span class='line'>├── info
+</span><span class='line'>│   └── exclude
+</span><span class='line'>├── objects
+</span><span class='line'>│   ├── info
+</span><span class='line'>│   └── pack
+</span><span class='line'>└── refs
+</span><span class='line'>    ├── heads
+</span><span class='line'>    └── tags</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>设置忽略文件</h3>
+
+<ul>
+<li>新建<code>.gitignore</code>文件并提交。</li>
+<li>修改<code>.git/info/exclude</code>文件，支持正则表达式，例如<code>*.[oa]</code>等价于 <code>*.o</code> 和 <code>*.a</code>。这个方法只适用于你个人。</li>
+</ul>
+
+
+<h2>日常操作</h2>
+
+<h3>添加文件到缓存区</h3>
+
+<ul>
+<li>添加个别文件。<code>git add somefile1 somefile2</code></li>
+<li>添加本目录所有txt文件。<code>git add *.txt</code></li>
+<li><code>递归</code>添加所有文件，不包括空目录。<code>git add .</code></li>
+</ul>
+
+
+<h3>从缓存区删除文件</h3>
+
+<p>用法跟rm一样，<code>git rm --cached</code>。</p>
+
+<ul>
+<li>删除单个文件。<code>git rm --cached somefile</code></li>
+<li>递归删除。<code>git rm --cached -r .</code></li>
+</ul>
+
+
+<h3>查看当前缓存区的情况</h3>
+
+<p>当前缓存区的情况是<code>注释</code>掉的，这也正常嘛，还没正式提交。<code>git status</code>是查看当前缓存区（index）和HEAD之间的差异。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ git status</span></code></pre></td></tr></table></div></figure>
+
+
+<p>例如下面的例子就是说明:当前缓存区比HEAD要多一个文件<code>c.txt</code></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ git status 
+</span><span class='line'># On branch master
+</span><span class='line'># Changes to be committed:
+</span><span class='line'>#   (use "git reset HEAD &lt;file&gt;..." to unstage)
+</span><span class='line'>#
+</span><span class='line'>#       new file:   c.txt
+</span><span class='line'>#</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>从HEAD签出文件</h3>
+
+<p><code>签出</code>这个词在用惯svn的童鞋眼中肯定很熟悉，可你得注意，这里的签出是指从<code>本地仓库</code>签出而已，不是签出远程的服务器。</p>
+
+<p>从HEAD签出文件意味着把HEAD时的状态的文件复制出来，再次强调<code>HEAD</code>指的是最后一次提交（git commit）的状态。如果当前文件已经加入到了<code>缓存区</code>，这个动作也会把他从缓存区删除。但<em>不建议</em>把这个作为<code>撤销加入缓存区</code>的方法，因为签出会把文件也变回最后一次提交的状态，如果你已经修改过文件，那你的修改就全无了。如果你要撤销文件加入缓存区，请用<code>git rm --cached</code>。</p>
+
+<ul>
+<li>签出所有文件。<code>git checkout HEAD .</code></li>
+<li>签出所有txt文件。<code>git checkout HEAD *.txt</code></li>
+<li>签出个别文件。<code>git checkout HEAD somefile1 somefile2</code></li>
+</ul>
+
+
+<p>在这里面，我们不一定要用<code>HEAD</code>，就像我一开始说的，其实HEAD只是代表了一个32位的sha标记而已，指向最新的那次修改。<code>git log</code>就能看到本地所有的提交，每次提交都有一个32位的标记，我们的HEAD就是指向最新的那个标记。既然我们知道了原理，那我们就可以在任意一次<code>commit</code>里签出我们想要的文件。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ git log #找到我们要签出的那次`commit`标记是多少
+</span><span class='line'>commit 341c1e6921b61468ffd38ac423d7cf1120d7b086
+</span><span class='line'>Author: DY.Feng &lt;yyfeng88625@gmail.com&gt;
+</span><span class='line'>Date:   Mon Aug 13 05:22:11 2012 +0800
+</span><span class='line'>
+</span><span class='line'>    mod b to 1
+</span><span class='line'>
+</span><span class='line'>commit 0b5f275b20e40b51cca7bd64b2d8e50693c6660b
+</span><span class='line'>Author: DY.Feng &lt;yyfeng88625@gmail.com&gt;
+</span><span class='line'>Date:   Mon Aug 13 05:21:24 2012 +0800
+</span><span class='line'>
+</span><span class='line'>    add b,mod a to 1
+</span><span class='line'>
+</span><span class='line'>commit f0b121cf65b11d6b58b30531eb2415ddf0cbe451
+</span><span class='line'>Author: DY.Feng &lt;yyfeng88625@gmail.com&gt;
+</span><span class='line'>Date:   Mon Aug 13 04:56:14 2012 +0800
+</span><span class='line'>
+</span><span class='line'>    rm -
+</span><span class='line'>
+</span><span class='line'>commit 5f1d4283f52a825ca706b8dd039afc0dee3aa1b2
+</span><span class='line'>Author: DY.Feng &lt;yyfeng88625@gmail.com&gt;
+</span><span class='line'>Date:   Mon Aug 13 04:23:06 2012 +0800
+</span><span class='line'>
+</span><span class='line'>    first
+</span><span class='line'>
+</span><span class='line'>$ git checkout 0b5f275b20e40b51cca7bd64b2d8e50693c6660b b.txt #签出倒数第二次提交时，我们的b.txt</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>提交修改到本地仓库</h3>
+
+<ul>
+<li>提交之前<code>git add</code>过的。<code>git commit -m "提交信息"</code></li>
+<li>提交所有修改，省略<code>git add</code>步骤。<code>git commit -m "提交信息" -a</code></li>
+<li>提交单个文件，注意此文件必须是<code>git add</code>之后的。<code>git commit -m "提交信息" somefile</code></li>
+<li>增补提交，复用HEAD留言（修改小错误，而不增加提交记录，掩盖自己的小马虎）。<code>git commit -C HEAD -a --amend</code></li>
+</ul>
+
+
+<p><em>注意：</em>修改过的文件在<code>git commit</code>之前也必须<code>git add</code>一次。</p>
+
+<h1>Remote远程</h1>
+
+<p>这里的<code>远程</code>并不是配置远程Git服务器，而是<code>本地</code>的一些配置和操作。</p>
+
+<h2>初始化</h2>
+
+<h3>克隆版本库</h3>
+
+<p>克隆版本库这个是我们最常用<code>获取代码</code>的方法。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git clone git@github.com:DYFeng/test_on_github.git</span></code></pre></td></tr></table></div></figure>
+
+
+<p>克隆后你会发现Github已经帮你填写好几样东西：远程<code>origin</code>配置和分支<code>master</code>配置。origin其实是一个<code>别名</code>，远程仓库remote的别名。而分支配置<code>[branch "master"]</code>里则写明了：我的远程端是<code>origin</code>。其实这个<code>origin</code>也可以自己改一个名字，origin这个只是大众默认名字而已。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ git@github.com:DYFeng/test_on_github.git
+</span><span class='line'>$ cd test_on_github
+</span><span class='line'>$ cat .git/config
+</span><span class='line'>[core]
+</span><span class='line'>    repositoryformatversion = 0
+</span><span class='line'>    filemode = true
+</span><span class='line'>    bare = false
+</span><span class='line'>    logallrefupdates = true
+</span><span class='line'>[remote "origin"]
+</span><span class='line'>    fetch = +refs/heads/*:refs/remotes/origin/*
+</span><span class='line'>    url = git@github.com:DYFeng/test_on_github.git
+</span><span class='line'>[branch "master"]
+</span><span class='line'>    remote = origin
+</span><span class='line'>    merge = refs/heads/master</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>手动添加删除远程仓库</h3>
+
+<p>其实就是生成上面<code>[remote "origin"]</code>小节的东西。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git remote add origin git@github.com:DYFeng/test_on_github.git</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>删除别名和相关分支</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git remote rm origin</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>创建一个空本地仓库</h3>
+
+<p>没有远程配置也没有分支配置，而且他把<code>.git</code>里面的文件都新建到外面了</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git init --bare
+</span><span class='line'>$ cat config 
+</span><span class='line'>[core]
+</span><span class='line'>    repositoryformatversion = 0
+</span><span class='line'>    filemode = true
+</span><span class='line'>    bare = true</span></code></pre></td></tr></table></div></figure>
+
 </div>
-  
-  
-    <footer class="align-r">
-      <a href="/2012/08/15/all-about-git/#ContinueReading">Read on &rarr;</a>
+
+
+    <footer>
+      <p class="meta neighbor clearfix">
+        
+          <a href="/2012/08/15/bash-completion-for-rake/" class="float-l" title="Previous Post: 为rake添加命令补全">&laquo; 为rake添加命令补全</a>
+        
+        
+      </p>
     </footer>
-  
+  </article>
 
-
-    </article>
-  
-  
-    <article>
-      
-
-<header>
-  
-    <h1 class="entry-title"><a href="/2012/08/15/bash-completion-for-rake/">为rake添加命令补全</a></h1>
-  
-  
-    <p class="meta">
-      
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-08-15T00:32:00+08:00" pubdate="pubdate" data-updated="true">Aug 15<span>th</span>, 2012</time>
-      
-
-<span class="tags">
-  Tags:
-  
-    <a href='//linux/'>linux</a>, <a href='//bash/'>bash</a>, <a href='//completion/'>completion</a>, <a href='//rake/'>rake</a>
-  
-</span>
-
-      <span class="share-to-weibo">
-        <a href="javascript:void(0)" onclick="window.open('http://service.weibo.com/share/share.php?appkey=&amp;ralateUid=&amp;title=为rake添加命令补全 - &amp;url=http://www.dyfeng.org/2012/08/15/bash-completion-for-rake/', null, 'width=615,height=505,toolbar=0,status=0')" class="sina-weibo" title="分享到新浪微博"></a>
-
-        <a href="javascript:void(0)" onclick="window.open('http://share.v.t.qq.com/index.php?c=share&amp;a=index&amp;appkey=&amp;title=为rake添加命令补全 - &amp;url=http://www.dyfeng.org/2012/08/15/bash-completion-for-rake/', null, 'width=700,height=680,toolbar=0,status=0')" class="tencent-weibo" title="分享到腾讯微博"></a>
-
-        <a href="javascript:void(0)" onclick="window.open('https://twitter.com/intent/tweet?text=为rake添加命令补全 - http://www.dyfeng.org/2012/08/15/bash-completion-for-rake/', null, 'width=600,height=300,toolbar=0,status=0')" class="twitter" title="分享到Twitter"></a>
-      </span>
-    </p>
-  
-</header>
-
-
-  <div class="entry-content typo"><p>为了用上Octopress，最近我没有少跟rake打交道。不过用起来始终有点不爽–命令补全没有了，没有make用得那么爽。虽然用<code>rake -T</code>可以列出所有的任务，但是始终没有一个Tab键补全方便。</p>
-
-<p>幸亏觉得不方便的不止我一个人，Google了下，发现已经有人写出了基于bash-completion的<a href="http://turadg.aleahmad.net/2011/02/bash-completion-for-rake-tasks/">补全插件</a>，还带缓存的。</p>
-
-</div>
-  
-  
-    <footer class="align-r">
-      <a href="/2012/08/15/bash-completion-for-rake/#ContinueReading">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-
-<header>
-  
-    <h1 class="entry-title"><a href="/2012/08/12/using-octopress-as-github-blog/">Using Octopress as Github Blog on Ubuntu 12.04</a></h1>
-  
-  
-    <p class="meta">
-      
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-08-12T00:00:00+08:00" pubdate="pubdate" data-updated="true">Aug 12<span>th</span>, 2012</time>
-      
-
-<span class="tags">
-  Tags:
-  
-    <a href='//github/'>github</a>, <a href='//octopress/'>octopress</a>
-  
-</span>
-
-      <span class="share-to-weibo">
-        <a href="javascript:void(0)" onclick="window.open('http://service.weibo.com/share/share.php?appkey=&amp;ralateUid=&amp;title=Using Octopress as Github Blog on Ubuntu 12.04 - &amp;url=http://www.dyfeng.org/2012/08/12/using-octopress-as-github-blog/', null, 'width=615,height=505,toolbar=0,status=0')" class="sina-weibo" title="分享到新浪微博"></a>
-
-        <a href="javascript:void(0)" onclick="window.open('http://share.v.t.qq.com/index.php?c=share&amp;a=index&amp;appkey=&amp;title=Using Octopress as Github Blog on Ubuntu 12.04 - &amp;url=http://www.dyfeng.org/2012/08/12/using-octopress-as-github-blog/', null, 'width=700,height=680,toolbar=0,status=0')" class="tencent-weibo" title="分享到腾讯微博"></a>
-
-        <a href="javascript:void(0)" onclick="window.open('https://twitter.com/intent/tweet?text=Using Octopress as Github Blog on Ubuntu 12.04 - http://www.dyfeng.org/2012/08/12/using-octopress-as-github-blog/', null, 'width=600,height=300,toolbar=0,status=0')" class="twitter" title="分享到Twitter"></a>
-      </span>
-    </p>
-  
-</header>
-
-
-  <div class="entry-content typo"><p>本来我的Github blog是使用<code>Jekyll-Bootstrap</code>作为生成引擎。不过他是把文章发给Github解析的，由于Github出于安全考虑，限制ruby脚本的运行，这样就导致很多功能实现不了。这时候我发现了<code>Octopress</code>引擎，他把你的branch分成两个，一个master，负责放置静态的页面，一个是source，放置程序本身和Markdown日志。</p>
-
-</div>
-  
-  
-    <footer class="align-r">
-      <a href="/2012/08/12/using-octopress-as-github-blog/#ContinueReading">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-
-<header>
-  
-    <h1 class="entry-title"><a href="/2012/08/11/first-post-on-github/">First Post on Github</a></h1>
-  
-  
-    <p class="meta">
-      
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-08-11T00:00:00+08:00" pubdate="pubdate" data-updated="true">Aug 11<span>th</span>, 2012</time>
-      
-
-<span class="tags">
-  Tag:
-  
-    <a href='//github/'>github</a>
-  
-</span>
-
-      <span class="share-to-weibo">
-        <a href="javascript:void(0)" onclick="window.open('http://service.weibo.com/share/share.php?appkey=&amp;ralateUid=&amp;title=First Post on Github - &amp;url=http://www.dyfeng.org/2012/08/11/first-post-on-github/', null, 'width=615,height=505,toolbar=0,status=0')" class="sina-weibo" title="分享到新浪微博"></a>
-
-        <a href="javascript:void(0)" onclick="window.open('http://share.v.t.qq.com/index.php?c=share&amp;a=index&amp;appkey=&amp;title=First Post on Github - &amp;url=http://www.dyfeng.org/2012/08/11/first-post-on-github/', null, 'width=700,height=680,toolbar=0,status=0')" class="tencent-weibo" title="分享到腾讯微博"></a>
-
-        <a href="javascript:void(0)" onclick="window.open('https://twitter.com/intent/tweet?text=First Post on Github - http://www.dyfeng.org/2012/08/11/first-post-on-github/', null, 'width=600,height=300,toolbar=0,status=0')" class="twitter" title="分享到Twitter"></a>
-      </span>
-    </p>
-  
-</header>
-
-
-  <div class="entry-content typo"><p>Included file &#8216;JB/setup&#8217; not found in _includes directory</p>
-
-<p>终于出炉了！！这是我第一篇用github做blog的文章！！小生愚钝，在Win7下弄了4个小时才弄出来。遇到了cygwin和gem不兼容、gem源被墙、jekyll在Win7下各种奇怪的症状&#8230;得感叹下在Windows下生活的孩子不容易吖。</p>
-
-<p>因为在Windows下操作，入乡随俗地下载了个Github的Windows客户端，那界面很炫，很有Win8 feel，难道这就是传说中的WinForm。可惜就是push的时候太慢了点，感觉要比命令行下要慢半拍。而且他在界面里不叫push，叫sync，这个名词更容易让人理解。</p>
-
-<p>下面是各种华丽的Markdown测试</p>
-
-<pre class="prettyprint">
-require 'redcarpet'
-markdown = Redcarpet.new("Hello World!")
-puts markdown.to_html
-</pre>
-
-
-
-
-<pre class="prettyprint">
-##大标题
-###小标题
-####小小标题
-#####小小小标题
-######你还能再小点不
-#######其实我能一直地小，只是css没有定义到了
-</pre>
-
-
-<h2>大标题</h2>
-
-<h3>小标题</h3>
-
-<h4>小小标题</h4>
-
-<h5>小小小标题</h5>
-
-<h6>你还能再小点不</h6>
-
-<h6>#其实我能一直地小，只是css没有定义到了</h6>
-
-<pre class="prettyprint">
-*强调一下*
-
-**再强调一下**
-
-***我次次强调我容易吗我***
-</pre>
-
-
-<p><em>强调一下</em></p>
-
-<p><strong>再强调一下</strong></p>
-
-<p><strong><em>我次次强调我容易吗我</em></strong></p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-
-<header>
-  
-    <h1 class="entry-title"><a href="/2012/08/11/decrease-threads-with-xampp/">减少xampp内存占用</a></h1>
-  
-  
-    <p class="meta">
-      
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-08-11T00:00:00+08:00" pubdate="pubdate" data-updated="true">Aug 11<span>th</span>, 2012</time>
-      
-
-<span class="tags">
-  Tags:
-  
-    <a href='//linux/'>linux</a>, <a href='//xampp/'>xampp</a>, <a href='//apache/'>apache</a>, <a href='//moodle/'>moodle</a>
-  
-</span>
-
-      <span class="share-to-weibo">
-        <a href="javascript:void(0)" onclick="window.open('http://service.weibo.com/share/share.php?appkey=&amp;ralateUid=&amp;title=减少xampp内存占用 - &amp;url=http://www.dyfeng.org/2012/08/11/decrease-threads-with-xampp/', null, 'width=615,height=505,toolbar=0,status=0')" class="sina-weibo" title="分享到新浪微博"></a>
-
-        <a href="javascript:void(0)" onclick="window.open('http://share.v.t.qq.com/index.php?c=share&amp;a=index&amp;appkey=&amp;title=减少xampp内存占用 - &amp;url=http://www.dyfeng.org/2012/08/11/decrease-threads-with-xampp/', null, 'width=700,height=680,toolbar=0,status=0')" class="tencent-weibo" title="分享到腾讯微博"></a>
-
-        <a href="javascript:void(0)" onclick="window.open('https://twitter.com/intent/tweet?text=减少xampp内存占用 - http://www.dyfeng.org/2012/08/11/decrease-threads-with-xampp/', null, 'width=600,height=300,toolbar=0,status=0')" class="twitter" title="分享到Twitter"></a>
-      </span>
-    </p>
-  
-</header>
-
-
-  <div class="entry-content typo"><p>Included file &#8216;JB/setup&#8217; not found in _includes directory</p>
-
-<p>最近有个改写moodle系统插件的项目，所以我又重操起php的老行当。moodle是一个非常不错的考试系统，多种题型，多种计分方式，唯一的缺点就是文档太少，非常的缺&#8230;开发人员列表里面也看到了好几个中国人的名字。</p>
-
-<p>下载，放到htdocs，<code>sudo lampp start</code>，结果发现他竟然要求php5.3以上。我的php还是5.1的老版本，那没法，唯有下载个最新的xampp吧。一切还算顺利，除了xampp好像怪怪的。因为我改了配置文件后，再重启，他竟然好像没有反应，这个到现在还是个不解之谜。</p>
-
-<p>在开发的过程中，我还发现电脑卡了很多，<code>ps -A|grep httpd</code>一看，哇的一刷。内存给我用了几百兆了，虽然我有4G也不是这样浪费的嘛，我只是开发而已，没有必要开这么线程。下面记录一下给xampp减少线程的方法。</p>
-
-</div>
-  
-  
-    <footer class="align-r">
-      <a href="/2012/08/11/decrease-threads-with-xampp/#ContinueReading">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-
-  
+  <section id="disqus_thread"></section>
 </section>
+
+<script src="/javascripts/jquery.dcjqaccordion.2.7.js"></script>
+<script>
+(function($){
+    $(document).ready(function(){
+	var chapters=$(":header:not(:first)");
+	var curTagName,oldTagName=1;
+	var menu=$("<ul class='accordion' id='accordion-menu'></ul>");
+	var count=0;
+	chapters.each(function(){
+
+	    var item=$(this);
+	    item.attr("name",count).attr("id",count);
+	    curTagName=parseInt(this.tagName.replace("H",""));
+
+	    var link="<li tag='"+curTagName+"'><a href='#"+count+"'>"+item.text()+"</a></li>";
+	    var lastLink=menu.find("a[href='#"+(count-1)+"']");
+
+	    if (curTagName == 1)
+	    {
+		menu.append("<li><a href='#"+count+"'>"+item.text()+"</a></li>");
+	    }else if(curTagName<oldTagName)
+	    {
+		lastLink.closest("li[tag='"+curTagName+"']").after(link);
+	    }else if(curTagName==oldTagName)
+	    {
+		lastLink.parent().after(link);
+	    }else if (curTagName>oldTagName)
+	    {
+		lastLink.after("<ul>"+link+"</ul>")
+	    }
+	    count++;
+	    oldTagName=curTagName;
+	});
+
+	$('div#accordion-container').append(menu);
+	$('#accordion-menu').dcAccordion({
+	    eventType: 'click',
+	    autoClose: false,
+	    saveState: false,
+	    disableLink: true,
+	    showCount: false,
+	    speed: 'slow'
+	});
+	$('#accordion-menu a:not(.dcjq-parent)').click(function(){
+	    var href = $(this).attr("href");
+	    var pos = $(href).offset().top-30;
+	    $("html,body").animate({scrollTop: pos}, 1000);
+	});
+
+	var name = $("#accordion-container");  
+	
+	var h1=250;
+	var h2=190;
+
+	$(window).scroll(function () {   
+	    offset = h2+$(document).scrollTop();
+	    
+	    if (offset<h1)
+		name.css("top",h1+"px");
+	    else
+		name.css("top",offset+"px");
+	}); 
+	
+    });
+})(jQuery); 
+</script>
+<div class="clean accordion-container" id="accordion-container"></div>
 
 
 <footer class="footer">
@@ -449,7 +523,7 @@ puts markdown.to_html
 
 <script src="/javascripts/application.js"></script>
 
-
+<script>var disqus_shortname="dyfeng",disqus_identifier=disqus_url="http://www.dyfeng.org/2012/08/15/all-about-git/",disqus_script="embed.js";(function(){var a=document.createElement("script");a.async=!0,a.src="http://"+disqus_shortname+".disqus.com/"+disqus_script,document.getElementsByTagName("head")[0].appendChild(a)})()</script>
 <iframe src="/offline-cache.html" style="display:none"></iframe>
 </body>
 </html>

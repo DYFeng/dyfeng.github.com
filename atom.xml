@@ -4,7 +4,7 @@
   <title><![CDATA[DY.Feng's Blog 叶毅锋的博客]]></title>
   <link href="http://www.dyfeng.org/atom.xml" rel="self"/>
   <link href="http://www.dyfeng.org/"/>
-  <updated>2012-08-15T00:24:04+08:00</updated>
+  <updated>2012-08-15T01:19:17+08:00</updated>
   <id>http://www.dyfeng.org/</id>
   <author>
     <name><![CDATA[(≧▼≦) 喵喵]]></name>
@@ -12,6 +12,461 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Git使用大全]]></title>
+    <link href="http://www.dyfeng.org/2012/08/15/all-about-git/"/>
+    <updated>2012-08-15T00:38:00+08:00</updated>
+    <id>http://www.dyfeng.org/2012/08/15/all-about-git</id>
+    <content type="html"><![CDATA[<p>虽然关于Git的使用有很多文章，但是没有一篇是全面而且解释清楚的，以致我到现在还只是通晓几个Git的命令而已。</p>
+
+<p>在一个本地Git仓库里面，我们会按顺序遇到3个地方：</p>
+
+<ul>
+<li>本地文件，他持有<code>实际文件</code>。</li>
+<li>缓存区（index），临时保存你的改动，例如<code>git add</code>就是保存到缓存区。缓冲区文件是<code>.git/index</code>。</li>
+<li>本地仓库。本地仓库储存的实际文件在<code>.git/objects</code>目录。<em>HEAD不是一个实际的仓库！！</em>所谓的HEAD，其实就像一个<code>指针</code>，指向你最近一次提交后的结果。例如<code>cat .git/HEAD</code>后得到<code>ref: refs/heads/master</code>这么一串东西，其实他的意思就是现在的<code>HEAD</code>指向<code>.git/refs/heads/master</code>文件。再跟踪下去我们就会发现<code>.git/refs/heads/master</code>里面包含了一串32位的sha码。没错，这就是真正的提交结果，也就是git commit之后git给你的结果。</li>
+</ul>
+
+
+<p>为了实验，我先在我的Github上新建一个名为<code>test_on_github</code>的仓库，不添加README和.gitignore，纯绿色的哦。</p>
+
+<p>下面开始试验。</p>
+
+<!--more-->
+
+
+<h1>Local本地</h1>
+
+<h2>初始化</h2>
+
+<h3>设置全局变量</h3>
+
+<p>名字和Email会作为Github显示的依据。你不设置，没问题，只是Github的提交里显示不出你的用户名而已。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git config --global user.name "DY.Feng"
+</span><span class='line'>git config --global user.email "yyfeng88625"
+</span><span class='line'>git config --global color.ui "always"</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>初始化新版本库</h3>
+
+<p>初始化，只会在根目录下创建一个<code>.git</code>的文件夹。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git init</span></code></pre></td></tr></table></div></figure>
+
+
+<p>初始化后的目录结构</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ tree .git/
+</span><span class='line'>.git/
+</span><span class='line'>├── branches
+</span><span class='line'>├── config
+</span><span class='line'>├── description
+</span><span class='line'>├── HEAD
+</span><span class='line'>├── hooks
+</span><span class='line'>│   ├── applypatch-msg.sample
+</span><span class='line'>│   ├── commit-msg.sample
+</span><span class='line'>│   ├── post-update.sample
+</span><span class='line'>│   ├── pre-applypatch.sample
+</span><span class='line'>│   ├── pre-commit.sample
+</span><span class='line'>│   ├── prepare-commit-msg.sample
+</span><span class='line'>│   ├── pre-rebase.sample
+</span><span class='line'>│   └── update.sample
+</span><span class='line'>├── info
+</span><span class='line'>│   └── exclude
+</span><span class='line'>├── objects
+</span><span class='line'>│   ├── info
+</span><span class='line'>│   └── pack
+</span><span class='line'>└── refs
+</span><span class='line'>    ├── heads
+</span><span class='line'>    └── tags</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>设置忽略文件</h3>
+
+<ul>
+<li>新建<code>.gitignore</code>文件并提交。</li>
+<li>修改<code>.git/info/exclude</code>文件，支持正则表达式，例如<code>*.[oa]</code>等价于 <code>*.o</code> 和 <code>*.a</code>。这个方法只适用于你个人。</li>
+</ul>
+
+
+<h2>日常操作</h2>
+
+<h3>添加文件到缓存区</h3>
+
+<ul>
+<li>添加个别文件。<code>git add somefile1 somefile2</code></li>
+<li>添加本目录所有txt文件。<code>git add *.txt</code></li>
+<li><code>递归</code>添加所有文件，不包括空目录。<code>git add .</code></li>
+</ul>
+
+
+<h3>从缓存区删除文件</h3>
+
+<p>用法跟rm一样，<code>git rm --cached</code>。</p>
+
+<ul>
+<li>删除单个文件。<code>git rm --cached somefile</code></li>
+<li>递归删除。<code>git rm --cached -r .</code></li>
+</ul>
+
+
+<h3>查看当前缓存区的情况</h3>
+
+<p>当前缓存区的情况是<code>注释</code>掉的，这也正常嘛，还没正式提交。<code>git status</code>是查看当前缓存区（index）和HEAD之间的差异。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ git status</span></code></pre></td></tr></table></div></figure>
+
+
+<p>例如下面的例子就是说明:当前缓存区比HEAD要多一个文件<code>c.txt</code></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ git status 
+</span><span class='line'># On branch master
+</span><span class='line'># Changes to be committed:
+</span><span class='line'>#   (use "git reset HEAD &lt;file&gt;..." to unstage)
+</span><span class='line'>#
+</span><span class='line'>#       new file:   c.txt
+</span><span class='line'>#</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>从HEAD签出文件</h3>
+
+<p><code>签出</code>这个词在用惯svn的童鞋眼中肯定很熟悉，可你得注意，这里的签出是指从<code>本地仓库</code>签出而已，不是签出远程的服务器。</p>
+
+<p>从HEAD签出文件意味着把HEAD时的状态的文件复制出来，再次强调<code>HEAD</code>指的是最后一次提交（git commit）的状态。如果当前文件已经加入到了<code>缓存区</code>，这个动作也会把他从缓存区删除。但<em>不建议</em>把这个作为<code>撤销加入缓存区</code>的方法，因为签出会把文件也变回最后一次提交的状态，如果你已经修改过文件，那你的修改就全无了。如果你要撤销文件加入缓存区，请用<code>git rm --cached</code>。</p>
+
+<ul>
+<li>签出所有文件。<code>git checkout HEAD .</code></li>
+<li>签出所有txt文件。<code>git checkout HEAD *.txt</code></li>
+<li>签出个别文件。<code>git checkout HEAD somefile1 somefile2</code></li>
+</ul>
+
+
+<p>在这里面，我们不一定要用<code>HEAD</code>，就像我一开始说的，其实HEAD只是代表了一个32位的sha标记而已，指向最新的那次修改。<code>git log</code>就能看到本地所有的提交，每次提交都有一个32位的标记，我们的HEAD就是指向最新的那个标记。既然我们知道了原理，那我们就可以在任意一次<code>commit</code>里签出我们想要的文件。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ git log #找到我们要签出的那次`commit`标记是多少
+</span><span class='line'>commit 341c1e6921b61468ffd38ac423d7cf1120d7b086
+</span><span class='line'>Author: DY.Feng &lt;yyfeng88625@gmail.com&gt;
+</span><span class='line'>Date:   Mon Aug 13 05:22:11 2012 +0800
+</span><span class='line'>
+</span><span class='line'>    mod b to 1
+</span><span class='line'>
+</span><span class='line'>commit 0b5f275b20e40b51cca7bd64b2d8e50693c6660b
+</span><span class='line'>Author: DY.Feng &lt;yyfeng88625@gmail.com&gt;
+</span><span class='line'>Date:   Mon Aug 13 05:21:24 2012 +0800
+</span><span class='line'>
+</span><span class='line'>    add b,mod a to 1
+</span><span class='line'>
+</span><span class='line'>commit f0b121cf65b11d6b58b30531eb2415ddf0cbe451
+</span><span class='line'>Author: DY.Feng &lt;yyfeng88625@gmail.com&gt;
+</span><span class='line'>Date:   Mon Aug 13 04:56:14 2012 +0800
+</span><span class='line'>
+</span><span class='line'>    rm -
+</span><span class='line'>
+</span><span class='line'>commit 5f1d4283f52a825ca706b8dd039afc0dee3aa1b2
+</span><span class='line'>Author: DY.Feng &lt;yyfeng88625@gmail.com&gt;
+</span><span class='line'>Date:   Mon Aug 13 04:23:06 2012 +0800
+</span><span class='line'>
+</span><span class='line'>    first
+</span><span class='line'>
+</span><span class='line'>$ git checkout 0b5f275b20e40b51cca7bd64b2d8e50693c6660b b.txt #签出倒数第二次提交时，我们的b.txt</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>提交修改到本地仓库</h3>
+
+<ul>
+<li>提交之前<code>git add</code>过的。<code>git commit -m "提交信息"</code></li>
+<li>提交所有修改，省略<code>git add</code>步骤。<code>git commit -m "提交信息" -a</code></li>
+<li>提交单个文件，注意此文件必须是<code>git add</code>之后的。<code>git commit -m "提交信息" somefile</code></li>
+<li>增补提交，复用HEAD留言（修改小错误，而不增加提交记录，掩盖自己的小马虎）。<code>git commit -C HEAD -a --amend</code></li>
+</ul>
+
+
+<p><em>注意：</em>修改过的文件在<code>git commit</code>之前也必须<code>git add</code>一次。</p>
+
+<h1>Remote远程</h1>
+
+<p>这里的<code>远程</code>并不是配置远程Git服务器，而是<code>本地</code>的一些配置和操作。</p>
+
+<h2>初始化</h2>
+
+<h3>克隆版本库</h3>
+
+<p>克隆版本库这个是我们最常用<code>获取代码</code>的方法。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git clone git@github.com:DYFeng/test_on_github.git</span></code></pre></td></tr></table></div></figure>
+
+
+<p>克隆后你会发现Github已经帮你填写好几样东西：远程<code>origin</code>配置和分支<code>master</code>配置。origin其实是一个<code>别名</code>，远程仓库remote的别名。而分支配置<code>[branch "master"]</code>里则写明了：我的远程端是<code>origin</code>。其实这个<code>origin</code>也可以自己改一个名字，origin这个只是大众默认名字而已。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ git@github.com:DYFeng/test_on_github.git
+</span><span class='line'>$ cd test_on_github
+</span><span class='line'>$ cat .git/config
+</span><span class='line'>[core]
+</span><span class='line'>    repositoryformatversion = 0
+</span><span class='line'>    filemode = true
+</span><span class='line'>    bare = false
+</span><span class='line'>    logallrefupdates = true
+</span><span class='line'>[remote "origin"]
+</span><span class='line'>    fetch = +refs/heads/*:refs/remotes/origin/*
+</span><span class='line'>    url = git@github.com:DYFeng/test_on_github.git
+</span><span class='line'>[branch "master"]
+</span><span class='line'>    remote = origin
+</span><span class='line'>    merge = refs/heads/master</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>手动添加删除远程仓库</h3>
+
+<p>其实就是生成上面<code>[remote "origin"]</code>小节的东西。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git remote add origin git@github.com:DYFeng/test_on_github.git</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>删除别名和相关分支</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git remote rm origin</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>创建一个空本地仓库</h3>
+
+<p>没有远程配置也没有分支配置，而且他把<code>.git</code>里面的文件都新建到外面了</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git init --bare
+</span><span class='line'>$ cat config 
+</span><span class='line'>[core]
+</span><span class='line'>    repositoryformatversion = 0
+</span><span class='line'>    filemode = true
+</span><span class='line'>    bare = true</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[为rake添加命令补全]]></title>
+    <link href="http://www.dyfeng.org/2012/08/15/bash-completion-for-rake/"/>
+    <updated>2012-08-15T00:32:00+08:00</updated>
+    <id>http://www.dyfeng.org/2012/08/15/bash-completion-for-rake</id>
+    <content type="html"><![CDATA[<p>为了用上Octopress，最近我没有少跟rake打交道。不过用起来始终有点不爽–命令补全没有了，没有make用得那么爽。虽然用<code>rake -T</code>可以列出所有的任务，但是始终没有一个Tab键补全方便。</p>
+
+<p>幸亏觉得不方便的不止我一个人，Google了下，发现已经有人写出了基于bash-completion的<a href="http://turadg.aleahmad.net/2011/02/bash-completion-for-rake-tasks/">补全插件</a>，还带缓存的。</p>
+
+<!-- more-->
+
+
+<p>把下面的文件保存到<code>completions.d</code>目录（在ubuntu上是/etc/bash_completion.d）</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c">#!/bin/bash</span>
+</span><span class='line'><span class="c"># bash completion for rake</span>
+</span><span class='line'><span class="c">#</span>
+</span><span class='line'><span class="c"># some code from on Jonathan Palardy&#39;s http://technotales.wordpress.com/2009/09/18/rake-completion-cache/</span>
+</span><span class='line'><span class="c"># and http://pastie.org/217324 found http://ragonrails.com/post/38905212/rake-bash-completion-ftw</span>
+</span><span class='line'><span class="c">#</span>
+</span><span class='line'><span class="c"># For details and discussion</span>
+</span><span class='line'><span class="c"># http://turadg.aleahmad.net/2011/02/bash-completion-for-rake-tasks/</span>
+</span><span class='line'><span class="c">#</span>
+</span><span class='line'><span class="c"># INSTALL</span>
+</span><span class='line'><span class="c">#</span>
+</span><span class='line'><span class="c"># Place in your bash completions.d and/or source in your .bash_profile</span>
+</span><span class='line'><span class="c"># If on a Mac with Homebrew, try &quot;brew install bash-completion&quot;</span>
+</span><span class='line'><span class="c">#</span>
+</span><span class='line'><span class="c"># USAGE</span>
+</span><span class='line'><span class="c">#</span>
+</span><span class='line'><span class="c"># Type &#39;rake&#39; and hit tab twice to get completions.</span>
+</span><span class='line'><span class="c"># To clear the cache, run rake_cache_clear() in your shell.</span>
+</span><span class='line'><span class="c">#</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">function </span>_rake_cache_path<span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>  <span class="c"># If in a Rails app, put the cache in the cache dir</span>
+</span><span class='line'>  <span class="c"># so version control ignores it</span>
+</span><span class='line'>  <span class="k">if</span> <span class="o">[</span> -e <span class="s1">&#39;tmp/cache&#39;</span> <span class="o">]</span>; <span class="k">then</span>
+</span><span class='line'><span class="nv">prefix</span><span class="o">=</span><span class="s1">&#39;tmp/cache/&#39;</span>
+</span><span class='line'>  <span class="k">fi</span>
+</span><span class='line'><span class="nb">echo</span> <span class="s2">&quot;${prefix}.rake_t_cache&quot;</span>
+</span><span class='line'><span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">function </span>rake_cache_store<span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>  rake --tasks --silent &gt; <span class="s2">&quot;$(_rake_cache_path)&quot;</span>
+</span><span class='line'><span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">function </span>rake_cache_clear<span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>  rm -f .rake_t_cache
+</span><span class='line'>  rm -f tmp/cache/.rake_t_cache
+</span><span class='line'><span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">export </span><span class="nv">COMP_WORDBREAKS</span><span class="o">=</span><span class="k">${</span><span class="nv">COMP_WORDBREAKS</span><span class="p">/\:/</span><span class="k">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">function </span>_rakecomplete<span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>  <span class="c"># error if no Rakefile</span>
+</span><span class='line'>  <span class="k">if</span> <span class="o">[</span> ! -e Rakefile <span class="o">]</span>; <span class="k">then</span>
+</span><span class='line'><span class="nb">echo</span> <span class="s2">&quot;missing Rakefile&quot;</span>
+</span><span class='line'>    <span class="k">return </span>1
+</span><span class='line'>  <span class="k">fi</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c"># build cache if missing</span>
+</span><span class='line'>  <span class="k">if</span> <span class="o">[</span> ! -e <span class="s2">&quot;$(_rake_cache_path)&quot;</span> <span class="o">]</span>; <span class="k">then</span>
+</span><span class='line'>rake_cache_store
+</span><span class='line'>  <span class="k">fi</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">local </span><span class="nv">tasks</span><span class="o">=</span><span class="sb">`</span>awk <span class="s1">&#39;{print $2}&#39;</span> <span class="s2">&quot;$(_rake_cache_path)&quot;</span><span class="sb">`</span>
+</span><span class='line'>  <span class="nv">COMPREPLY</span><span class="o">=(</span><span class="k">$(</span><span class="nb">compgen</span> -W <span class="s2">&quot;${tasks}&quot;</span> -- <span class="k">${</span><span class="nv">COMP_WORDS</span><span class="p">[COMP_CWORD]</span><span class="k">})</span><span class="o">)</span>
+</span><span class='line'>  <span class="k">return </span>0
+</span><span class='line'><span class="o">}</span>
+</span><span class='line'><span class="nb">complete</span> -o default -o nospace -F _rakecomplete rake
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>在当前shell载入补全</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span><span class="nb">source</span> /etc/bash_completion.d/rake
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Using Octopress as Github Blog on Ubuntu 12.04]]></title>

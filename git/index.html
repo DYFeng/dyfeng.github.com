@@ -3,10 +3,9 @@
 <html>
 <head>
   <meta charset="utf-8" />
-  <title>DY.Feng's Blog 叶毅锋的博客</title>
+  <title>Tag: git - DY.Feng's Blog 叶毅锋的博客</title>
   
-  <meta name="description" content="Git使用大全 Aug 15th, 2012 Tag: git 虽然关于Git的使用有很多文章，但是没有一篇是全面而且解释清楚的，以致我到现在还只是通晓几个Git的命令而已。 在一个本地Git仓库里面，我们会按顺序遇到3个地方： 本地文件，他持有实际文件。
-缓存区（index），临时保存你的改动 &hellip;" />
+  <meta name="description" content=" Tag: Git 2012 Git使用大全 Aug 15th, 2012 Tag: git " />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
   <link rel="stylesheet" href="/stylesheets/screen.css" />
@@ -43,19 +42,24 @@ html,body{height:100%;overflow:hidden}
 <header class="my-nickname"><em title="">(≧▼≦) 喵喵</em></header>
 
 <section class="main-wrap clearfix">
-  
-  
-  
-    <article>
-      
 
-<header>
+
   
-    <h1 class="entry-title"><a href="/2012/08/15/all-about-git/">Git使用大全</a></h1>
+  <header>
+    <h1 class="page-title">Tag: Git</h1>
+    
+  </header>
+  
+  <dl class="archives">
   
   
-    <p class="meta">
-      
+  
+    
+    <dt>2012</dt>
+  
+  <dd><h1 class="entry-title"><a href="/2012/08/15/all-about-git/">Git使用大全</a></h1>
+<p class="meta">
+  
 
 
 
@@ -68,7 +72,7 @@ html,body{height:100%;overflow:hidden}
 
 
 <time datetime="2012-08-15T00:38:00+08:00" pubdate="pubdate" data-updated="true">Aug 15<span>th</span>, 2012</time>
-      
+  
 
 <span class="tags">
   Tag:
@@ -77,331 +81,16 @@ html,body{height:100%;overflow:hidden}
   
 </span>
 
-      <span class="share-to-weibo">
-        <a href="javascript:void(0)" onclick="window.open('http://service.weibo.com/share/share.php?appkey=&amp;ralateUid=&amp;title=Git使用大全 - &amp;url=http://www.dyfeng.org/2012/08/15/all-about-git/', null, 'width=615,height=505,toolbar=0,status=0')" class="sina-weibo" title="分享到新浪微博"></a>
-
-        <a href="javascript:void(0)" onclick="window.open('http://share.v.t.qq.com/index.php?c=share&amp;a=index&amp;appkey=&amp;title=Git使用大全 - &amp;url=http://www.dyfeng.org/2012/08/15/all-about-git/', null, 'width=700,height=680,toolbar=0,status=0')" class="tencent-weibo" title="分享到腾讯微博"></a>
-
-        <a href="javascript:void(0)" onclick="window.open('https://twitter.com/intent/tweet?text=Git使用大全 - http://www.dyfeng.org/2012/08/15/all-about-git/', null, 'width=600,height=300,toolbar=0,status=0')" class="twitter" title="分享到Twitter"></a>
-      </span>
-    </p>
+</p>
+</dd>
   
-</header>
+</dl>
 
 
-  <div class="entry-content typo"><p>虽然关于Git的使用有很多文章，但是没有一篇是全面而且解释清楚的，以致我到现在还只是通晓几个Git的命令而已。</p>
 
-<p>在一个本地Git仓库里面，我们会按顺序遇到3个地方：</p>
 
-<ul>
-<li>本地文件，他持有<code>实际文件</code>。</li>
-<li>缓存区（index），临时保存你的改动，例如<code>git add</code>就是保存到缓存区。缓冲区文件是<code>.git/index</code>。</li>
-<li>本地仓库。本地仓库储存的实际文件在<code>.git/objects</code>目录。<em>HEAD不是一个实际的仓库！！</em>所谓的HEAD，其实就像一个<code>指针</code>，指向你最近一次提交后的结果。例如<code>cat .git/HEAD</code>后得到<code>ref: refs/heads/master</code>这么一串东西，其实他的意思就是现在的<code>HEAD</code>指向<code>.git/refs/heads/master</code>文件。再跟踪下去我们就会发现<code>.git/refs/heads/master</code>里面包含了一串32位的sha码。没错，这就是真正的提交结果，也就是git commit之后git给你的结果。</li>
-</ul>
-
-
-<p>为了实验，我先在我的Github上新建一个名为<code>test_on_github</code>的仓库，不添加README和.gitignore，纯绿色的哦。</p>
-
-<p>下面开始试验。</p>
-
-</div>
-  
-  
-    <footer class="align-r">
-      <a href="/2012/08/15/all-about-git/#ContinueReading">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-
-<header>
-  
-    <h1 class="entry-title"><a href="/2012/08/15/bash-completion-for-rake/">为rake添加命令补全</a></h1>
-  
-  
-    <p class="meta">
-      
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-08-15T00:32:00+08:00" pubdate="pubdate" data-updated="true">Aug 15<span>th</span>, 2012</time>
-      
-
-<span class="tags">
-  Tags:
-  
-    <a href='//linux/'>linux</a>, <a href='//bash/'>bash</a>, <a href='//completion/'>completion</a>, <a href='//rake/'>rake</a>
-  
-</span>
-
-      <span class="share-to-weibo">
-        <a href="javascript:void(0)" onclick="window.open('http://service.weibo.com/share/share.php?appkey=&amp;ralateUid=&amp;title=为rake添加命令补全 - &amp;url=http://www.dyfeng.org/2012/08/15/bash-completion-for-rake/', null, 'width=615,height=505,toolbar=0,status=0')" class="sina-weibo" title="分享到新浪微博"></a>
-
-        <a href="javascript:void(0)" onclick="window.open('http://share.v.t.qq.com/index.php?c=share&amp;a=index&amp;appkey=&amp;title=为rake添加命令补全 - &amp;url=http://www.dyfeng.org/2012/08/15/bash-completion-for-rake/', null, 'width=700,height=680,toolbar=0,status=0')" class="tencent-weibo" title="分享到腾讯微博"></a>
-
-        <a href="javascript:void(0)" onclick="window.open('https://twitter.com/intent/tweet?text=为rake添加命令补全 - http://www.dyfeng.org/2012/08/15/bash-completion-for-rake/', null, 'width=600,height=300,toolbar=0,status=0')" class="twitter" title="分享到Twitter"></a>
-      </span>
-    </p>
-  
-</header>
-
-
-  <div class="entry-content typo"><p>为了用上Octopress，最近我没有少跟rake打交道。不过用起来始终有点不爽–命令补全没有了，没有make用得那么爽。虽然用<code>rake -T</code>可以列出所有的任务，但是始终没有一个Tab键补全方便。</p>
-
-<p>幸亏觉得不方便的不止我一个人，Google了下，发现已经有人写出了基于bash-completion的<a href="http://turadg.aleahmad.net/2011/02/bash-completion-for-rake-tasks/">补全插件</a>，还带缓存的。</p>
-
-</div>
-  
-  
-    <footer class="align-r">
-      <a href="/2012/08/15/bash-completion-for-rake/#ContinueReading">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-
-<header>
-  
-    <h1 class="entry-title"><a href="/2012/08/12/using-octopress-as-github-blog/">Using Octopress as Github Blog on Ubuntu 12.04</a></h1>
-  
-  
-    <p class="meta">
-      
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-08-12T00:00:00+08:00" pubdate="pubdate" data-updated="true">Aug 12<span>th</span>, 2012</time>
-      
-
-<span class="tags">
-  Tags:
-  
-    <a href='//github/'>github</a>, <a href='//octopress/'>octopress</a>
-  
-</span>
-
-      <span class="share-to-weibo">
-        <a href="javascript:void(0)" onclick="window.open('http://service.weibo.com/share/share.php?appkey=&amp;ralateUid=&amp;title=Using Octopress as Github Blog on Ubuntu 12.04 - &amp;url=http://www.dyfeng.org/2012/08/12/using-octopress-as-github-blog/', null, 'width=615,height=505,toolbar=0,status=0')" class="sina-weibo" title="分享到新浪微博"></a>
-
-        <a href="javascript:void(0)" onclick="window.open('http://share.v.t.qq.com/index.php?c=share&amp;a=index&amp;appkey=&amp;title=Using Octopress as Github Blog on Ubuntu 12.04 - &amp;url=http://www.dyfeng.org/2012/08/12/using-octopress-as-github-blog/', null, 'width=700,height=680,toolbar=0,status=0')" class="tencent-weibo" title="分享到腾讯微博"></a>
-
-        <a href="javascript:void(0)" onclick="window.open('https://twitter.com/intent/tweet?text=Using Octopress as Github Blog on Ubuntu 12.04 - http://www.dyfeng.org/2012/08/12/using-octopress-as-github-blog/', null, 'width=600,height=300,toolbar=0,status=0')" class="twitter" title="分享到Twitter"></a>
-      </span>
-    </p>
-  
-</header>
-
-
-  <div class="entry-content typo"><p>本来我的Github blog是使用<code>Jekyll-Bootstrap</code>作为生成引擎。不过他是把文章发给Github解析的，由于Github出于安全考虑，限制ruby脚本的运行，这样就导致很多功能实现不了。这时候我发现了<code>Octopress</code>引擎，他把你的branch分成两个，一个master，负责放置静态的页面，一个是source，放置程序本身和Markdown日志。</p>
-
-</div>
-  
-  
-    <footer class="align-r">
-      <a href="/2012/08/12/using-octopress-as-github-blog/#ContinueReading">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-
-<header>
-  
-    <h1 class="entry-title"><a href="/2012/08/11/first-post-on-github/">First Post on Github</a></h1>
-  
-  
-    <p class="meta">
-      
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-08-11T00:00:00+08:00" pubdate="pubdate" data-updated="true">Aug 11<span>th</span>, 2012</time>
-      
-
-<span class="tags">
-  Tag:
-  
-    <a href='//github/'>github</a>
-  
-</span>
-
-      <span class="share-to-weibo">
-        <a href="javascript:void(0)" onclick="window.open('http://service.weibo.com/share/share.php?appkey=&amp;ralateUid=&amp;title=First Post on Github - &amp;url=http://www.dyfeng.org/2012/08/11/first-post-on-github/', null, 'width=615,height=505,toolbar=0,status=0')" class="sina-weibo" title="分享到新浪微博"></a>
-
-        <a href="javascript:void(0)" onclick="window.open('http://share.v.t.qq.com/index.php?c=share&amp;a=index&amp;appkey=&amp;title=First Post on Github - &amp;url=http://www.dyfeng.org/2012/08/11/first-post-on-github/', null, 'width=700,height=680,toolbar=0,status=0')" class="tencent-weibo" title="分享到腾讯微博"></a>
-
-        <a href="javascript:void(0)" onclick="window.open('https://twitter.com/intent/tweet?text=First Post on Github - http://www.dyfeng.org/2012/08/11/first-post-on-github/', null, 'width=600,height=300,toolbar=0,status=0')" class="twitter" title="分享到Twitter"></a>
-      </span>
-    </p>
-  
-</header>
-
-
-  <div class="entry-content typo"><p>Included file &#8216;JB/setup&#8217; not found in _includes directory</p>
-
-<p>终于出炉了！！这是我第一篇用github做blog的文章！！小生愚钝，在Win7下弄了4个小时才弄出来。遇到了cygwin和gem不兼容、gem源被墙、jekyll在Win7下各种奇怪的症状&#8230;得感叹下在Windows下生活的孩子不容易吖。</p>
-
-<p>因为在Windows下操作，入乡随俗地下载了个Github的Windows客户端，那界面很炫，很有Win8 feel，难道这就是传说中的WinForm。可惜就是push的时候太慢了点，感觉要比命令行下要慢半拍。而且他在界面里不叫push，叫sync，这个名词更容易让人理解。</p>
-
-<p>下面是各种华丽的Markdown测试</p>
-
-<pre class="prettyprint">
-require 'redcarpet'
-markdown = Redcarpet.new("Hello World!")
-puts markdown.to_html
-</pre>
-
-
-
-
-<pre class="prettyprint">
-##大标题
-###小标题
-####小小标题
-#####小小小标题
-######你还能再小点不
-#######其实我能一直地小，只是css没有定义到了
-</pre>
-
-
-<h2>大标题</h2>
-
-<h3>小标题</h3>
-
-<h4>小小标题</h4>
-
-<h5>小小小标题</h5>
-
-<h6>你还能再小点不</h6>
-
-<h6>#其实我能一直地小，只是css没有定义到了</h6>
-
-<pre class="prettyprint">
-*强调一下*
-
-**再强调一下**
-
-***我次次强调我容易吗我***
-</pre>
-
-
-<p><em>强调一下</em></p>
-
-<p><strong>再强调一下</strong></p>
-
-<p><strong><em>我次次强调我容易吗我</em></strong></p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-
-<header>
-  
-    <h1 class="entry-title"><a href="/2012/08/11/decrease-threads-with-xampp/">减少xampp内存占用</a></h1>
-  
-  
-    <p class="meta">
-      
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-08-11T00:00:00+08:00" pubdate="pubdate" data-updated="true">Aug 11<span>th</span>, 2012</time>
-      
-
-<span class="tags">
-  Tags:
-  
-    <a href='//linux/'>linux</a>, <a href='//xampp/'>xampp</a>, <a href='//apache/'>apache</a>, <a href='//moodle/'>moodle</a>
-  
-</span>
-
-      <span class="share-to-weibo">
-        <a href="javascript:void(0)" onclick="window.open('http://service.weibo.com/share/share.php?appkey=&amp;ralateUid=&amp;title=减少xampp内存占用 - &amp;url=http://www.dyfeng.org/2012/08/11/decrease-threads-with-xampp/', null, 'width=615,height=505,toolbar=0,status=0')" class="sina-weibo" title="分享到新浪微博"></a>
-
-        <a href="javascript:void(0)" onclick="window.open('http://share.v.t.qq.com/index.php?c=share&amp;a=index&amp;appkey=&amp;title=减少xampp内存占用 - &amp;url=http://www.dyfeng.org/2012/08/11/decrease-threads-with-xampp/', null, 'width=700,height=680,toolbar=0,status=0')" class="tencent-weibo" title="分享到腾讯微博"></a>
-
-        <a href="javascript:void(0)" onclick="window.open('https://twitter.com/intent/tweet?text=减少xampp内存占用 - http://www.dyfeng.org/2012/08/11/decrease-threads-with-xampp/', null, 'width=600,height=300,toolbar=0,status=0')" class="twitter" title="分享到Twitter"></a>
-      </span>
-    </p>
-  
-</header>
-
-
-  <div class="entry-content typo"><p>Included file &#8216;JB/setup&#8217; not found in _includes directory</p>
-
-<p>最近有个改写moodle系统插件的项目，所以我又重操起php的老行当。moodle是一个非常不错的考试系统，多种题型，多种计分方式，唯一的缺点就是文档太少，非常的缺&#8230;开发人员列表里面也看到了好几个中国人的名字。</p>
-
-<p>下载，放到htdocs，<code>sudo lampp start</code>，结果发现他竟然要求php5.3以上。我的php还是5.1的老版本，那没法，唯有下载个最新的xampp吧。一切还算顺利，除了xampp好像怪怪的。因为我改了配置文件后，再重启，他竟然好像没有反应，这个到现在还是个不解之谜。</p>
-
-<p>在开发的过程中，我还发现电脑卡了很多，<code>ps -A|grep httpd</code>一看，哇的一刷。内存给我用了几百兆了，虽然我有4G也不是这样浪费的嘛，我只是开发而已，没有必要开这么线程。下面记录一下给xampp减少线程的方法。</p>
-
-</div>
-  
-  
-    <footer class="align-r">
-      <a href="/2012/08/11/decrease-threads-with-xampp/#ContinueReading">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-
-  
+  <section id="disqus_thread"></section>
 </section>
-
 
 <footer class="footer">
   &copy;2012 (≧▼≦) 喵喵
