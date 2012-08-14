@@ -4,7 +4,7 @@
   <title><![CDATA[DY.Feng's Blog 叶毅锋的博客]]></title>
   <link href="http://www.dyfeng.org/atom.xml" rel="self"/>
   <link href="http://www.dyfeng.org/"/>
-  <updated>2012-08-15T01:19:17+08:00</updated>
+  <updated>2012-08-15T01:20:24+08:00</updated>
   <id>http://www.dyfeng.org/</id>
   <author>
     <name><![CDATA[(≧▼≦) 喵喵]]></name>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Git使用大全]]></title>
-    <link href="http://www.dyfeng.org/2012/08/15/all-about-git/"/>
-    <updated>2012-08-15T00:38:00+08:00</updated>
-    <id>http://www.dyfeng.org/2012/08/15/all-about-git</id>
+    <link href="http://www.dyfeng.org/2012/08/12/all-about-git/"/>
+    <updated>2012-08-12T00:38:00+08:00</updated>
+    <id>http://www.dyfeng.org/2012/08/12/all-about-git</id>
     <content type="html"><![CDATA[<p>虽然关于Git的使用有很多文章，但是没有一篇是全面而且解释清楚的，以致我到现在还只是通晓几个Git的命令而已。</p>
 
 <p>在一个本地Git仓库里面，我们会按顺序遇到3个地方：</p>
@@ -328,9 +328,9 @@
   
   <entry>
     <title type="html"><![CDATA[为rake添加命令补全]]></title>
-    <link href="http://www.dyfeng.org/2012/08/15/bash-completion-for-rake/"/>
-    <updated>2012-08-15T00:32:00+08:00</updated>
-    <id>http://www.dyfeng.org/2012/08/15/bash-completion-for-rake</id>
+    <link href="http://www.dyfeng.org/2012/08/12/bash-completion-for-rake/"/>
+    <updated>2012-08-12T00:32:00+08:00</updated>
+    <id>http://www.dyfeng.org/2012/08/12/bash-completion-for-rake</id>
     <content type="html"><![CDATA[<p>为了用上Octopress，最近我没有少跟rake打交道。不过用起来始终有点不爽–命令补全没有了，没有make用得那么爽。虽然用<code>rake -T</code>可以列出所有的任务，但是始终没有一个Tab键补全方便。</p>
 
 <p>幸亏觉得不方便的不止我一个人，Google了下，发现已经有人写出了基于bash-completion的<a href="http://turadg.aleahmad.net/2011/02/bash-completion-for-rake-tasks/">补全插件</a>，还带缓存的。</p>
