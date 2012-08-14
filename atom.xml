@@ -4,7 +4,7 @@
   <title><![CDATA[DY.Feng's Blog 叶毅锋的博客]]></title>
   <link href="http://www.dyfeng.org/atom.xml" rel="self"/>
   <link href="http://www.dyfeng.org/"/>
-  <updated>2012-08-14T22:02:54+08:00</updated>
+  <updated>2012-08-14T22:20:59+08:00</updated>
   <id>http://www.dyfeng.org/</id>
   <author>
     <name><![CDATA[（≧▼≦）喵喵]]></name>
@@ -12,33 +12,6 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
-  
-  <entry>
-    <title type="html"><![CDATA[test 测试 %%]]></title>
-    <link href="http://www.dyfeng.org/2012/08/12/test-ce-shi-percent-percent/"/>
-    <updated>2012-08-12T03:38:00+08:00</updated>
-    <id>http://www.dyfeng.org/2012/08/12/test-ce-shi-percent-percent</id>
-    <content type="html"><![CDATA[
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[test 测试 @]]></title>
-    <link href="http://www.dyfeng.org/2012/08/12/test-ce-shi-at/"/>
-    <updated>2012-08-12T03:38:00+08:00</updated>
-    <id>http://www.dyfeng.org/2012/08/12/test-ce-shi-at</id>
-    <content type="html"><![CDATA[
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[test 测试 ]]></title>
-    <link href="http://www.dyfeng.org/2012/08/12/test-ce-shi/"/>
-    <updated>2012-08-12T03:36:00+08:00</updated>
-    <id>http://www.dyfeng.org/2012/08/12/test-ce-shi</id>
-    <content type="html"><![CDATA[
-]]></content>
-  </entry>
   
   <entry>
     <title type="html"><![CDATA[Using Octopress as Github Blog on Ubuntu 12.04]]></title>
