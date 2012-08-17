@@ -9,17 +9,177 @@ tags: [git]
 
 虽然关于Git的使用有很多文章，但是没有一篇是全面而且解释清楚的，以致我还只是通晓几个Git的命令而已。有人觉得Git博大精深，其实不然，其实Git是简单的。就好比你吃一个苹果，你可以横着吃，可以竖着吃，你吃的方式可以有无限种，但没有人会去研究怎么吃苹果吧。只要你了解了本质，就会发现条条大路通罗马。
 
-在这一篇文章里，你会学习到Git的用法。但我不会对Git的实现做详细的讲解，某些底层跟使用比较紧密的我会简单说明一下。
 
 
+因为囊括的东西比较多，所以我这篇文章比较。对于一个作者来说，罗列知识点很容易，但你要把知识点组织起来，让人思路清晰，脉络通畅，那就是难点了。
 
-为了实验，我先在我的Github上新建一个名为`test_on_github`的仓库，不添加README和.gitignore，纯绿色的哦。
+建议阅读方法：
+
+0. 你可以先大概浏览一下`Local本地使用`和`Remote远程相关使用`这两章，感受一下Git的大概使用，这两章是讲述Git的在各种使用场景下的命令，不必精读。如果只是想查找命令的童鞋，看这章就可以了。
+1. 再看看第一章`Git基础讲解`，最基本的概念和Git的运作方式会在这里讲述。
+2. 当你遇到有不明白的术语或者词汇，不妨到`相关术语以及本文翻译`那章找找。
+3. 再回来`Local本地使用`和`Remote远程相关使用`这两章。相信这个时候你应该能通过这命令，而知道他们底层究竟是做了什么操作。
+4. 有空的时候可以看看`小技巧`
+5. 如果对Git的使用还有什么疑问，可以留言。本人也是初学Git，可以共同探讨学习。
 
 下面开始试验。
 
 <!--more-->
 
-# Local本地
+# Git基础讲解
+
+## Git是什么？
+~~Git是一个版本控制软件...~~（地球人都知道的就不废话了，省略几百字）Git就是
+
+- 一个带有`二次元平衡世界`、`时光倒流`功能的`文件管理系统`。
+- 一个`键值对`的数据库，`键`是`值`的SHA1值。`tree .git/objects`你就能看到他们了。
+- 一切皆对象
+
+为什么说他是文件管理系统呢？那跟我电脑本地的文件管理系统有什么区别？这个就得从Git的`文件模型`--基础对象模型说起了。
+
+## Git的基础对象模型（Git Objects）
+  在Git系统里面有四种基础对象类型，分别是`blob`，`tree（树）`，`commit（快照）`，`tag`。几乎所有的Git都建立在管理操纵这些简单的结构之上，即它是建立在机器文件系统之上的一种自己的小型文件系统。
+
+### blob对象
+
+blob对象只包含了这个文件的`内容`，而没有包含修改日期、拥有者、*文件名*、目录路径之类的信息。下面我们来做个实验：
+  
+```
+  $ echo 'Hello,Git!' > test.txt
+  $ git hash-object test.txt
+  63008ae88b4446dfc43b47f18aee5b427203b255
+```
+
+你可看到他生成了一个40位的`SHA1`值，这SHA1值就是通过`文件内容`计算出来的，所以说同一个文件只有一个SHA1值。如果你在你的电脑上做同样内容的一个文件，即使文件名不一样，计算出来的结果都是一样的。
+  
+现在我们把`test.txt`纳入我们的Git文件管理系统：
+
+```
+$ git add test.txt
+$ git commit -m "add test.txt" #这句不是必须的，git add之后就已经纳入到Git里面去了
+```
+
+提交之后，`test.txt`的内容已经放进了我们Git的blob树了，我们可以根据SHA1值来看看文件的内容：
+
+```
+$ git cat-file blob 63008ae88b4446dfc43b47f18aee5b427203b255
+Hello,Git!
+$ git cat-file blob 63008a  #其实用前六位或者七位就可以了
+Hello,Git!
+$ git cat-file t 63008a  #查看对象类型
+blob
+```
+
+blob只记录文件的内容的好处：
+- Git可以快速的仅仅通过对象名称决定两个对象是否相同 
+- 由于对象名称在每一个库（repository）中都由相同的方式计算得到，相同的内容存储到不同的库中将总被存储到相同的名称下，减少需要的硬盘空间
+  
+### commit对象
+
+如果你有小用过Git，那对commit一定很熟悉，不就是提交嘛，其实不然。在这里的commit表示`快照`，是名词。跟blob一样，也是Git的`基础对象`之一。
+
+### tree对象
+
+树（tree）对象跟我们本地的目录树很相似，下面我们来试验：
+
+准备试验用文件
+```
+$ mkdir bb && touch bb/a.txt  #新建一个文件夹并放置一个空文件在里面
+$ git add bb/a.txt && git commit -m "add bb/a.txt" #提交
+```
+
+查看HEAD树，你会看到只有两个文件，一个是`test.txt`，另外一个是`树bb`，那还有一个文件`a.txt`呢？
+```
+$ git ls-tree HEAD
+040000 tree 65a457425a679cbe9adf0d2741785d3ceabb44a7    bb
+100644 blob 63008ae88b4446dfc43b47f18aee5b427203b255    test.txt
+```
+
+文件`a.txt`在`bb树`里面。
+```
+$git ls-tree 65a457425a679cbe9adf0d2741785d3ceabb44a7
+100644 blob e69de29bb2d1d6434b8b29ae775ad8c2e48c5391    a.txt
+```
+
+树也是Git的`基本对象`，所以准确来说：blob对象*不是*储存在树对象里面，而是树对象里面写有blob对象的`SHA1值`，所以tree对象可以查找到blob对象。
+
+
+
+
+### 总结
+
+究竟我们上面的所有动作，Git都是怎么储存的？让我们看看他都储存了什么文件吧：
+
+```
+$ rm -rf .git #我们把现有的.git删除，重新建立一个干净的git
+$ git init 
+$ tree .
+.
+├── bb
+│   └── a.txt
+└── test.txt
+$ git commit -m "add all" -a #添加并提交所有的文件到git
+$ find .git/objects -type f | sort
+.git/objects/45/893175c9b60bdd4727c2a51ced8bae8a9c213f
+.git/objects/5b/e1b8923c561189f1fcfc5bcf2d2fe0b7684e76
+.git/objects/63/008ae88b4446dfc43b47f18aee5b427203b255
+.git/objects/65/a457425a679cbe9adf0d2741785d3ceabb44a7
+.git/objects/e6/9de29bb2d1d6434b8b29ae775ad8c2e48c5391
+```
+
+从上面我们可以看到，现在有两个文件，两个目录（根目录和bb目录），一个快照（commit）。
+
+这个就是我们的快照（commit），可以看到快照里记录了根目录树。
+
+```
+$ git cat-file -t 45893175c9b60bdd4727c2a51ced8bae8a9c213f
+commit
+$ git cat-file commit 45893175c9b60bdd4727c2a51ced8bae8a9c213f
+tree 5be1b8923c561189f1fcfc5bcf2d2fe0b7684e76 
+author DY.Feng <yyfeng88625@gmail.com> 1345226467 +0800
+committer DY.Feng <yyfeng88625@gmail.com> 1345226467 +0800
+
+add all
+```
+
+查看根目录树，可以看到他里面包含了`test.txt文件`和`bb目录`的SHA1值，就像一个指针一样指向他们。
+```
+$ git cat-file -t 5be1b8923c561189f1fcfc5bcf2d2fe0b7684e76
+tree
+$ git ls-tree  5be1b8923c561189f1fcfc5bcf2d2fe0b7684e76 
+040000 tree 65a457425a679cbe9adf0d2741785d3ceabb44a7    bb
+100644 blob 63008ae88b4446dfc43b47f18aee5b427203b255    test.txt
+```
+
+查看`test.txt`
+```
+$ git cat-file -t 63008ae88b4446dfc43b47f18aee5b427203b255
+blob
+$ git cat-file blob 63008ae88b4446dfc43b47f18aee5b427203b255
+Hello,Git!
+```
+
+这个是`bb目录`树，里面只有一个文件`a.txt`。
+```
+$ git cat-file -t 65a457425a679cbe9adf0d2741785d3ceabb44a7
+tree
+$ git ls-tree 65a457425a679cbe9adf0d2741785d3ceabb44a7
+100644 blob e69de29bb2d1d6434b8b29ae775ad8c2e48c5391    a.txt
+```
+
+这个是`bb目录`里面的`a.txt`。
+
+```
+$ git cat-file -t e69de29bb2d1d6434b8b29ae775ad8c2e48c5391
+blob
+```
+
+一共增加了5个文件。
+
+
+
+
+# Local本地使用
 
 这章的题目叫`Local本地`，是因为这一章的操作你都不需要连接互联网就能完成。这也是分布式版本管理的一个特点，每个人都是一个`完整`的版本（相对自己而言），你可以在你的本机上检出，提交，删除...
 
@@ -167,7 +327,7 @@ $ git checkout 0b5f275b20e40b51cca7bd64b2d8e50693c6660b b.txt #签出倒数第�
 
 
 
-# Remote远程
+# Remote远程相关使用
 
 简单的说，这一章你需要连接网络才能完成。
 
@@ -227,6 +387,16 @@ $ cat config
     bare = true
 ```
 
+
+
+# 小技巧
+
+查看`别名`代表的SHA1值
+```
+$git rev-parse (HEAD|master|...)
+```
+
+
 # 相关术语以及本文翻译
 
 个人英语水平不高，很多名词我是按照自己的理解来翻译的，所以相关术语我都会标上英文原词，免得误人子弟。下面是本文出现过的术语以及对应的英文原词。
@@ -252,7 +422,7 @@ $ cat config
   - 你`git chekcout`的时候
   - 你`git commit`的时候
   
-- 提交/快照（commit）。这个`commit`我个人认为，他做动词的时候表示`提交`，例如`git commit`，做名词的时候表示`快照`，例如`git log`时你会看到你之前很多次的提交，其实每一次提交都是一次对你工作目录的快照。
+- 提交/快照（commit）。这个`commit`我个人认为，他有两重含义。做动词的时候表示`提交`，例如`git commit`。做名词的时候表示`快照`，是Git的基本对象之一`commit对象`。例如`git log`时你会看到你之前很多次的提交，其实每一次提交都是一次对你工作目录的快照。
 
 - 签出（checkout）。与`reset`的区别：
 
@@ -263,16 +433,11 @@ $ cat config
 
 - master。master就是主分支，只是一个约定俗成的名字而已，没有什么特殊。
 
-- 对象/基础对象。
-  在Git系统里面有四种基础对象类型，分别是`blob`，`tree`，`commit（快照）`，`tag`。几乎所有的Git都建立在管理操纵这些简单的结构之上，即它是建立在机器文件系统之上的一种自己的小型文件系统。
-
-- blob。
-  blob对象只包含了这个文件的文件名和内容。
-
-
-
+    
 # 参考文献
+
+在学习Git的过程中，看过的文献实在是太多了，下面只列出我浏览时间超过5分钟的。
 
 1. 不错的一个[Git常用命令思维导图](http://blog.csdn.net/liuysheng/article/details/7191846)，本文就是基于这个脉络来写的。
 2. 关于Git的方方面面（英文）。[原文地址](http://newartisans.com/2008/04/git-from-the-bottom-up/) [PDF下載](http://ftp.newartisans.com/pub/git.from.bottom.up.pdf)
-
+3. [Git基础对象模型介绍](http://guibin.iteye.com/blog/1013279)
