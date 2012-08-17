@@ -7,13 +7,11 @@ categories: Server
 tags: [git]
 ---
 
-虽然关于Git的使用有很多文章，但是没有一篇是全面而且解释清楚的，以致我到现在还只是通晓几个Git的命令而已。
+虽然关于Git的使用有很多文章，但是没有一篇是全面而且解释清楚的，以致我还只是通晓几个Git的命令而已。有人觉得Git博大精深，其实不然，其实Git是简单的。就好比你吃一个苹果，你可以横着吃，可以竖着吃，你吃的方式可以有无限种，但没有人会去研究怎么吃苹果吧。只要你了解了本质，就会发现条条大路通罗马。
 
-在一个本地Git仓库里面，我们会按顺序遇到3个地方：
+在这一篇文章里，你会学习到Git的用法。但我不会对Git的实现做详细的讲解，某些底层跟使用比较紧密的我会简单说明一下。
 
-- 本地文件，他持有`实际文件`。
-- 缓存区（index），临时保存你的改动，例如`git add`就是保存到缓存区。缓冲区文件是`.git/index`。
-- 本地仓库。本地仓库储存的实际文件在`.git/objects`目录。*HEAD不是一个实际的仓库！！*所谓的HEAD，其实就像一个`指针`，指向你最近一次提交后的结果。例如`cat .git/HEAD`后得到`ref: refs/heads/master`这么一串东西，其实他的意思就是现在的`HEAD`指向`.git/refs/heads/master`文件。再跟踪下去我们就会发现`.git/refs/heads/master`里面包含了一串32位的sha码。没错，这就是真正的提交结果，也就是git commit之后git给你的结果。
+
 
 为了实验，我先在我的Github上新建一个名为`test_on_github`的仓库，不添加README和.gitignore，纯绿色的哦。
 
@@ -22,6 +20,9 @@ tags: [git]
 <!--more-->
 
 # Local本地
+
+这章的题目叫`Local本地`，是因为这一章的操作你都不需要连接互联网就能完成。这也是分布式版本管理的一个特点，每个人都是一个`完整`的版本（相对自己而言），你可以在你的本机上检出，提交，删除...
+
 ## 初始化
 ### 设置全局变量
 
@@ -100,13 +101,13 @@ $ git status
 例如下面的例子就是说明:当前缓存区比HEAD要多一个文件`c.txt`
 	
 ```
-$ git status 
-# On branch master
-# Changes to be committed:
-#   (use "git reset HEAD <file>..." to unstage)
-#
-#       new file:   c.txt
-#
+    $ git status 
+    # On branch master
+    # Changes to be committed:
+    #   (use "git reset HEAD <file>..." to unstage)
+    #
+    #       new file:   c.txt
+    #
 ```
 
 ### 从HEAD签出文件
@@ -159,9 +160,16 @@ $ git checkout 0b5f275b20e40b51cca7bd64b2d8e50693c6660b b.txt #签出倒数第�
 
 *注意：*修改过的文件在`git commit`之前也必须`git add`一次。
 
+### 撤销本地仓库的修改
+
+其实准确的来说不是撤销修改，而是把世界恢复到某个提交的时间点。
+
+
+
+
 # Remote远程
 
-这里的`远程`并不是配置远程Git服务器，而是`本地`的一些配置和操作。
+简单的说，这一章你需要连接网络才能完成。
 
 ## 初始化
 
@@ -218,3 +226,46 @@ $ cat config
     filemode = true
     bare = true
 ```
+
+# 相关术语以及本文翻译
+
+个人英语水平不高，很多名词我是按照自己的理解来翻译的，所以相关术语我都会标上英文原词，免得误人子弟。下面是本文出现过的术语以及对应的英文原词。
+
+- 本地文件/工作目录（working tree）。他持有`实际文件`。
+
+- 缓存区（index/stage）。临时保存你的改动，例如`git add`就是保存到缓存区。缓冲区文件是`.git/index`。
+
+- 本地仓库（repository）。仓库位于工作目录下的`.git`目录，本地仓库储存的实际文件在`.git/objects`目录。仓库里面包含了：
+  - 你所有的提交（commits）
+  - 定义了`HEAD`
+  - 包含了所有分支（branche）
+  - 包含了所有的标签（tag）
+  - 你这个仓库的配置，远程服务端地址等。
+  
+- HEAD。
+
+  *HEAD不是一个实际的仓库！！*所谓的HEAD，其实就像一个`指针`，指向你最近一次快照（commit）。
+  
+  例如`cat .git/HEAD`后得到`ref: refs/heads/master`这么一串东西，其实他的意思就是现在的`HEAD`指向`.git/refs/heads/master`文件。再跟踪下去我们就会发现`.git/refs/heads/master`里面包含了一串32位的sha码。没错，这就是真正的提交结果，也就是`git commit`之后git给回你的一个标记。这个标记跟你`git log`第一条commit的标记是一样的。
+  
+  什么时候这个指针会移动？
+  - 你`git chekcout`的时候
+  - 你`git commit`的时候
+  
+- 提交/快照（commit）。这个`commit`我个人认为，他做动词的时候表示`提交`，例如`git commit`，做名词的时候表示`快照`，例如`git log`时你会看到你之前很多次的提交，其实每一次提交都是一次对你工作目录的快照。
+
+- 签出（checkout）。与`reset`的区别：
+
+
+- 分支（branch）。分支这个对于了解svn的人来说应该很好理解。其实Git的分支只是快照（commit）的一个别名，或者说是一堆快照的别名。例如他定义了这一堆快照叫`branch of development`。
+
+- 标签（tag）。标签这个就是一个快照（commit）的别名。跟`branch`相似，只不过他只能定义一个快照，而且他有自己的概要描述。
+
+- master。master就是主分支，只是一个约定俗成的名字而已，没有什么特殊。
+
+
+# 参考文献
+
+1. 不错的一个[Git常用命令思维导图](http://blog.csdn.net/liuysheng/article/details/7191846)，本文就是基于这个脉络来写的。
+2. 关于Git的方方面面（英文）。[原文地址](http://newartisans.com/2008/04/git-from-the-bottom-up/) [PDF下載](http://ftp.newartisans.com/pub/git.from.bottom.up.pdf)
+
