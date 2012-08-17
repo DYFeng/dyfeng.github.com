@@ -5,8 +5,7 @@
   <meta charset="utf-8" />
   <title>DY.Feng's Blog 叶毅锋的博客</title>
   
-  <meta name="description" content="Git使用大全 Aug 12th, 2012 Tag: git 虽然关于Git的使用有很多文章，但是没有一篇是全面而且解释清楚的，以致我到现在还只是通晓几个Git的命令而已。 在一个本地Git仓库里面，我们会按顺序遇到3个地方： 本地文件，他持有实际文件。
-缓存区（index），临时保存你的改动 &hellip;" />
+  <meta name="description" content="Git使用大全 Aug 12th, 2012 Tag: git 虽然关于Git的使用有很多文章，但是没有一篇是全面而且解释清楚的，以致我还只是通晓几个Git的命令而已。有人觉得Git博大精深，其实不然，其实Git是简单的。就好比你吃一个苹果，你可以横着吃，可以竖着吃，你吃的方式可以有无限种， &hellip;" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
   <link rel="stylesheet" href="/stylesheets/screen.css" />
@@ -89,18 +88,21 @@ html,body{height:100%;overflow:hidden}
 </header>
 
 
-  <div class="entry-content typo"><p>虽然关于Git的使用有很多文章，但是没有一篇是全面而且解释清楚的，以致我到现在还只是通晓几个Git的命令而已。</p>
+  <div class="entry-content typo"><p>虽然关于Git的使用有很多文章，但是没有一篇是全面而且解释清楚的，以致我还只是通晓几个Git的命令而已。有人觉得Git博大精深，其实不然，其实Git是简单的。就好比你吃一个苹果，你可以横着吃，可以竖着吃，你吃的方式可以有无限种，但没有人会去研究怎么吃苹果吧。只要你了解了本质，就会发现条条大路通罗马。</p>
 
-<p>在一个本地Git仓库里面，我们会按顺序遇到3个地方：</p>
+<p>因为囊括的东西比较多，所以我这篇文章比较。对于一个作者来说，罗列知识点很容易，但你要把知识点组织起来，让人思路清晰，脉络通畅，那就是难点了。</p>
 
-<ul>
-<li>本地文件，他持有<code>实际文件</code>。</li>
-<li>缓存区（index），临时保存你的改动，例如<code>git add</code>就是保存到缓存区。缓冲区文件是<code>.git/index</code>。</li>
-<li>本地仓库。本地仓库储存的实际文件在<code>.git/objects</code>目录。<em>HEAD不是一个实际的仓库！！</em>所谓的HEAD，其实就像一个<code>指针</code>，指向你最近一次提交后的结果。例如<code>cat .git/HEAD</code>后得到<code>ref: refs/heads/master</code>这么一串东西，其实他的意思就是现在的<code>HEAD</code>指向<code>.git/refs/heads/master</code>文件。再跟踪下去我们就会发现<code>.git/refs/heads/master</code>里面包含了一串32位的sha码。没错，这就是真正的提交结果，也就是git commit之后git给你的结果。</li>
-</ul>
+<p>建议阅读方法：</p>
 
+<ol>
+<li>你可以先大概浏览一下<code>Local本地使用</code>和<code>Remote远程相关使用</code>这两章，感受一下Git的大概使用，这两章是讲述Git的在各种使用场景下的命令，不必精读。如果只是想查找命令的童鞋，看这章就可以了。</li>
+<li>再看看第一章<code>Git基础讲解</code>，最基本的概念和Git的运作方式会在这里讲述。</li>
+<li>当你遇到有不明白的术语或者词汇，不妨到<code>相关术语以及本文翻译</code>那章找找。</li>
+<li>再回来<code>Local本地使用</code>和<code>Remote远程相关使用</code>这两章。相信这个时候你应该能通过这命令，而知道他们底层究竟是做了什么操作。</li>
+<li>有空的时候可以看看<code>小技巧</code></li>
+<li>如果对Git的使用还有什么疑问，可以留言。本人也是初学Git，可以共同探讨学习。</li>
+</ol>
 
-<p>为了实验，我先在我的Github上新建一个名为<code>test_on_github</code>的仓库，不添加README和.gitignore，纯绿色的哦。</p>
 
 <p>下面开始试验。</p>
 

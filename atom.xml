@@ -4,7 +4,7 @@
   <title><![CDATA[DY.Feng's Blog 叶毅锋的博客]]></title>
   <link href="http://www.dyfeng.org/atom.xml" rel="self"/>
   <link href="http://www.dyfeng.org/"/>
-  <updated>2012-08-15T02:43:57+08:00</updated>
+  <updated>2012-08-18T04:18:35+08:00</updated>
   <id>http://www.dyfeng.org/</id>
   <author>
     <name><![CDATA[(≧▼≦) 喵喵]]></name>
@@ -18,25 +18,403 @@
     <link href="http://www.dyfeng.org/2012/08/12/all-about-git/"/>
     <updated>2012-08-12T00:38:00+08:00</updated>
     <id>http://www.dyfeng.org/2012/08/12/all-about-git</id>
-    <content type="html"><![CDATA[<p>虽然关于Git的使用有很多文章，但是没有一篇是全面而且解释清楚的，以致我到现在还只是通晓几个Git的命令而已。</p>
+    <content type="html"><![CDATA[<p>虽然关于Git的使用有很多文章，但是没有一篇是全面而且解释清楚的，以致我还只是通晓几个Git的命令而已。有人觉得Git博大精深，其实不然，其实Git是简单的。就好比你吃一个苹果，你可以横着吃，可以竖着吃，你吃的方式可以有无限种，但没有人会去研究怎么吃苹果吧。只要你了解了本质，就会发现条条大路通罗马。</p>
 
-<p>在一个本地Git仓库里面，我们会按顺序遇到3个地方：</p>
+<p>因为囊括的东西比较多，所以我这篇文章比较。对于一个作者来说，罗列知识点很容易，但你要把知识点组织起来，让人思路清晰，脉络通畅，那就是难点了。</p>
 
-<ul>
-<li>本地文件，他持有<code>实际文件</code>。</li>
-<li>缓存区（index），临时保存你的改动，例如<code>git add</code>就是保存到缓存区。缓冲区文件是<code>.git/index</code>。</li>
-<li>本地仓库。本地仓库储存的实际文件在<code>.git/objects</code>目录。<em>HEAD不是一个实际的仓库！！</em>所谓的HEAD，其实就像一个<code>指针</code>，指向你最近一次提交后的结果。例如<code>cat .git/HEAD</code>后得到<code>ref: refs/heads/master</code>这么一串东西，其实他的意思就是现在的<code>HEAD</code>指向<code>.git/refs/heads/master</code>文件。再跟踪下去我们就会发现<code>.git/refs/heads/master</code>里面包含了一串32位的sha码。没错，这就是真正的提交结果，也就是git commit之后git给你的结果。</li>
-</ul>
+<p>建议阅读方法：</p>
 
+<ol>
+<li>你可以先大概浏览一下<code>Local本地使用</code>和<code>Remote远程相关使用</code>这两章，感受一下Git的大概使用，这两章是讲述Git的在各种使用场景下的命令，不必精读。如果只是想查找命令的童鞋，看这章就可以了。</li>
+<li>再看看第一章<code>Git基础讲解</code>，最基本的概念和Git的运作方式会在这里讲述。</li>
+<li>当你遇到有不明白的术语或者词汇，不妨到<code>相关术语以及本文翻译</code>那章找找。</li>
+<li>再回来<code>Local本地使用</code>和<code>Remote远程相关使用</code>这两章。相信这个时候你应该能通过这命令，而知道他们底层究竟是做了什么操作。</li>
+<li>有空的时候可以看看<code>小技巧</code></li>
+<li>如果对Git的使用还有什么疑问，可以留言。本人也是初学Git，可以共同探讨学习。</li>
+</ol>
 
-<p>为了实验，我先在我的Github上新建一个名为<code>test_on_github</code>的仓库，不添加README和.gitignore，纯绿色的哦。</p>
 
 <p>下面开始试验。</p>
 
 <!--more-->
 
 
-<h1>Local本地</h1>
+<h1>Git基础讲解</h1>
+
+<h2>Git是什么？</h2>
+
+<p><del>Git是一个版本控制软件&#8230;</del>（地球人都知道的就不废话了，省略几百字）Git就是</p>
+
+<ul>
+<li>一个带有<code>二次元平衡世界</code>、<code>时光倒流</code>功能的<code>文件管理系统</code>。</li>
+<li>一个<code>键值对</code>的数据库，<code>键</code>是<code>值</code>的SHA1值。<code>tree .git/objects</code>你就能看到他们了。</li>
+<li>一切皆对象</li>
+</ul>
+
+
+<p>为什么说他是文件管理系统呢？那跟我电脑本地的文件管理系统有什么区别？这个就得从Git的<code>文件模型</code>&#8211;基础对象模型说起了。</p>
+
+<h2>Git的基础对象模型（Git Objects）</h2>
+
+<p>  在Git系统里面有四种基础对象类型，分别是<code>blob</code>，<code>tree（树）</code>，<code>commit（快照）</code>，<code>tag</code>。几乎所有的Git都建立在管理操纵这些简单的结构之上，即它是建立在机器文件系统之上的一种自己的小型文件系统。</p>
+
+<h3>blob对象</h3>
+
+<p>blob对象只包含了这个文件的<code>内容</code>，而没有包含修改日期、拥有者、<em>文件名</em>、目录路径之类的信息。下面我们来做个实验：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>  $ echo 'Hello,Git!' &gt; test.txt
+</span><span class='line'>  $ git hash-object test.txt
+</span><span class='line'>  63008ae88b4446dfc43b47f18aee5b427203b255</span></code></pre></td></tr></table></div></figure>
+
+
+<p>你可看到他生成了一个40位的<code>SHA1</code>值，这SHA1值就是通过<code>文件内容</code>计算出来的，所以说同一个文件只有一个SHA1值。如果你在你的电脑上做同样内容的一个文件，即使文件名不一样，计算出来的结果都是一样的。</p>
+
+<p>现在我们把<code>test.txt</code>纳入我们的Git文件管理系统：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ git add test.txt
+</span><span class='line'>$ git commit -m "add test.txt" #这句不是必须的，git add之后就已经纳入到Git里面去了</span></code></pre></td></tr></table></div></figure>
+
+
+<p>提交之后，<code>test.txt</code>的内容已经放进了我们Git的blob树了，我们可以根据SHA1值来看看文件的内容：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ git cat-file blob 63008ae88b4446dfc43b47f18aee5b427203b255
+</span><span class='line'>Hello,Git!
+</span><span class='line'>$ git cat-file blob 63008a  #其实用前六位或者七位就可以了
+</span><span class='line'>Hello,Git!
+</span><span class='line'>$ git cat-file t 63008a  #查看对象类型
+</span><span class='line'>blob</span></code></pre></td></tr></table></div></figure>
+
+
+<p>blob只记录文件的内容的好处：
+- Git可以快速的仅仅通过对象名称决定两个对象是否相同
+- 由于对象名称在每一个库（repository）中都由相同的方式计算得到，相同的内容存储到不同的库中将总被存储到相同的名称下，减少需要的硬盘空间</p>
+
+<h3>commit对象</h3>
+
+<p>如果你有小用过Git，那对commit一定很熟悉，不就是提交嘛，其实不然。在这里的commit表示<code>快照</code>，是名词。跟blob一样，也是Git的<code>基础对象</code>之一。</p>
+
+<p>查看一个快照（commit）对象，可以看到快照里记录了根目录树，作者，还有提交的信息。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ git cat-file commit d5cb71
+</span><span class='line'>tree e84b991fd55acf5eb290a11c0ae4149ce4ffc8dd
+</span><span class='line'>author DY.Feng &lt;yyfeng88625@gmail.com&gt; 1345233032 +0800
+</span><span class='line'>committer DY.Feng &lt;yyfeng88625@gmail.com&gt; 1345233032 +0800
+</span><span class='line'>
+</span><span class='line'>add a.txt</span></code></pre></td></tr></table></div></figure>
+
+
+<p>在下一小节<code>tree对象</code>里，我们将会学到如何创建一个快照对象，因为快照必须需要一个树对象。</p>
+
+<h3>tree对象</h3>
+
+<p>树（tree）对象跟我们本地的目录树很相似，下面我们来试验：</p>
+
+<p>准备试验用文件</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ mkdir bb && touch bb/a.txt  #新建一个文件夹并放置一个空文件在里面
+</span><span class='line'>$ git add bb/a.txt && git commit -m "add bb/a.txt" #提交</span></code></pre></td></tr></table></div></figure>
+
+
+<p>查看HEAD树，你会看到只有两个文件，一个是<code>test.txt</code>，另外一个是<code>树bb</code>，那还有一个文件<code>a.txt</code>呢？</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ git ls-tree HEAD
+</span><span class='line'>040000 tree 65a457425a679cbe9adf0d2741785d3ceabb44a7    bb
+</span><span class='line'>100644 blob 63008ae88b4446dfc43b47f18aee5b427203b255    test.txt</span></code></pre></td></tr></table></div></figure>
+
+
+<p>文件<code>a.txt</code>在<code>bb树</code>里面。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$git ls-tree 65a457425a679cbe9adf0d2741785d3ceabb44a7
+</span><span class='line'>100644 blob e69de29bb2d1d6434b8b29ae775ad8c2e48c5391    a.txt</span></code></pre></td></tr></table></div></figure>
+
+
+<p>树也是Git的<code>基本对象</code>，所以准确来说：blob对象<em>不是</em>储存在树对象里面，而是树对象里面写有blob对象的<code>SHA1值</code>，所以tree对象可以查找到blob对象。</p>
+
+<p>不知道你看到这里有没有发现，我们上面的树（tree）对象，我们并没有手动添加，在<code>git add</code>的时候也没有新增，而是在<code>git commit</code>之后增加的。究竟树对象是怎么新建的呢？下面我们来试验手动添加树对象：</p>
+
+<p>重置我们的工作目录。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ rm -rf * .git/
+</span><span class='line'>$ echo 'Good bye' &gt; a.txt
+</span><span class='line'>$ git init 
+</span><span class='line'>$ git add a.txt</span></code></pre></td></tr></table></div></figure>
+
+
+<p>现在缓存区（stage）有我们的a.txt了。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ git ls-files --stage
+</span><span class='line'>100644 c0ee9ab00ab41be0d401f00f7a4aaf2e478f9f1e 0       a.txt
+</span><span class='line'>$ find .git/objects -type f | sort
+</span><span class='line'>.git/objects/c0/ee9ab00ab41be0d401f00f7a4aaf2e478f9f1e</span></code></pre></td></tr></table></div></figure>
+
+
+<p>我们来创造一棵树吧，在你的电脑上应该会得到同样的一串SHA1值，因为这棵树里面的文件（文件名和文件SHA1值）我们是一样的。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git write-tree
+</span><span class='line'>e84b991fd55acf5eb290a11c0ae4149ce4ffc8dd</span></code></pre></td></tr></table></div></figure>
+
+
+<p>有了一棵树，我们就能创造出一个快照（commit）了。记得之前说过，一个快照里面包含了一个树对象的SHA1值，所以你如果要创造一个快照，就必须有一棵树。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ echo "add a.txt" |git commit-tree e84b99
+</span><span class='line'>d5cb71ea0e9c6a2c6b198bd5e44b80bd72aac806
+</span><span class='line'>$ find .git/objects -type f | sort #我们现在有了一个文件，一棵树，还有一个快照
+</span><span class='line'>.git/objects/c0/ee9ab00ab41be0d401f00f7a4aaf2e478f9f1e
+</span><span class='line'>.git/objects/d5/cb71ea0e9c6a2c6b198bd5e44b80bd72aac806
+</span><span class='line'>.git/objects/e8/4b991fd55acf5eb290a11c0ae4149ce4ffc8dd</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如果这个快照是有parent的，也就是说在这个快照之前，已经有了一次提交，创建过一个快照。那你可以指定<code>-p 选项</code>来指定parent。</p>
+
+<p>我们把master分支头指向到<code>目前的快照</code>。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ echo d5cb71ea0e9c6a2c6b198bd5e44b80bd72aac806 &gt; .git/refs/heads/master</span></code></pre></td></tr></table></div></figure>
+
+
+<p>或者用更加安全的方法。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ git update-ref ref/heads/master d5cb71</span></code></pre></td></tr></table></div></figure>
+
+
+<p>我们再把<code>HEAD</code>指向到master分支头（这一步在我的电脑上，<code>git init</code>的时候他已经帮我完成了）。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ git symbolic-ref HEAD refs/heads/master</span></code></pre></td></tr></table></div></figure>
+
+
+<p>到目前为止，我们已经成功完成了一次<code>git commit</code>。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ git log 
+</span><span class='line'>commit d5cb71ea0e9c6a2c6b198bd5e44b80bd72aac806
+</span><span class='line'>Author: DY.Feng &lt;yyfeng88625@gmail.com&gt;
+</span><span class='line'>Date:   Sat Aug 18 03:50:32 2012 +0800
+</span><span class='line'>
+</span><span class='line'>    add a.txt</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如果我们没有把master分支头指向到<code>目前的快照</code>，或者快照沒有成为别人的parent，简单一句就是<code>孤立的快照</code>，不能被正常访问到的。那么他就有可能被Git的垃圾回收程序（<code>git gc</code>，他不仅回收垃圾，貌似还会压缩）删除。</p>
+
+<h3>总结</h3>
+
+<p>究竟我们上面的所有动作，Git都是怎么储存的？让我们看看他都储存了什么文件吧：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ rm -rf .git #我们把现有的.git删除，重新建立一个干净的git
+</span><span class='line'>$ git init 
+</span><span class='line'>$ tree .
+</span><span class='line'>.
+</span><span class='line'>├── bb
+</span><span class='line'>│   └── a.txt
+</span><span class='line'>└── test.txt
+</span><span class='line'>$ git commit -m "add all" -a #添加并提交所有的文件到git
+</span><span class='line'>$ find .git/objects -type f | sort
+</span><span class='line'>.git/objects/45/893175c9b60bdd4727c2a51ced8bae8a9c213f
+</span><span class='line'>.git/objects/5b/e1b8923c561189f1fcfc5bcf2d2fe0b7684e76
+</span><span class='line'>.git/objects/63/008ae88b4446dfc43b47f18aee5b427203b255
+</span><span class='line'>.git/objects/65/a457425a679cbe9adf0d2741785d3ceabb44a7
+</span><span class='line'>.git/objects/e6/9de29bb2d1d6434b8b29ae775ad8c2e48c5391</span></code></pre></td></tr></table></div></figure>
+
+
+<p>从上面我们可以看到，现在有两个文件，两个目录（根目录和bb目录），一个快照（commit）。</p>
+
+<p>这个就是我们的快照（commit），可以看到快照里记录了根目录树。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ git cat-file -t 45893175c9b60bdd4727c2a51ced8bae8a9c213f
+</span><span class='line'>commit
+</span><span class='line'>$ git cat-file commit 45893175c9b60bdd4727c2a51ced8bae8a9c213f
+</span><span class='line'>tree 5be1b8923c561189f1fcfc5bcf2d2fe0b7684e76 
+</span><span class='line'>author DY.Feng &lt;yyfeng88625@gmail.com&gt; 1345226467 +0800
+</span><span class='line'>committer DY.Feng &lt;yyfeng88625@gmail.com&gt; 1345226467 +0800
+</span><span class='line'>
+</span><span class='line'>add all</span></code></pre></td></tr></table></div></figure>
+
+
+<p>查看根目录树，可以看到他里面包含了<code>test.txt文件</code>和<code>bb目录</code>的SHA1值，就像一个指针一样指向他们。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ git cat-file -t 5be1b8923c561189f1fcfc5bcf2d2fe0b7684e76
+</span><span class='line'>tree
+</span><span class='line'>$ git ls-tree  5be1b8923c561189f1fcfc5bcf2d2fe0b7684e76 
+</span><span class='line'>040000 tree 65a457425a679cbe9adf0d2741785d3ceabb44a7    bb
+</span><span class='line'>100644 blob 63008ae88b4446dfc43b47f18aee5b427203b255    test.txt</span></code></pre></td></tr></table></div></figure>
+
+
+<p>查看<code>test.txt</code></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ git cat-file -t 63008ae88b4446dfc43b47f18aee5b427203b255
+</span><span class='line'>blob
+</span><span class='line'>$ git cat-file blob 63008ae88b4446dfc43b47f18aee5b427203b255
+</span><span class='line'>Hello,Git!</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这个是<code>bb目录</code>树，里面只有一个文件<code>a.txt</code>。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ git cat-file -t 65a457425a679cbe9adf0d2741785d3ceabb44a7
+</span><span class='line'>tree
+</span><span class='line'>$ git ls-tree 65a457425a679cbe9adf0d2741785d3ceabb44a7
+</span><span class='line'>100644 blob e69de29bb2d1d6434b8b29ae775ad8c2e48c5391    a.txt</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这个是<code>bb目录</code>里面的<code>a.txt</code>。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ git cat-file -t e69de29bb2d1d6434b8b29ae775ad8c2e48c5391
+</span><span class='line'>blob</span></code></pre></td></tr></table></div></figure>
+
+
+<p>一共增加了5个文件。</p>
+
+<p>这个时候我们改改<code>bb/a.txt</code>文件。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ echo 'Good' &gt;bb/a.txt</span></code></pre></td></tr></table></div></figure>
+
+
+<p>让Git跟踪<code>bb/a.txt</code>文件。你会看到里面会新增了一个文件，他就是新修改的<code>bb/a.txt</code>文件。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ git add .
+</span><span class='line'>$ find .git/objects -type f | sort
+</span><span class='line'>.git/objects/45/893175c9b60bdd4727c2a51ced8bae8a9c213f                                                  
+</span><span class='line'>.git/objects/5b/e1b8923c561189f1fcfc5bcf2d2fe0b7684e76                                             
+</span><span class='line'>.git/objects/63/008ae88b4446dfc43b47f18aee5b427203b255                     
+</span><span class='line'>.git/objects/65/a457425a679cbe9adf0d2741785d3ceabb44a7                            
+</span><span class='line'>.git/objects/cd/9dd73b78cf79e797c97b8fd5d8b92e28d4437f                                
+</span><span class='line'>.git/objects/e6/9de29bb2d1d6434b8b29ae775ad8c2e48c5391</span></code></pre></td></tr></table></div></figure>
+
+
+<p>即使我们现在用<code>git checkout</code>和<code>git reset</code>，新增加的那个文件也不会消失，虽然我们现在无法通过正常的途径来获取他。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ git checkout HEAD                           
+</span><span class='line'>M       bb/a.txt $ find .git/objects -type f | sort     
+</span><span class='line'>.git/objects/45/893175c9b60bdd4727c2a51ced8bae8a9c213f                           
+</span><span class='line'>.git/objects/5b/e1b8923c561189f1fcfc5bcf2d2fe0b7684e76                           
+</span><span class='line'>.git/objects/63/008ae88b4446dfc43b47f18aee5b427203b255                           
+</span><span class='line'>.git/objects/65/a457425a679cbe9adf0d2741785d3ceabb44a7                           
+</span><span class='line'>.git/objects/cd/9dd73b78cf79e797c97b8fd5d8b92e28d4437f                           
+</span><span class='line'>.git/objects/e6/9de29bb2d1d6434b8b29ae775ad8c2e48c5391                           
+</span><span class='line'>$ git reset --hard HEAD 
+</span><span class='line'>HEAD is now at 4589317 add all                      
+</span><span class='line'>$ find .git/objects -type f | sort            
+</span><span class='line'>.git/objects/45/893175c9b60bdd4727c2a51ced8bae8a9c213f                           
+</span><span class='line'>.git/objects/5b/e1b8923c561189f1fcfc5bcf2d2fe0b7684e76                           
+</span><span class='line'>.git/objects/63/008ae88b4446dfc43b47f18aee5b427203b255                           
+</span><span class='line'>.git/objects/65/a457425a679cbe9adf0d2741785d3ceabb44a7                           
+</span><span class='line'>.git/objects/cd/9dd73b78cf79e797c97b8fd5d8b92e28d4437f                           
+</span><span class='line'>.git/objects/e6/9de29bb2d1d6434b8b29ae775ad8c2e48c5391</span></code></pre></td></tr></table></div></figure>
+
+
+<p>从这里我们就可以看出Git与其他的版本管理系统有什么区别。最大的区别就是Git记录的其实是每个文件的快照，但他不管这个快照是什么时候在什么目录被什么人建立的，因为这些他都可以通过<code>tree对象</code>和<code>commit对象</code>来推算出来。</p>
+
+<h1>Local本地使用</h1>
+
+<p>这章的题目叫<code>Local本地</code>，是因为这一章的操作你都不需要连接互联网就能完成。这也是分布式版本管理的一个特点，每个人都是一个<code>完整</code>的版本（相对自己而言），你可以在你的本机上检出，提交，删除&#8230;</p>
 
 <h2>初始化</h2>
 
@@ -246,9 +624,13 @@
 
 <p><em>注意：</em>修改过的文件在<code>git commit</code>之前也必须<code>git add</code>一次。</p>
 
-<h1>Remote远程</h1>
+<h3>撤销本地仓库的修改</h3>
 
-<p>这里的<code>远程</code>并不是配置远程Git服务器，而是<code>本地</code>的一些配置和操作。</p>
+<p>其实准确的来说不是撤销修改，而是把世界恢复到某个提交的时间点。</p>
+
+<h1>Remote远程相关使用</h1>
+
+<p>简单的说，这一章你需要连接网络才能完成。</p>
 
 <h2>初始化</h2>
 
@@ -322,6 +704,63 @@
 </span><span class='line'>    repositoryformatversion = 0
 </span><span class='line'>    filemode = true
 </span><span class='line'>    bare = true</span></code></pre></td></tr></table></div></figure>
+
+
+<h1>小技巧</h1>
+
+<p>查看<code>别名</code>代表的SHA1值</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$git rev-parse (HEAD|master|...)</span></code></pre></td></tr></table></div></figure>
+
+
+<h1>相关术语以及本文翻译</h1>
+
+<p>个人英语水平不高，很多名词我是按照自己的理解来翻译的，所以相关术语我都会标上英文原词，免得误人子弟。下面是本文出现过的术语以及对应的英文原词。</p>
+
+<ul>
+<li><p>本地文件/工作目录（working tree）。他持有<code>实际文件</code>。</p></li>
+<li><p>缓存区（index/stage）。临时保存你的改动，例如<code>git add</code>就是保存到缓存区。缓冲区文件是<code>.git/index</code>。</p></li>
+<li><p>本地仓库（repository）。仓库位于工作目录下的<code>.git</code>目录，本地仓库储存的实际文件在<code>.git/objects</code>目录。仓库里面包含了：</p>
+
+<ul>
+<li>你所有的提交（commits）</li>
+<li>定义了<code>HEAD</code></li>
+<li>包含了所有分支（branche）</li>
+<li>包含了所有的标签（tag）</li>
+<li>你这个仓库的配置，远程服务端地址等。</li>
+</ul>
+</li>
+<li><p>HEAD。</p>
+
+<p><em>HEAD不是一个实际的仓库！！</em>所谓的HEAD，其实就像一个<code>指针</code>，指向你最近一次快照（commit）。</p>
+
+<p>例如<code>cat .git/HEAD</code>后得到<code>ref: refs/heads/master</code>这么一串东西，其实他的意思就是现在的<code>HEAD</code>指向<code>.git/refs/heads/master</code>文件。再跟踪下去我们就会发现<code>.git/refs/heads/master</code>里面包含了一串32位的sha码。没错，这就是真正的提交结果，也就是<code>git commit</code>之后git给回你的一个标记。这个标记跟你<code>git log</code>第一条commit的标记是一样的。</p>
+
+<p>什么时候这个指针会移动？</p>
+
+<ul>
+<li>你<code>git chekcout</code>的时候</li>
+<li>你<code>git commit</code>的时候</li>
+</ul>
+</li>
+<li><p>提交/快照（commit）。这个<code>commit</code>我个人认为，他有两重含义。做动词的时候表示<code>提交</code>，例如<code>git commit</code>。做名词的时候表示<code>快照</code>，是Git的基本对象之一<code>commit对象</code>。例如<code>git log</code>时你会看到你之前很多次的提交，其实每一次提交都是一次对你工作目录的快照。</p></li>
+<li><p>签出（checkout）。与<code>reset</code>的区别：</p></li>
+<li><p>分支（branch）。分支这个对于了解svn的人来说应该很好理解。其实Git的分支只是快照（commit）的一个别名，或者说是一堆快照的别名。例如他定义了这一堆快照叫<code>branch of development</code>。</p></li>
+<li><p>标签（tag）。标签这个就是一个快照（commit）的别名。跟<code>branch</code>相似，只不过他只能定义一个快照，而且他有自己的概要描述。</p></li>
+<li><p>master。master就是主分支，只是一个约定俗成的名字而已，没有什么特殊。</p></li>
+</ul>
+
+
+<h1>参考文献</h1>
+
+<p>在学习Git的过程中，看过的文献实在是太多了，下面只列出我浏览时间超过5分钟的。</p>
+
+<ol>
+<li>不错的一个<a href="http://blog.csdn.net/liuysheng/article/details/7191846">Git常用命令思维导图</a>，本文就是基于这个脉络来写的。</li>
+<li>关于Git的方方面面（英文）。<a href="http://newartisans.com/2008/04/git-from-the-bottom-up/">原文地址</a> <a href="http://ftp.newartisans.com/pub/git.from.bottom.up.pdf">PDF下載</a></li>
+<li><a href="http://guibin.iteye.com/blog/1013279">Git基础对象模型介绍</a></li>
+</ol>
 
 ]]></content>
   </entry>
