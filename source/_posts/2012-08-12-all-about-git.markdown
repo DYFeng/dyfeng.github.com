@@ -73,10 +73,21 @@ blob
 blob只记录文件的内容的好处：
 - Git可以快速的仅仅通过对象名称决定两个对象是否相同 
 - 由于对象名称在每一个库（repository）中都由相同的方式计算得到，相同的内容存储到不同的库中将总被存储到相同的名称下，减少需要的硬盘空间
-  
+    
 ### commit对象
 
 如果你有小用过Git，那对commit一定很熟悉，不就是提交嘛，其实不然。在这里的commit表示`快照`，是名词。跟blob一样，也是Git的`基础对象`之一。
+
+查看一个快照（commit）对象，可以看到快照里记录了根目录树，作者，还有提交的信息。
+```
+$ git cat-file commit d5cb71
+tree e84b991fd55acf5eb290a11c0ae4149ce4ffc8dd
+author DY.Feng <yyfeng88625@gmail.com> 1345233032 +0800
+committer DY.Feng <yyfeng88625@gmail.com> 1345233032 +0800
+
+add a.txt
+```
+在下一小节`tree对象`里，我们将会学到如何创建一个快照对象，因为快照必须需要一个树对象。
 
 ### tree对象
 
@@ -103,7 +114,66 @@ $git ls-tree 65a457425a679cbe9adf0d2741785d3ceabb44a7
 
 树也是Git的`基本对象`，所以准确来说：blob对象*不是*储存在树对象里面，而是树对象里面写有blob对象的`SHA1值`，所以tree对象可以查找到blob对象。
 
+不知道你看到这里有没有发现，我们上面的树（tree）对象，我们并没有手动添加，在`git add`的时候也没有新增，而是在`git commit`之后增加的。究竟树对象是怎么新建的呢？下面我们来试验手动添加树对象：
 
+重置我们的工作目录。
+```
+$ rm -rf * .git/
+$ echo 'Good bye' > a.txt
+$ git init 
+$ git add a.txt
+```
+
+现在缓存区（stage）有我们的a.txt了。
+```
+$ git ls-files --stage
+100644 c0ee9ab00ab41be0d401f00f7a4aaf2e478f9f1e 0       a.txt
+$ find .git/objects -type f | sort
+.git/objects/c0/ee9ab00ab41be0d401f00f7a4aaf2e478f9f1e
+```
+
+我们来创造一棵树吧，在你的电脑上应该会得到同样的一串SHA1值，因为这棵树里面的文件（文件名和文件SHA1值）我们是一样的。
+```
+git write-tree
+e84b991fd55acf5eb290a11c0ae4149ce4ffc8dd
+```
+
+有了一棵树，我们就能创造出一个快照（commit）了。记得之前说过，一个快照里面包含了一个树对象的SHA1值，所以你如果要创造一个快照，就必须有一棵树。
+```
+$ echo "add a.txt" |git commit-tree e84b99
+d5cb71ea0e9c6a2c6b198bd5e44b80bd72aac806
+$ find .git/objects -type f | sort #我们现在有了一个文件，一棵树，还有一个快照
+.git/objects/c0/ee9ab00ab41be0d401f00f7a4aaf2e478f9f1e
+.git/objects/d5/cb71ea0e9c6a2c6b198bd5e44b80bd72aac806
+.git/objects/e8/4b991fd55acf5eb290a11c0ae4149ce4ffc8dd
+```
+
+如果这个快照是有parent的，也就是说在这个快照之前，已经有了一次提交，创建过一个快照。那你可以指定`-p 选项`来指定parent。
+
+我们把master分支头指向到`目前的快照`。
+```
+$ echo d5cb71ea0e9c6a2c6b198bd5e44b80bd72aac806 > .git/refs/heads/master
+```
+
+或者用更加安全的方法。
+```
+$ git update-ref ref/heads/master d5cb71
+```
+
+我们再把`HEAD`指向到master分支头（这一步在我的电脑上，`git init`的时候他已经帮我完成了）。
+```
+$ git symbolic-ref HEAD refs/heads/master
+```
+
+到目前为止，我们已经成功完成了一次`git commit`。
+```
+$ git log 
+commit d5cb71ea0e9c6a2c6b198bd5e44b80bd72aac806
+Author: DY.Feng <yyfeng88625@gmail.com>
+Date:   Sat Aug 18 03:50:32 2012 +0800
+
+    add a.txt
+```
 
 
 ### 总结
@@ -176,6 +246,45 @@ blob
 
 一共增加了5个文件。
 
+这个时候我们改改`bb/a.txt`文件。
+```
+$ echo 'Good' >bb/a.txt
+```
+
+让Git跟踪`bb/a.txt`文件。你会看到里面会新增了一个文件，他就是新修改的`bb/a.txt`文件。
+```
+$ git add .
+$ find .git/objects -type f | sort
+.git/objects/45/893175c9b60bdd4727c2a51ced8bae8a9c213f                                                  
+.git/objects/5b/e1b8923c561189f1fcfc5bcf2d2fe0b7684e76                                             
+.git/objects/63/008ae88b4446dfc43b47f18aee5b427203b255                     
+.git/objects/65/a457425a679cbe9adf0d2741785d3ceabb44a7                            
+.git/objects/cd/9dd73b78cf79e797c97b8fd5d8b92e28d4437f                                
+.git/objects/e6/9de29bb2d1d6434b8b29ae775ad8c2e48c5391
+```
+
+即使我们现在用`git checkout`和`git reset`，新增加的那个文件也不会消失，虽然我们现在无法通过正常的途径来获取他。
+```
+$ git checkout HEAD                           
+M       bb/a.txt $ find .git/objects -type f | sort     
+.git/objects/45/893175c9b60bdd4727c2a51ced8bae8a9c213f                           
+.git/objects/5b/e1b8923c561189f1fcfc5bcf2d2fe0b7684e76                           
+.git/objects/63/008ae88b4446dfc43b47f18aee5b427203b255                           
+.git/objects/65/a457425a679cbe9adf0d2741785d3ceabb44a7                           
+.git/objects/cd/9dd73b78cf79e797c97b8fd5d8b92e28d4437f                           
+.git/objects/e6/9de29bb2d1d6434b8b29ae775ad8c2e48c5391                           
+$ git reset --hard HEAD 
+HEAD is now at 4589317 add all                      
+$ find .git/objects -type f | sort            
+.git/objects/45/893175c9b60bdd4727c2a51ced8bae8a9c213f                           
+.git/objects/5b/e1b8923c561189f1fcfc5bcf2d2fe0b7684e76                           
+.git/objects/63/008ae88b4446dfc43b47f18aee5b427203b255                           
+.git/objects/65/a457425a679cbe9adf0d2741785d3ceabb44a7                           
+.git/objects/cd/9dd73b78cf79e797c97b8fd5d8b92e28d4437f                           
+.git/objects/e6/9de29bb2d1d6434b8b29ae775ad8c2e48c5391
+```
+
+从这里我们就可以看出Git与其他的版本管理系统有什么区别。最大的区别就是Git记录的其实是每个文件的快照，但他不管这个快照是什么时候在什么目录被什么人建立的，因为这些他都可以通过`tree对象`和`commit对象`来推算出来。
 
 
 
