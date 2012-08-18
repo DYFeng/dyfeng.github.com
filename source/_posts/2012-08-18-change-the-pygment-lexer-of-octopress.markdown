@@ -4,7 +4,7 @@ title: "修改octopress的pygemnt语法"
 date: 2012-08-18 18:43
 comments: true
 categories: Linux
-tags: [octopress , pygement , python , 正则表达式 ， lexer]
+tags: [octopress , pygement , python,regular expression,lexer]
 ---
 
 最近我在写一篇关于Git使用的文章，里面贴了大量`bash`命令。我的语法高亮是用Octopress自带的`pygements.rb`，用起来总觉得不大爽，因为他高亮的地方实在是太少了，只有少量的命令有高亮。自己动手丰衣足食，下面记录我修改的过程：
