@@ -1,28 +1,48 @@
 ---
 layout: post
-title: "Git使用大全"
+title: "Git深入浅出学习"
 date: 2012-08-12 00:38
 comments: true
 categories: Server 
 tags: [git]
 ---
 
-虽然关于Git的使用有很多文章，但是没有一篇是全面而且解释清楚的，以致我还只是通晓几个Git的命令而已。有人觉得Git博大精深，其实不然，其实Git是简单的。就好比你吃一个苹果，你可以横着吃，可以竖着吃，你吃的方式可以有无限种，但没有人会去研究怎么吃苹果吧。只要你了解了本质，就会发现条条大路通罗马。
+在看这篇文章之前...
+
+- 如果你只是在找Git的使用命令，而不是想深入学习Git，请绕道。
+
+  Git和Linux一样，不是学几个命令就能理解到他的精髓的。
+
+- 什么？你在Windows下？那你一定懂Cygwin了。不知道Cygwin？那你看这篇文章就有点吃力了。还不会用命令行？那你可以绕道了，这篇文章对你来说是天书。
+
+- 请先忘记你之前所了解关于Git的一切，因为网络上的文章有99%都是以纰传纰的！！
+
+- 请先忘记你所有学的其他版本管理系统。
+  
+  请统统忘记`Svn`、`Cvs`、`Mercury`等，因为Git的思想跟实现跟他们有天大的区别！！
+
+- 请不要急于求成，网上99%速成的教程都是有速度没质量的。
+
+  我不是说他们写的质量差，而是因为很多东西他都给简化掉了，让人有个错觉：这个很简单。其实这是不利于学习的。
+
+- 请先从`最基础`的学起，而不是直接看操作命令，否则你只会只其然而不知其所以然，最后看到一头雾水。
+
+- 我一开始将不会讲解任何关于使用Git的命令，而是先讲解Git的`底层原理`，如果你耐不住性子的请不要看。但我相信，这会是最快入门Git的方法之一。
+
+- 你大概需要几天时间来消化和试验，所以不用急，慢慢看。反正你都误用了这么长时间了，花点时间来正确认识Git还是值得的。
+
+<!-- 因为囊括的东西比较多，所以我这篇文章比较。对于一个作者来说，罗列知识点很容易，但你要把知识点组织起来，让人思路清晰，脉络通畅，那就是难点了。 -->
+<!--  -->
+<!-- 建议阅读方法： -->
+<!--  -->
+<!-- 0. 你可以先大概浏览一下`Local本地使用`和`Remote远程相关使用`这两章，感受一下Git的大概使用，这两章是讲述Git的在各种使用场景下的命令，不必精读。如果只是想查找命令的童鞋，看这章就可以了。 -->
+<!-- 1. 再看看第一章`Git基础讲解`，最基本的概念和Git的运作方式会在这里讲述。 -->
+<!-- 2. 当你遇到有不明白的术语或者词汇，不妨到`相关术语以及本文翻译`那章找找。 -->
+<!-- 3. 再回来`Local本地使用`和`Remote远程相关使用`这两章。相信这个时候你应该能通过这命令，而知道他们底层究竟是做了什么操作。 -->
+<!-- 4. 有空的时候可以看看`小技巧` -->
+<!-- 5. 如果对Git的使用还有什么疑问，可以留言。本人也是初学Git，可以共同探讨学习。 -->
 
 
-
-因为囊括的东西比较多，所以我这篇文章比较。对于一个作者来说，罗列知识点很容易，但你要把知识点组织起来，让人思路清晰，脉络通畅，那就是难点了。
-
-建议阅读方法：
-
-0. 你可以先大概浏览一下`Local本地使用`和`Remote远程相关使用`这两章，感受一下Git的大概使用，这两章是讲述Git的在各种使用场景下的命令，不必精读。如果只是想查找命令的童鞋，看这章就可以了。
-1. 再看看第一章`Git基础讲解`，最基本的概念和Git的运作方式会在这里讲述。
-2. 当你遇到有不明白的术语或者词汇，不妨到`相关术语以及本文翻译`那章找找。
-3. 再回来`Local本地使用`和`Remote远程相关使用`这两章。相信这个时候你应该能通过这命令，而知道他们底层究竟是做了什么操作。
-4. 有空的时候可以看看`小技巧`
-5. 如果对Git的使用还有什么疑问，可以留言。本人也是初学Git，可以共同探讨学习。
-
-下面开始试验。
 
 <!--more-->
 
@@ -33,18 +53,25 @@ tags: [git]
 
 - 一个带有`二次元平衡世界`、`时光倒流`功能的`文件管理系统`。
 - 一个`键值对`的数据库，`键`是`值`的SHA1值。`tree .git/objects`你就能看到他们了。
-- 一切皆对象
+- 一个一切皆对象的系统
 
-为什么说他是文件管理系统呢？那跟我电脑本地的文件管理系统有什么区别？这个就得从Git的`文件模型`--基础对象模型说起了。
 
-## Git的基础对象模型（Git Objects）
-  在Git系统里面有四种基础对象类型，分别是`blob`，`tree（树）`，`commit（快照）`，`tag`。几乎所有的Git都建立在管理操纵这些简单的结构之上，即它是建立在机器文件系统之上的一种自己的小型文件系统。
+<!-- 为什么说他是文件管理系统呢？那跟我电脑本地的文件管理系统有什么区别？这个就得从Git的`文件模型`--基础对象模型说起了。 -->
+
+Git说白了就是一个文件储存系统，只是他储存不单单是我们普通意义上的`文件`，他还储存了`tree（树）`，`commit（快照）`，`tag（标签）`。Git能够储存的东西我们叫做`基础对象`（Git Objects）。
+
+其实我们用Git做的*一切*都是围绕着这些`基础对象`而展开的，所以先学懂这个比先去学习几句命令要重要得多。
+
+## Git的基本对象类型（Git Objects）
+  在Git系统里面有四种基本对象类型，分别是`blob`，`tree（树）`，`commit（快照）`，`tag（标签）`。几乎所有的Git都建立在管理操纵四个简单的数据结构之上，即它是建立在机器文件系统之上的一种自己的小型文件系统。
+
+`commit`在其他的版本控制软件很多时候都是翻译成`提交`，但在Git上他不能翻译成`提交`。他在Git上是一个`对象`，一个`名词`，一个`noun`，一个快照。这一点在很多网络文章里面都是以纰传纰的。
 
 ### blob对象
-
-blob对象只包含了这个文件的`内容`，而没有包含修改日期、拥有者、*文件名*、目录路径之类的信息。下面我们来做个实验：
+    
+blob对象储存了我们平常接触的文件，但他只储存了这个文件的`内容`，而没有包含修改日期、拥有者、*文件名*、目录路径之类的信息。下面我们来做个实验：
   
-```
+```bash
   $ echo 'Hello,Git!' > test.txt
   $ git hash-object test.txt
   63008ae88b4446dfc43b47f18aee5b427203b255
@@ -52,16 +79,16 @@ blob对象只包含了这个文件的`内容`，而没有包含修改日期、�
 
 你可看到他生成了一个40位的`SHA1`值，这SHA1值就是通过`文件内容`计算出来的，所以说同一个文件只有一个SHA1值。如果你在你的电脑上做同样内容的一个文件，即使文件名不一样，计算出来的结果都是一样的。
   
-现在我们把`test.txt`纳入我们的Git文件管理系统：
+现在我们把`test.txt`纳入我们Git的引索（index）里面：
 
-```
+```bash
 $ git add test.txt
-$ git commit -m "add test.txt" #这句不是必须的，git add之后就已经纳入到Git里面去了
+$ git commit -m "add test.txt" #这句不是必须的，git add之后就已经纳入到Git的引索里面去了
 ```
 
 提交之后，`test.txt`的内容已经放进了我们Git的blob树了，我们可以根据SHA1值来看看文件的内容：
 
-```
+```bash
 $ git cat-file blob 63008ae88b4446dfc43b47f18aee5b427203b255
 Hello,Git!
 $ git cat-file blob 63008a  #其实用前六位或者七位就可以了
@@ -72,14 +99,14 @@ blob
 
 blob只记录文件的内容的好处：
 - Git可以快速的仅仅通过对象名称决定两个对象是否相同 
-- 由于对象名称在每一个库（repository）中都由相同的方式计算得到，相同的内容存储到不同的库中将总被存储到相同的名称下，减少需要的硬盘空间
-    
+- 由于对象名称在每一个库（repository）中都由相同的方式计算得到，相同的内容存储到不同的库中将总被存储到相同的名称下，减少需要的硬盘空间。
+      
 ### commit对象
 
 如果你有小用过Git，那对commit一定很熟悉，不就是提交嘛，其实不然。在这里的commit表示`快照`，是名词。跟blob一样，也是Git的`基础对象`之一。
 
 查看一个快照（commit）对象，可以看到快照里记录了根目录树，作者，还有提交的信息。
-```
+```bash
 $ git cat-file commit d5cb71
 tree e84b991fd55acf5eb290a11c0ae4149ce4ffc8dd
 author DY.Feng <yyfeng88625@gmail.com> 1345233032 +0800
@@ -87,27 +114,28 @@ committer DY.Feng <yyfeng88625@gmail.com> 1345233032 +0800
 
 add a.txt
 ```
-在下一小节`tree对象`里，我们将会学到如何创建一个快照对象，因为快照必须需要一个树对象。
+在下一小节`tree对象`里，我们将会学到如何创建一个快照对象，因为快照必须需要一个`树（tree）对象`。
 
 ### tree对象
 
 树（tree）对象跟我们本地的目录树很相似，下面我们来试验：
 
 准备试验用文件
-```
+```bash
 $ mkdir bb && touch bb/a.txt  #新建一个文件夹并放置一个空文件在里面
 $ git add bb/a.txt && git commit -m "add bb/a.txt" #提交
 ```
 
-查看HEAD树，你会看到只有两个文件，一个是`test.txt`，另外一个是`树bb`，那还有一个文件`a.txt`呢？
-```
+查看HEAD（这里的HEAD其实不是树对象，而是快照对象），你会看到只有两个文件，一个是`test.txt`，另外一个是`树bb`，那还有一个文件`a.txt`呢？
+
+```bash
 $ git ls-tree HEAD
 040000 tree 65a457425a679cbe9adf0d2741785d3ceabb44a7    bb
 100644 blob 63008ae88b4446dfc43b47f18aee5b427203b255    test.txt
 ```
 
 文件`a.txt`在`bb树`里面。
-```
+```bash
 $git ls-tree 65a457425a679cbe9adf0d2741785d3ceabb44a7
 100644 blob e69de29bb2d1d6434b8b29ae775ad8c2e48c5391    a.txt
 ```
@@ -117,15 +145,16 @@ $git ls-tree 65a457425a679cbe9adf0d2741785d3ceabb44a7
 不知道你看到这里有没有发现，我们上面的树（tree）对象，我们并没有手动添加，在`git add`的时候也没有新增，而是在`git commit`之后增加的。究竟树对象是怎么新建的呢？下面我们来试验手动添加树对象：
 
 重置我们的工作目录。
-```
+```bash
 $ rm -rf * .git/
 $ echo 'Good bye' > a.txt
 $ git init 
 $ git add a.txt
 ```
 
-现在缓存区（stage）有我们的a.txt了。
-```
+现在引索（stage）里有我们的a.txt了。
+
+```bash
 $ git ls-files --stage
 100644 c0ee9ab00ab41be0d401f00f7a4aaf2e478f9f1e 0       a.txt
 $ find .git/objects -type f | sort
@@ -133,14 +162,14 @@ $ find .git/objects -type f | sort
 ```
 
 我们来创造一棵树吧，在你的电脑上应该会得到同样的一串SHA1值，因为这棵树里面的文件（文件名和文件SHA1值）我们是一样的。
-```
+```bash
 git write-tree
 e84b991fd55acf5eb290a11c0ae4149ce4ffc8dd
 ```
 
-有了一棵树，我们就能创造出一个快照（commit）了。记得之前说过，一个快照里面包含了一个树对象的SHA1值，所以你如果要创造一个快照，就必须有一棵树。
-```
-$ echo "add a.txt" |git commit-tree e84b99
+有了一棵树，我们就能创造出一个快照（commit）了。记得前面说过，一个快照（commit）里面包含了一个树对象的SHA1值，所以你如果要创造一个快照（commit），就必须有一棵树。
+```bash
+$ echo "add a.txt" |git commit-tree e84b99 #新建一个快照，并把树e84b99添加到里面
 d5cb71ea0e9c6a2c6b198bd5e44b80bd72aac806
 $ find .git/objects -type f | sort #我们现在有了一个文件，一棵树，还有一个快照
 .git/objects/c0/ee9ab00ab41be0d401f00f7a4aaf2e478f9f1e
@@ -148,25 +177,25 @@ $ find .git/objects -type f | sort #我们现在有了一个文件，一棵树�
 .git/objects/e8/4b991fd55acf5eb290a11c0ae4149ce4ffc8dd
 ```
 
-如果这个快照是有parent的，也就是说在这个快照之前，已经有了一次提交，创建过一个快照。那你可以指定`-p 选项`来指定parent。
+如果这个快照是有parent的，也就是说在这个快照之前，已经创建过一个快照，他们在同一条分支（branch）上。那你可以指定`-p 选项`来指定parent。
 
-我们把master分支头指向到`目前的快照`。
-```
+我们把`master分支头（the head of master branch）`指向到`目前的快照（current commit）`。
+```bash
 $ echo d5cb71ea0e9c6a2c6b198bd5e44b80bd72aac806 > .git/refs/heads/master
 ```
 
 或者用更加安全的方法。
-```
+```bash
 $ git update-ref ref/heads/master d5cb71
 ```
 
 我们再把`HEAD`指向到master分支头（这一步在我的电脑上，`git init`的时候他已经帮我完成了）。
-```
+```bash
 $ git symbolic-ref HEAD refs/heads/master
 ```
 
-到目前为止，我们已经成功完成了一次`git commit`。
-```
+到目前为止，我们已经成功手动完成了一次`git commit`。
+```bash
 $ git log 
 commit d5cb71ea0e9c6a2c6b198bd5e44b80bd72aac806
 Author: DY.Feng <yyfeng88625@gmail.com>
@@ -175,7 +204,73 @@ Date:   Sat Aug 18 03:50:32 2012 +0800
     add a.txt
 ```
 
-如果我们没有把master分支头指向到`目前的快照`，或者快照沒有成为别人的parent，简单一句就是`孤立的快照`，不能被正常访问到的。那么他就有可能被Git的垃圾回收程序（`git gc`，他不仅回收垃圾，貌似还会压缩）删除
+如果我们没有把master分支头指向到`目前的快照`，或者快照沒有成为别人的parent，简单一句就是`孤立的快照`，不能被正常访问到的。那么他就有可能被Git的垃圾回收程序（`git gc`，他不仅回收垃圾，貌似还会压缩）删除。
+
+### tag对象
+标签（tag）跟我们平时的标签贴纸用途非常相似，你可以把一个标签贴到一个对象上（例如commit对象，甚至是tag对象），用来标记这个对象的用途。
+
+```bash
+$ rm -rf .git #我们把现有的.git删除，重新建立一个干净的git
+$ git init 
+$ git add test.txt
+$ git ls-files --stage
+100644 e69de29bb2d1d6434b8b29ae775ad8c2e48c5391 0       test.txt
+
+$ git tag 'my_file_test.txt' e69de29 #给文件test.txt打个标签，标签名称不能有空格
+$ git tag 
+my_file_test.txt
+$ cat .git/refs/tags/my_file_test.txt #可以看到.git/refs/tags/目录下储存了一个标签，标签内容就是文件的SHA1值
+e69de29bb2d1d6434b8b29ae775ad8c2e48c5391
+$ find .git/objects -type f |sort #这个时候tag没有储存到objects目录下，也就是说他现在不是对象
+.git/objects/e6/9de29bb2d1d6434b8b29ae775ad8c2e48c5391
+
+
+#我们再新建一个文件
+$ echo "Today,I have many many homework" > homework.txt 
+$ git add homework.txt
+$ git ls-files --stage
+100644 36821547a08783ec0779dfa89d9f714196402dc6 0       homework.txt
+100644 e69de29bb2d1d6434b8b29ae775ad8c2e48c5391 0       test.txt
+$ git tag -m "This is my homework" v1.0  3682154 #homework.txt贴上标签，这次加上标签描述
+$ git tag
+my_file_test.txt
+v1.0
+$ cat .git/refs/tags/v1.0  #这次看到他指向的并不是homework.txt文件
+d1e1a5c0a8c01ac604c87e51d583131d7f9a3ebf
+$ git cat-file -t d1e1a5c #原来这次指向的是一个标签（tag）
+tag
+$ git cat-file tag d1e1a5c #让我们来看看标签里面究竟装了什么
+object 36821547a08783ec0779dfa89d9f714196402dc6 
+type blob
+tag v1.0
+tagger DY.Feng <yyfeng88625@gmail.com> 1345259919 +0800
+
+This is my homework
+$ find .git/objects -type f |sort #这里可以看到这时候的标签（tag）是一个对象了
+.git/objects/36/821547a08783ec0779dfa89d9f714196402dc6
+.git/objects/d1/e1a5c0a8c01ac604c87e51d583131d7f9a3ebf
+.git/objects/e6/9de29bb2d1d6434b8b29ae775ad8c2e48c5391
+
+#从上面的试验可以看到，tag不一定是基本对象。
+
+#tag也可以贴到tag对象上
+$ git tag -m "This is the tag of tag" v2.0 d1e1a5
+$ git tag
+my_file_test.txt
+v1.0
+v2.0
+$ git cat-file -t v2.0
+tag
+$ git cat-file tag v2.0 #不一定要用SHA1值，用引用就可以了。
+object d1e1a5c0a8c01ac604c87e51d583131d7f9a3ebf
+type tag
+tag v2.0
+tagger DY.Feng <yyfeng88625@gmail.com> 1345260572 +0800
+
+This is the tag of tag
+```
+
+
 
 ### 总结
 
@@ -286,6 +381,22 @@ $ find .git/objects -type f | sort
 ```
 
 从这里我们就可以看出Git与其他的版本管理系统有什么区别。最大的区别就是Git记录的其实是每个文件的快照，但他不管这个快照是什么时候在什么目录被什么人建立的，因为这些他都可以通过`tree对象`和`commit对象`来推算出来。
+
+
+
+
+
+## 引用（ref）
+其实上面我们已经看过了很多个引用，或者叫指向。像HEAD，master，tag这些都是引用。所有的引用都放在`.git/refs/`里。通过引用，我们可以很方便地调用Git的基本对象。
+
+
+
+
+## 关于分支（branch）
+在Git系统里面，分支（branch）並不是基本类型，而是某个`快照（commit）`的引用。这个非常容易理解，要知道，我们的`快照（commit）`是一个链式结构，从最新的那个快照起，我们可以完整地追溯到他的所有父快照。
+
+
+
 
 
 
@@ -451,7 +562,7 @@ $ git checkout 0b5f275b20e40b51cca7bd64b2d8e50693c6660b b.txt #签出倒数第�
 git clone git@github.com:DYFeng/test_on_github.git
 ```
 
-克隆后你会发现Github已经帮你填写好几样东西：远程`origin`配置和分支`master`配置。origin其实是一个`别名`，远程仓库remote的别名。而分支配置`[branch "master"]`里则写明了：我的远程端是`origin`。其实这个`origin`也可以自己改一个名字，origin这个只是大众默认名字而已。
+克隆后你会发现Github已经帮你填写好几样东西：远程`origin`配置和分支`master`配置。origin其实是一个`引用`，远程仓库remote的引用。而分支配置`[branch "master"]`里则写明了：我的远程端是`origin`。其实这个`origin`也可以自己改一个名字，origin这个只是大众默认名字而已。
 	
 ```
 $ git@github.com:DYFeng/test_on_github.git
@@ -478,7 +589,7 @@ $ cat .git/config
 git remote add origin git@github.com:DYFeng/test_on_github.git
 ```
 
-### 删除别名和相关分支
+### 删除引用和相关分支
 	
 ```
 git remote rm origin
@@ -501,7 +612,7 @@ $ cat config
 
 # 小技巧
 
-查看`别名`代表的SHA1值
+查看`引用`代表的SHA1值
 ```
 $git rev-parse (HEAD|master|...)
 ```
@@ -513,7 +624,25 @@ $git rev-parse (HEAD|master|...)
 
 - 本地文件/工作目录（working tree）。他持有`实际文件`。
 
-- 缓存区（index/stage）。临时保存你的改动，例如`git add`就是保存到缓存区。缓冲区文件是`.git/index`。
+- 引索（index/stage）。引索保存着你文件的一个快照，下面我们用例子来说明：
+
+```
+$ rm -rf * .git/
+$ git init #清空工作目录，建立一个空的git
+$ echo 'Hello' > test.txt
+$ git add test.txt #添加一个文件快照
+$ find .git/objects -type f |sort
+.git/objects/e9/65047ad7c57865823c7d992b1d046ea66edf78
+$ echo ' World' >> test.txt
+$ git add test.txt #把文件修改后，再添加一个文件快照
+$ find .git/objects -type f |sort #现在可以看到文件快照变成两个了
+.git/objects/0e/b080b993dbf2994de6a9b92e2c375201463df9
+.git/objects/e9/65047ad7c57865823c7d992b1d046ea66edf78
+```
+  
+这里还要澄清一下，很多教程都叫引索（index/stage）为`缓存区`，其实是不准确的说法。
+  
+<!-- 例如`git add`就是保存到缓存区。缓冲区文件是`.git/index`。 -->
 
 - 本地仓库（repository）。仓库位于工作目录下的`.git`目录，本地仓库储存的实际文件在`.git/objects`目录。仓库里面包含了：
   - 你所有的提交（commits）
@@ -537,13 +666,18 @@ $git rev-parse (HEAD|master|...)
 - 签出（checkout）。与`reset`的区别：
 
 
-- 分支（branch）。分支这个对于了解svn的人来说应该很好理解。其实Git的分支只是快照（commit）的一个别名，或者说是一堆快照的别名。例如他定义了这一堆快照叫`branch of development`。
+- 分支（branch）。分支这个对于了解svn的人来说应该很好理解。其实Git的分支只是快照（commit）的一个引用，或者说是一堆快照的引用。例如他定义了这一堆快照叫`branch of development`。
 
-- 标签（tag）。标签这个就是一个快照（commit）的别名。跟`branch`相似，只不过他只能定义一个快照，而且他有自己的概要描述。
+- 标签（tag）。标签这个就是一个快照（commit）的引用。跟`branch`相似，只不过他只能定义一个快照，而且他有自己的概要描述。
 
 - master。master就是主分支，只是一个约定俗成的名字而已，没有什么特殊。
 
     
+
+# 后话
+
+虽然关于Git的使用有很多文章，但是没有一篇是全面而且解释清楚的，以致我还只是通晓几个Git的命令而已。有人觉得Git博大精深，其实不然，其实Git是简单的。就好比你吃一个苹果，你可以横着吃，可以竖着吃，你吃的方式可以有无限种，但没有人会去研究怎么吃苹果吧。只要你了解了本质，就会发现条条大路通罗马。
+
 # 参考文献
 
 在学习Git的过程中，看过的文献实在是太多了，下面只列出我浏览时间超过5分钟的。
