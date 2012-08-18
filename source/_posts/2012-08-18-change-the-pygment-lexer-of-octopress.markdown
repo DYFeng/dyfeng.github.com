@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "修改octopress的pygemnt语法"
+title: "修改octopress的pygment语法"
 date: 2012-08-18 18:43
 comments: true
 categories: Linux
