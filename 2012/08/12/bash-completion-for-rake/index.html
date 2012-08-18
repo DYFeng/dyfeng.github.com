@@ -178,7 +178,7 @@ html,body{height:100%;overflow:hidden}
 </span><span class='line'>  <span class="k">if</span> <span class="o">[</span> -e <span class="s1">&#39;tmp/cache&#39;</span> <span class="o">]</span>; <span class="k">then</span>
 </span><span class='line'><span class="nv">prefix</span><span class="o">=</span><span class="s1">&#39;tmp/cache/&#39;</span>
 </span><span class='line'>  <span class="k">fi</span>
-</span><span class='line'><span class="nb">echo</span> <span class="s2">&quot;${prefix}.rake_t_cache&quot;</span>
+</span><span class='line'>echo <span class="s2">&quot;${prefix}.rake_t_cache&quot;</span>
 </span><span class='line'><span class="o">}</span>
 </span><span class='line'>
 </span><span class='line'><span class="k">function </span>rake_cache_store<span class="o">()</span> <span class="o">{</span>
@@ -190,12 +190,12 @@ html,body{height:100%;overflow:hidden}
 </span><span class='line'>  rm -f tmp/cache/.rake_t_cache
 </span><span class='line'><span class="o">}</span>
 </span><span class='line'>
-</span><span class='line'><span class="nb">export </span><span class="nv">COMP_WORDBREAKS</span><span class="o">=</span><span class="k">${</span><span class="nv">COMP_WORDBREAKS</span><span class="p">/\:/</span><span class="k">}</span>
+</span><span class='line'>export <span class="nv">COMP_WORDBREAKS</span><span class="o">=</span><span class="k">${</span><span class="nv">COMP_WORDBREAKS</span><span class="p">/\:/</span><span class="k">}</span>
 </span><span class='line'>
 </span><span class='line'><span class="k">function </span>_rakecomplete<span class="o">()</span> <span class="o">{</span>
 </span><span class='line'>  <span class="c"># error if no Rakefile</span>
 </span><span class='line'>  <span class="k">if</span> <span class="o">[</span> ! -e Rakefile <span class="o">]</span>; <span class="k">then</span>
-</span><span class='line'><span class="nb">echo</span> <span class="s2">&quot;missing Rakefile&quot;</span>
+</span><span class='line'>echo <span class="s2">&quot;missing Rakefile&quot;</span>
 </span><span class='line'>    <span class="k">return </span>1
 </span><span class='line'>  <span class="k">fi</span>
 </span><span class='line'>
@@ -204,11 +204,11 @@ html,body{height:100%;overflow:hidden}
 </span><span class='line'>rake_cache_store
 </span><span class='line'>  <span class="k">fi</span>
 </span><span class='line'>
-</span><span class='line'><span class="nb">local </span><span class="nv">tasks</span><span class="o">=</span><span class="sb">`</span>awk <span class="s1">&#39;{print $2}&#39;</span> <span class="s2">&quot;$(_rake_cache_path)&quot;</span><span class="sb">`</span>
-</span><span class='line'>  <span class="nv">COMPREPLY</span><span class="o">=(</span><span class="k">$(</span><span class="nb">compgen</span> -W <span class="s2">&quot;${tasks}&quot;</span> -- <span class="k">${</span><span class="nv">COMP_WORDS</span><span class="p">[COMP_CWORD]</span><span class="k">})</span><span class="o">)</span>
+</span><span class='line'>local <span class="nv">tasks</span><span class="o">=</span><span class="sb">`</span>awk <span class="s1">&#39;{print $2}&#39;</span> <span class="s2">&quot;$(_rake_cache_path)&quot;</span><span class="sb">`</span>
+</span><span class='line'>  <span class="nv">COMPREPLY</span><span class="o">=(</span><span class="k">$(</span>compgen -W <span class="s2">&quot;${tasks}&quot;</span> -- <span class="k">${</span><span class="nv">COMP_WORDS</span><span class="p">[COMP_CWORD]</span><span class="k">})</span><span class="o">)</span>
 </span><span class='line'>  <span class="k">return </span>0
 </span><span class='line'><span class="o">}</span>
-</span><span class='line'><span class="nb">complete</span> -o default -o nospace -F _rakecomplete rake
+</span><span class='line'>complete -o default -o nospace -F _rakecomplete rake
 </span></code></pre></td></tr></table></div></figure>
 
 
@@ -229,7 +229,7 @@ html,body{height:100%;overflow:hidden}
           <a href="/2012/08/12/using-octopress-as-github-blog/" class="float-l" title="Previous Post: Using Octopress as Github Blog on Ubuntu 12.04">&laquo; Using Octopress as Github Blog on Ubuntu 12.04</a>
         
         
-          <a href="/2012/08/12/all-about-git/" class="float-r" title="Next Post: Git使用大全">Git使用大全 &raquo;</a>
+          <a href="/2012/08/12/all-about-git/" class="float-r" title="Next Post: Git深入浅出学习">Git深入浅出学习 &raquo;</a>
         
       </p>
     </footer>

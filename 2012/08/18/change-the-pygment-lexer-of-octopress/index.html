@@ -3,9 +3,9 @@
 <html>
 <head>
   <meta charset="utf-8" />
-  <title>Tag: git - DY.Feng's Blog 叶毅锋的博客</title>
+  <title>修改octopress的pygemnt语法 - DY.Feng's Blog 叶毅锋的博客</title>
   
-  <meta name="description" content=" Tag: Git 2012 Git深入浅出学习 Aug 12th, 2012 Tag: git " />
+  <meta name="description" content="修改octopress的pygemnt语法 Aug 18th, 2012 Tags: octopress, pygement, python, 正则表达式 ， lexer 最近我在写一篇关于Git使用的文章，里面贴了大量bash命令。我的语法高亮是用Octopress自带的pygements. &hellip;" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
   <link rel="stylesheet" href="/stylesheets/screen.css" />
@@ -41,25 +41,18 @@ html,body{height:100%;overflow:hidden}
 
 <header class="my-nickname"><em title="">(≧▼≦) 喵喵</em></header>
 
+<link rel="stylesheet" href="/stylesheets/dcjqaccordion.css" />
 <section class="main-wrap clearfix">
-
-
-  
-  <header>
-    <h1 class="page-title">Tag: Git</h1>
+  <article role="article">
     
-  </header>
+
+<header>
   
-  <dl class="archives">
+    <h1 class="entry-title">修改octopress的pygemnt语法</h1>
   
   
-  
-    
-    <dt>2012</dt>
-  
-  <dd><h1 class="entry-title"><a href="/2012/08/12/all-about-git/">Git深入浅出学习</a></h1>
-<p class="meta">
-  
+    <p class="meta">
+      
 
 
 
@@ -71,26 +64,210 @@ html,body{height:100%;overflow:hidden}
   
 
 
-<time datetime="2012-08-12T00:38:00+08:00" pubdate="pubdate" data-updated="true">Aug 12<span>th</span>, 2012</time>
-  
+<time datetime="2012-08-18T18:43:00+08:00" pubdate="pubdate" data-updated="true">Aug 18<span>th</span>, 2012</time>
+      
 
 <span class="tags">
-  Tag:
+  Tags:
   
-    <a href='/tags/git/'>git</a>
+    <a href='/tags/octopress/'>octopress</a>, <a href='/tags/pygement/'>pygement</a>, <a href='/tags/python/'>python</a>, <a href='/tags/zheng-ze-biao-da-shi-,-lexer/'>正则表达式 ， lexer</a>
   
 </span>
 
-</p>
-</dd>
+      <span class="share-to-weibo">
+        <a href="javascript:void(0)" onclick="window.open('http://service.weibo.com/share/share.php?appkey=&amp;ralateUid=&amp;title=修改octopress的pygemnt语法 - &amp;url=http://www.dyfeng.org/2012/08/18/change-the-pygment-lexer-of-octopress/', null, 'width=615,height=505,toolbar=0,status=0')" class="sina-weibo" title="分享到新浪微博"></a>
+
+        <a href="javascript:void(0)" onclick="window.open('http://share.v.t.qq.com/index.php?c=share&amp;a=index&amp;appkey=&amp;title=修改octopress的pygemnt语法 - &amp;url=http://www.dyfeng.org/2012/08/18/change-the-pygment-lexer-of-octopress/', null, 'width=700,height=680,toolbar=0,status=0')" class="tencent-weibo" title="分享到腾讯微博"></a>
+
+        <a href="javascript:void(0)" onclick="window.open('https://twitter.com/intent/tweet?text=修改octopress的pygemnt语法 - http://www.dyfeng.org/2012/08/18/change-the-pygment-lexer-of-octopress/', null, 'width=600,height=300,toolbar=0,status=0')" class="twitter" title="分享到Twitter"></a>
+      </span>
+    </p>
   
-</dl>
+</header>
 
 
+  <div class="entry-content typo"><p>最近我在写一篇关于Git使用的文章，里面贴了大量<code>bash</code>命令。我的语法高亮是用Octopress自带的<code>pygements.rb</code>，用起来总觉得不大爽，因为他高亮的地方实在是太少了，只有少量的命令有高亮。自己动手丰衣足食，下面记录我修改的过程：</p>
 
+<!-- more -->
+
+
+<h1>Octopress语法高亮原理</h1>
+
+<p>我要修改Octopress的语法高亮，当然得搞清楚他的来龙去脉。</p>
+
+<p>首先在<code>plugins</code>目录下你会看到<code>pygments_code.rb</code>插件，这个插件的功能就是调用<code>pygements.rb</code>库，把代码转换成html，还在你项目的<code>.pygements-cache</code>目录下缓存代码块。代码样式他其实是通过css调节的，他生成的只是一个堆html标签。</p>
+
+<p><code>pygements.rb</code>库其实是ruby封装了python的<code>pygements</code>库，而且<code>pygements.rb</code>里面已经自带了一个<code>pygements</code>库（这真不是一个好主意，系统讲究的应该是低耦合）。</p>
+
+<p>就这样&#8230;</p>
+
+<ol>
+<li>Octopress调用pygments_code.rb插件。</li>
+<li>pygments_code.rb插件调用pygements.rb库。</li>
+<li>pygements.rb库调用python的pygements库。</li>
+</ol>
+
+
+<p>完成了对代码的语法高亮。</p>
+
+<h1>修改Octopress语法高亮规则</h1>
+
+<p>你先要确保你的电脑上其他地方没有安装python的<code>pygements</code>。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span><span class="nb">sudo</span> apt-get remove python-pygments
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>，我们先找出你<code>pygments.rb</code>的安装目录：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span><span class="nb">bundle</span> show pygments.rb
+</span><span class='line'>/var/lib/gems/1.9.1/gems/pygments.rb-0.2.13
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>修改<code>pygements.rb</code>自带python<code>pygments</code>库的语法文件。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span><span class="nb">cd</span> YOUR_PYGEMENTS.RB_PATH/vendor/pygments-main/
+</span><span class='line'><span class="nv">$ </span><span class="nb">vim</span> pygments/lexers/shell.py
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>找到<code>BashLexer</code>下<code>tokens</code>字典，<code>basic</code>下，大概修改成这个样子。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="c"># (r&#39;\b(alias|bg|bind|break|find|builtin|caller|cd|command|compgen|&#39;</span>
+</span><span class='line'><span class="c">#  r&#39;complete|declare|dirs|disown|echo|cat|enable|eval|exec|exit|&#39;</span>
+</span><span class='line'><span class="c">#  r&#39;export|false|fc|fg|getopts|hash|help|history|jobs|kill|let|&#39;</span>
+</span><span class='line'><span class="c">#  r&#39;local|logout|popd|printf|pushd|pwd|read|readonly|set|shift|&#39;</span>
+</span><span class='line'><span class="c">#  r&#39;shopt|source|suspend|test|time|times|trap|true|type|typeset|&#39;</span>
+</span><span class='line'><span class="c">#  r&#39;ulimit|umask|unalias|unset|wait&#39;</span>
+</span><span class='line'><span class="c">#  r&#39;)\s*\b(?!\.)&#39;,</span>
+</span><span class='line'><span class="c">#  Name.Builtin),</span>
+</span><span class='line'><span class="p">(</span><span class="s">r&#39;(?&lt;=\$\s)\b\w+&#39;</span><span class="p">,</span><span class="n">Name</span><span class="o">.</span><span class="n">Builtin</span><span class="p">),</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>一开始我是想遍历<code>PATH</code>下所有目录，把里面的命令都动态加上，但python的正则抗议太多选项了，所以我就唯有手动改规则了。现在的规则是以<code>$</code>开头的一个单词定义为命令。</p>
+
+<p>最后一步千万不要漏了，清除<code>pygments_code.rb</code>插件的缓存，重新生成页面</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span><span class="nb">rm</span> -rf .pygments-cache/*
+</span><span class='line'><span class="nv">$ </span><span class="nb">rake</span> generate
+</span><span class='line'><span class="nv">$ </span><span class="nb">rake</span> preview
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>现在你应该看到bash的语法高亮<code>亮</code>多了吧。</p>
+
+<h1>参考文献</h1>
+
+<ol>
+<li><a href="http://pygments.org/docs/lexerdevelopment/">如何编写pygements的语法规则</a>，来自pygements官网</li>
+<li><a href="http://docs.python.org/library/re.html">python正则表达式参考</a>，来自python官网</li>
+</ol>
+
+</div>
+
+
+    <footer>
+      <p class="meta neighbor clearfix">
+        
+          <a href="/2012/08/12/all-about-git/" class="float-l" title="Previous Post: Git深入浅出学习">&laquo; Git深入浅出学习</a>
+        
+        
+      </p>
+    </footer>
+  </article>
 
   <section id="disqus_thread"></section>
 </section>
+
+<script src="/javascripts/jquery.dcjqaccordion.2.7.js"></script>
+<script>
+(function($){
+    $(document).ready(function(){
+	var chapters=$("section :header:not(:first)");
+	var curTagName,oldTagName=1;
+	var menu=$("<ul class='accordion' id='accordion-menu'></ul>");
+	var count=0;
+	chapters.each(function(){
+
+	    var item=$(this);
+	    item.attr("name",count).attr("id",count);
+	    curTagName=parseInt(this.tagName.replace("H",""));
+
+	    var link="<li tag='"+curTagName+"'><a href='#"+count+"'>"+item.text()+"</a></li>";
+	    var lastLink=menu.find("a[href='#"+(count-1)+"']");
+
+	    if (curTagName == 1)
+	    {
+		menu.append("<li><a href='#"+count+"'>"+item.text()+"</a></li>");
+	    }else if(curTagName<oldTagName)
+	    {
+		lastLink.closest("li[tag='"+curTagName+"']").after(link);
+	    }else if(curTagName==oldTagName)
+	    {
+		lastLink.parent().after(link);
+	    }else if (curTagName>oldTagName)
+	    {
+		lastLink.after("<ul>"+link+"</ul>")
+	    }
+	    count++;
+	    oldTagName=curTagName;
+	});
+
+	$('div#accordion-container').append(menu);
+	$('#accordion-menu').dcAccordion({
+	    eventType: 'click',
+	    autoClose: false,
+	    saveState: false,
+	    disableLink: true,
+	    showCount: false,
+	    speed: 'slow'
+	});
+	$('#accordion-menu a:not(.dcjq-parent)').click(function(){
+	    var href = $(this).attr("href");
+	    var pos = $(href).offset().top-30;
+	    $("html,body").animate({scrollTop: pos}, 1000);
+	});
+
+	var name = $("#accordion-container");  
+	
+	var h1=250;
+	var h2=190;
+
+	$(window).scroll(function () {   
+	    offset = h2+$(document).scrollTop();
+	    
+	    if (offset<h1)
+		name.css("top",h1+"px");
+	    else
+		name.css("top",offset+"px");
+	}); 
+	
+    });
+})(jQuery); 
+</script>
+<div class="clean accordion-container" id="accordion-container">
+<h1>修改octopress的pygemnt语法</h1>
+</div>
+
 
 <footer class="footer">
   &copy;2012 (≧▼≦) 喵喵
@@ -138,7 +315,7 @@ html,body{height:100%;overflow:hidden}
 
 <script src="/javascripts/application.js"></script>
 
-
+<script>var disqus_shortname="dyfeng",disqus_identifier=disqus_url="http://www.dyfeng.org/2012/08/18/change-the-pygment-lexer-of-octopress/",disqus_script="embed.js";(function(){var a=document.createElement("script");a.async=!0,a.src="http://"+disqus_shortname+".disqus.com/"+disqus_script,document.getElementsByTagName("head")[0].appendChild(a)})()</script>
 <iframe src="/offline-cache.html" style="display:none"></iframe>
 </body>
 </html>
