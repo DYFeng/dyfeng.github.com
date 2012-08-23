@@ -4,7 +4,7 @@ title: "解决Firefox菜单不弹出和右键失效的问题"
 date: 2012-08-23 13:19
 comments: true
 categories: linux
-tags: [firefox , ubuntu , fcitx ， kde ]
+tags: [firefox , ubuntu , fcitx , kde ]
 ---
 
 最近一次kubuntu升级后，我发现一个很奇怪的现象，我的Firefox某些时候菜单栏不能弹出，右键也失灵了。准确来说，是弹出了，又很快地焦点转移，导致他又关闭了。Google下发现遇到这个问题的童鞋还真不少，而且解决的方法各有不同，看来这个问题是Firefox一直存在的。
