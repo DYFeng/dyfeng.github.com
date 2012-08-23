@@ -4,7 +4,7 @@
   <title><![CDATA[DY.Feng's Blog 叶毅锋的博客]]></title>
   <link href="http://www.dyfeng.org/atom.xml" rel="self"/>
   <link href="http://www.dyfeng.org/"/>
-  <updated>2012-08-23T13:35:25+08:00</updated>
+  <updated>2012-08-23T13:39:32+08:00</updated>
   <id>http://www.dyfeng.org/</id>
   <author>
     <name><![CDATA[(≧▼≦) 喵喵]]></name>
@@ -14,11 +14,11 @@
 
   
   <entry>
-    <title type="html"><![CDATA[解决Firefox菜单和右键不弹出的问题]]></title>
+    <title type="html"><![CDATA[解决Firefox菜单不弹出和右键失效的问题]]></title>
     <link href="http://www.dyfeng.org/2012/08/23/menu-does-not-popup-and-right-click-does-not-work-in-firefox/"/>
     <updated>2012-08-23T13:19:00+08:00</updated>
     <id>http://www.dyfeng.org/2012/08/23/menu-does-not-popup-and-right-click-does-not-work-in-firefox</id>
-    <content type="html"><![CDATA[<p>最近一次kubuntu升级后，我发现一个很奇怪的现象，我的Firefox某些时候菜单不能弹出，右键也失灵了。准确来说，是弹出了，又很快地焦点转移，导致他又关闭了。Google下发现遇到这个问题的童鞋还真不少，而且解决的方法各有不同，看来这个问题是Firefox一直存在的。</p>
+    <content type="html"><![CDATA[<p>最近一次kubuntu升级后，我发现一个很奇怪的现象，我的Firefox某些时候菜单栏不能弹出，右键也失灵了。准确来说，是弹出了，又很快地焦点转移，导致他又关闭了。Google下发现遇到这个问题的童鞋还真不少，而且解决的方法各有不同，看来这个问题是Firefox一直存在的。</p>
 
 <!-- more -->
 
