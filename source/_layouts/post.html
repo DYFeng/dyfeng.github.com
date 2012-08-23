@@ -24,11 +24,31 @@ layout: default
 <script src="{{ root_url }}/javascripts/jquery.dcjqaccordion.2.7.js"></script>
 <script>
 (function($){
+    
+
+
+    
     $(document).ready(function(){
+	var menu_widget = $("#accordion-container");  
+	var main_wrap=$("section.main-wrap");
+	
+	
+	var nav_bar=$("body nav.black-long-straight li:last");
+	function minimize_menu()
+	{
+	    menu_widget.hide();
+	}
+
+	function maximize_menu()
+	{
+	    menu_widget.show();
+	}
+
 	var chapters=$("section :header:not(:first)");
 	var curTagName,oldTagName=1;
 	var menu=$("<ul class='accordion' id='accordion-menu'></ul>");
 	var count=0;
+
 	chapters.each(function(){
 
 	    var item=$(this);
@@ -70,18 +90,27 @@ layout: default
 	    $("html,body").animate({scrollTop: pos}, 1000);
 	});
 
-	var name = $("#accordion-container");  
-	
 	var h1=250;
 	var h2=190;
+
+	var menu_width=menu_widget.width()+20;
+	if (menu_width>main_wrap.offset().left)
+	    minimize_menu();
 
 	$(window).scroll(function () {   
 	    offset = h2+$(document).scrollTop();
 	    
 	    if (offset<h1)
-		name.css("top",h1+"px");
+		menu_widget.css("top",h1+"px");
 	    else
-		name.css("top",offset+"px");
+		menu_widget.css("top",offset+"px");
+	}).resize(function(){
+
+	    if (menu_width>main_wrap.offset().left)
+		minimize_menu();
+	    else
+		maximize_menu();
+
 	}); 
 	
     });
