@@ -2,27 +2,33 @@
 <urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
     <url>
         <loc>http://www.dyfeng.org/2012/08/11/decrease-threads-with-xampp/</loc>
-        <lastmod>2012-08-15T01:45:35+08:00</lastmod>
+        <lastmod>2012-08-19T07:21:26+08:00</lastmod>
     </url>
     <url>
         <loc>http://www.dyfeng.org/2012/08/11/first-post-on-github/</loc>
-        <lastmod>2012-08-15T01:45:35+08:00</lastmod>
+        <lastmod>2012-08-19T07:21:26+08:00</lastmod>
     </url>
     <url>
         <loc>http://www.dyfeng.org/2012/08/12/using-octopress-as-github-blog/</loc>
-        <lastmod>2012-08-15T01:45:35+08:00</lastmod>
+        <lastmod>2012-08-19T07:21:26+08:00</lastmod>
     </url>
     <url>
         <loc>http://www.dyfeng.org/2012/08/12/bash-completion-for-rake/</loc>
-        <lastmod>2012-08-15T01:45:35+08:00</lastmod>
+        <lastmod>2012-08-19T07:21:26+08:00</lastmod>
     </url>
     <url>
         <loc>http://www.dyfeng.org/2012/08/12/all-about-git/</loc>
-        <lastmod>2012-08-18T13:34:41+08:00</lastmod>
+        <lastmod>2012-08-19T07:21:26+08:00</lastmod>
     </url>
     <url>
         <loc>http://www.dyfeng.org/2012/08/18/change-the-pygment-lexer-of-octopress/</loc>
-        <lastmod>2012-08-18T19:35:59+08:00</lastmod>
+        <lastmod>2012-08-19T07:21:26+08:00</lastmod>
+    </url>
+    <url>
+        <loc>
+            http://www.dyfeng.org/2012/08/23/menu-does-not-popup-and-right-click-does-not-work-in-firefox/
+        </loc>
+        <lastmod>2012-08-23T13:33:15+08:00</lastmod>
     </url>
     <url>
         <loc>http://www.dyfeng.org/404.html</loc>
@@ -34,10 +40,10 @@
     </url>
     <url>
         <loc>http://www.dyfeng.org/blog/archives/</loc>
-        <lastmod>2012-08-18T19:35:59+08:00</lastmod>
+        <lastmod>2012-08-23T13:33:15+08:00</lastmod>
     </url>
     <url>
         <loc>http://www.dyfeng.org/</loc>
-        <lastmod>2012-08-18T19:35:59+08:00</lastmod>
+        <lastmod>2012-08-23T13:33:15+08:00</lastmod>
     </url>
 </urlset>

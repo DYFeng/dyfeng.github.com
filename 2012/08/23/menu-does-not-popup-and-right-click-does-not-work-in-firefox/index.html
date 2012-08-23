@@ -3,9 +3,9 @@
 <html>
 <head>
   <meta charset="utf-8" />
-  <title>Tag: apache - DY.Feng's Blog 叶毅锋的博客</title>
+  <title>解决Firefox菜单和右键不弹出的问题 - DY.Feng's Blog 叶毅锋的博客</title>
   
-  <meta name="description" content=" Tag: Apache 2012 减少xampp内存占用 Aug 11th, 2012 Tags: linux, xampp, apache, moodle " />
+  <meta name="description" content="解决Firefox菜单和右键不弹出的问题 Aug 23rd, 2012 Tags: firefox, ubuntu, fcitx ， kde 最近一次kubuntu升级后，我发现一个很奇怪的现象，我的Firefox某些时候菜单不能弹出，右键也失灵了。准确来说，是弹出了，又很快地焦点转移， &hellip;" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
   <link rel="stylesheet" href="/stylesheets/screen.css" />
@@ -42,25 +42,18 @@ html,body{height:100%;overflow:hidden}
 
 <header class="my-nickname"><em title="">(≧▼≦) 喵喵</em></header>
 
+<link rel="stylesheet" href="/stylesheets/dcjqaccordion.css" />
 <section class="main-wrap clearfix">
-
-
-  
-  <header>
-    <h1 class="page-title">Tag: Apache</h1>
+  <article role="article">
     
-  </header>
+
+<header>
   
-  <dl class="archives">
+    <h1 class="entry-title">解决Firefox菜单和右键不弹出的问题</h1>
   
   
-  
-    
-    <dt>2012</dt>
-  
-  <dd><h1 class="entry-title"><a href="/2012/08/11/decrease-threads-with-xampp/">减少xampp内存占用</a></h1>
-<p class="meta">
-  
+    <p class="meta">
+      
 
 
 
@@ -72,26 +65,164 @@ html,body{height:100%;overflow:hidden}
   
 
 
-<time datetime="2012-08-11T00:00:00+08:00" pubdate="pubdate" data-updated="true">Aug 11<span>th</span>, 2012</time>
-  
+<time datetime="2012-08-23T13:19:00+08:00" pubdate="pubdate" data-updated="true">Aug 23<span>rd</span>, 2012</time>
+      
 
 <span class="tags">
   Tags:
   
-    <a href='/tags/linux/'>linux</a>, <a href='/tags/xampp/'>xampp</a>, <a href='/tags/apache/'>apache</a>, <a href='/tags/moodle/'>moodle</a>
+    <a href='/tags/firefox/'>firefox</a>, <a href='/tags/ubuntu/'>ubuntu</a>, <a href='/tags/fcitx-,-kde/'>fcitx ， kde</a>
   
 </span>
 
-</p>
-</dd>
+      <span class="share-to-weibo">
+        <a href="javascript:void(0)" onclick="window.open('http://service.weibo.com/share/share.php?appkey=&amp;ralateUid=&amp;title=解决Firefox菜单和右键不弹出的问题 - &amp;url=http://www.dyfeng.org/2012/08/23/menu-does-not-popup-and-right-click-does-not-work-in-firefox/', null, 'width=615,height=505,toolbar=0,status=0')" class="sina-weibo" title="分享到新浪微博"></a>
+
+        <a href="javascript:void(0)" onclick="window.open('http://share.v.t.qq.com/index.php?c=share&amp;a=index&amp;appkey=&amp;title=解决Firefox菜单和右键不弹出的问题 - &amp;url=http://www.dyfeng.org/2012/08/23/menu-does-not-popup-and-right-click-does-not-work-in-firefox/', null, 'width=700,height=680,toolbar=0,status=0')" class="tencent-weibo" title="分享到腾讯微博"></a>
+
+        <a href="javascript:void(0)" onclick="window.open('https://twitter.com/intent/tweet?text=解决Firefox菜单和右键不弹出的问题 - http://www.dyfeng.org/2012/08/23/menu-does-not-popup-and-right-click-does-not-work-in-firefox/', null, 'width=600,height=300,toolbar=0,status=0')" class="twitter" title="分享到Twitter"></a>
+      </span>
+    </p>
   
-</dl>
+</header>
 
 
+  <div class="entry-content typo"><p>最近一次kubuntu升级后，我发现一个很奇怪的现象，我的Firefox某些时候菜单不能弹出，右键也失灵了。准确来说，是弹出了，又很快地焦点转移，导致他又关闭了。Google下发现遇到这个问题的童鞋还真不少，而且解决的方法各有不同，看来这个问题是Firefox一直存在的。</p>
 
+<p>网上的解决方法：</p>
+
+<ul>
+<li>升级你的Firefox到14+。</li>
+<li>重装你的Firefox</li>
+<li>插件冲突</li>
+</ul>
+
+
+<p>后来我发现他有个规律，一开始Firefox是好的，后来我在里面搜索打中文的时候，灵异的事情发生了，右键和菜单又能用了。这时候我才发现是我的输入法<code>fcitx</code>的问题。</p>
+
+<p>解决的方法是安装<code>fcitx-frontend-gtk2</code>和<code>fcitx-frontend-gtk3</code>，因为<code>fcitx-frontend-qt4</code>我是一直有装的，所以就不重复了。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span><span class="nb">sudo</span> apt-get install fcitx-frontend-gtk2 fcitx-frontend-gtk3
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>想起我这个ubuntu是先装了<code>Unity</code>界面，后来我卸载了<code>Unity</code>，重新回到我<code>KDE</code>的怀抱。可能就是在清理软件的时候，多手删了，善哉善哉。</p>
+</div>
+
+
+    <footer>
+      <p class="meta neighbor clearfix">
+        
+          <a href="/2012/08/18/change-the-pygment-lexer-of-octopress/" class="float-l" title="Previous Post: 修改octopress的pygment语法">&laquo; 修改octopress的pygment语法</a>
+        
+        
+      </p>
+    </footer>
+  </article>
 
   <section id="disqus_thread"></section>
 </section>
+
+<script src="/javascripts/jquery.dcjqaccordion.2.7.js"></script>
+<script>
+(function($){
+    
+
+
+    
+    $(document).ready(function(){
+	var menu_widget = $("#accordion-container");  
+	var main_wrap=$("section.main-wrap");
+	
+	
+	var nav_bar=$("body nav.black-long-straight li:last");
+	function minimize_menu()
+	{
+	    menu_widget.hide();
+	}
+
+	function maximize_menu()
+	{
+	    menu_widget.show();
+	}
+
+	var chapters=$("section :header:not(:first)");
+	var curTagName,oldTagName=1;
+	var menu=$("<ul class='accordion' id='accordion-menu'></ul>");
+	var count=0;
+
+	chapters.each(function(){
+
+	    var item=$(this);
+	    item.attr("name",count).attr("id",count);
+	    curTagName=parseInt(this.tagName.replace("H",""));
+
+	    var link="<li tag='"+curTagName+"'><a href='#"+count+"'>"+item.text()+"</a></li>";
+	    var lastLink=menu.find("a[href='#"+(count-1)+"']");
+
+	    if (curTagName == 1)
+	    {
+		menu.append("<li><a href='#"+count+"'>"+item.text()+"</a></li>");
+	    }else if(curTagName<oldTagName)
+	    {
+		lastLink.closest("li[tag='"+curTagName+"']").after(link);
+	    }else if(curTagName==oldTagName)
+	    {
+		lastLink.parent().after(link);
+	    }else if (curTagName>oldTagName)
+	    {
+		lastLink.after("<ul>"+link+"</ul>")
+	    }
+	    count++;
+	    oldTagName=curTagName;
+	});
+
+	$('div#accordion-container').append(menu);
+	$('#accordion-menu').dcAccordion({
+	    eventType: 'click',
+	    autoClose: false,
+	    saveState: false,
+	    disableLink: true,
+	    showCount: false,
+	    speed: 'slow'
+	});
+	$('#accordion-menu a:not(.dcjq-parent)').click(function(){
+	    var href = $(this).attr("href");
+	    var pos = $(href).offset().top-30;
+	    $("html,body").animate({scrollTop: pos}, 1000);
+	});
+
+	var h1=250;
+	var h2=190;
+
+	var menu_width=menu_widget.width()+20;
+	if (menu_width>main_wrap.offset().left)
+	    minimize_menu();
+
+	$(window).scroll(function () {   
+	    offset = h2+$(document).scrollTop();
+	    
+	    if (offset<h1)
+		menu_widget.css("top",h1+"px");
+	    else
+		menu_widget.css("top",offset+"px");
+	}).resize(function(){
+
+	    if (menu_width>main_wrap.offset().left)
+		minimize_menu();
+	    else
+		maximize_menu();
+
+	}); 
+	
+    });
+})(jQuery); 
+</script>
+<div class="clean accordion-container" id="accordion-container">
+<h1>解决Firefox菜单和右键不弹出的问题</h1>
+</div>
+
 
 <footer class="footer">
   &copy;2012 (≧▼≦) 喵喵
@@ -139,7 +270,7 @@ html,body{height:100%;overflow:hidden}
 
 <script src="/javascripts/application.js"></script>
 
-
+<script>var disqus_shortname="dyfeng",disqus_identifier=disqus_url="http://www.dyfeng.org/2012/08/23/menu-does-not-popup-and-right-click-does-not-work-in-firefox/",disqus_script="embed.js";(function(){var a=document.createElement("script");a.async=!0,a.src="http://"+disqus_shortname+".disqus.com/"+disqus_script,document.getElementsByTagName("head")[0].appendChild(a)})()</script>
 <iframe src="/offline-cache.html" style="display:none"></iframe>
 </body>
 </html>
