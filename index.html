@@ -91,27 +91,12 @@ html,body{height:100%;overflow:hidden}
 
   <div class="entry-content typo"><p>最近一次kubuntu升级后，我发现一个很奇怪的现象，我的Firefox某些时候菜单不能弹出，右键也失灵了。准确来说，是弹出了，又很快地焦点转移，导致他又关闭了。Google下发现遇到这个问题的童鞋还真不少，而且解决的方法各有不同，看来这个问题是Firefox一直存在的。</p>
 
-<p>网上的解决方法：</p>
-
-<ul>
-<li>升级你的Firefox到14+。</li>
-<li>重装你的Firefox</li>
-<li>插件冲突</li>
-</ul>
-
-
-<p>后来我发现他有个规律，一开始Firefox是好的，后来我在里面搜索打中文的时候，灵异的事情发生了，右键和菜单又能用了。这时候我才发现是我的输入法<code>fcitx</code>的问题。</p>
-
-<p>解决的方法是安装<code>fcitx-frontend-gtk2</code>和<code>fcitx-frontend-gtk3</code>，因为<code>fcitx-frontend-qt4</code>我是一直有装的，所以就不重复了。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span><span class="nb">sudo</span> apt-get install fcitx-frontend-gtk2 fcitx-frontend-gtk3
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>想起我这个ubuntu是先装了<code>Unity</code>界面，后来我卸载了<code>Unity</code>，重新回到我<code>KDE</code>的怀抱。可能就是在清理软件的时候，多手删了，善哉善哉。</p>
 </div>
   
+  
+    <footer class="align-r">
+      <a href="/2012/08/23/menu-does-not-popup-and-right-click-does-not-work-in-firefox/#ContinueReading">Read on &rarr;</a>
+    </footer>
   
 
 
