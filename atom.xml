@@ -4,7 +4,7 @@
   <title><![CDATA[DY.Feng's Blog 叶毅锋的博客]]></title>
   <link href="http://www.dyfeng.org/atom.xml" rel="self"/>
   <link href="http://www.dyfeng.org/"/>
-  <updated>2012-08-23T13:41:31+08:00</updated>
+  <updated>2012-08-28T08:58:45+08:00</updated>
   <id>http://www.dyfeng.org/</id>
   <author>
     <name><![CDATA[(≧▼≦) 喵喵]]></name>
@@ -12,6 +12,107 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[关于nginx的一些配置]]></title>
+    <link href="http://www.dyfeng.org/2012/08/24/something-about-nginx-configuration/"/>
+    <updated>2012-08-24T01:10:00+08:00</updated>
+    <id>http://www.dyfeng.org/2012/08/24/something-about-nginx-configuration</id>
+    <content type="html"><![CDATA[<p>今天帮人配置了下nginx，主要是二级域名以对应文件夹为根目录。主要的问题是在<code>Windows</code>环境下配置的，而小生一直都是在<code>Linux</code>环境下工作的，对<code>Windows</code>不大了解，记录下今天学到的小技巧。</p>
+
+<!-- more -->
+
+
+<h1>使用lvh.me做域名调试</h1>
+
+<p>因为我要配置二级域名，而我手头又没有域名，所以配置写起来很麻烦。其中一个方法是改<code>host</code>文件，可在我的XP里却死活不行，host文件改了跟没改一样，又没有开什么杀毒软件之类的，对Windows甚为不解。</p>
+
+<p>好在有人免费提供了一些指向<code>127.0.0.1</code>的域名，<code>lvh.me</code>就是其中的一个。用他来调试nginx域名配置就最好不过了。</p>
+
+<h1>nginx配置的</h1>
+
+<ul>
+<li>nginx的<code>IF</code>语句没有ELSE，判断语句里面没有&amp;&amp;和||，你别想多了，他就是一个<code>IF</code>而已。</li>
+</ul>
+
+
+<p>如果要用到多个逻辑判断怎么办？没有&amp;&amp;又没有||。我们来设置一个标记<code>$flag</code></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>set $flag 'test';
+</span><span class='line'>
+</span><span class='line'>if ( 条件一 ){
+</span><span class='line'>set $flag '';
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>if ( 条件二 ){
+</span><span class='line'>set $flag '';
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>if ( $flag = 'test' ){
+</span><span class='line'>做点什么;
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>等价于</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>if ( !条件一 && !条件二 ){
+</span><span class='line'>做点什么
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>所有的逻辑语句都可以用这种标记法来实现。</p>
+
+<ul>
+<li><p>文件和目录判断，linux下好像-f也能判断目录，我今天就栽在这个上了。</p>
+
+<ul>
+<li>-f和!-f判断是否存在文件</li>
+<li>-d和!-d判断是否存在目录</li>
+<li>-e和!-e判断是否存在文件或目录</li>
+<li>-x和!-x判断文件是否可执行</li>
+</ul>
+</li>
+<li><p>nginx配置文件的字符串比较。要注意一点，nginx的字符串都是按正则使用的。</p>
+
+<ul>
+<li>匹配
+
+<ul>
+<li>区分大小写 <code>~</code></li>
+<li>不区分大小写 <code>~*</code></li>
+<li>精确匹配 <code>=</code></li>
+</ul>
+</li>
+<li>不匹配。前面加<code>!</code>
+
+<ul>
+<li>区分大小写 <code>!~</code></li>
+<li>不区分大小写 <code>!~*</code></li>
+<li>精确匹配 <code>!=</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[解决Firefox菜单不弹出和右键失效的问题]]></title>
@@ -1624,9 +1725,7 @@ puts markdown.to_html
     <link href="http://www.dyfeng.org/2012/08/11/decrease-threads-with-xampp/"/>
     <updated>2012-08-11T00:00:00+08:00</updated>
     <id>http://www.dyfeng.org/2012/08/11/decrease-threads-with-xampp</id>
-    <content type="html"><![CDATA[<p>Included file &#8216;JB/setup&#8217; not found in _includes directory</p>
-
-<p>最近有个改写moodle系统插件的项目，所以我又重操起php的老行当。moodle是一个非常不错的考试系统，多种题型，多种计分方式，唯一的缺点就是文档太少，非常的缺&#8230;开发人员列表里面也看到了好几个中国人的名字。</p>
+    <content type="html"><![CDATA[<p>最近有个改写moodle系统插件的项目，所以我又重操起php的老行当。moodle是一个非常不错的考试系统，多种题型，多种计分方式，唯一的缺点就是文档太少，非常的缺&#8230;开发人员列表里面也看到了好几个中国人的名字。</p>
 
 <p>下载，放到htdocs，<code>sudo lampp start</code>，结果发现他竟然要求php5.3以上。我的php还是5.1的老版本，那没法，唯有下载个最新的xampp吧。一切还算顺利，除了xampp好像怪怪的。因为我改了配置文件后，再重启，他竟然好像没有反应，这个到现在还是个不解之谜。</p>
 

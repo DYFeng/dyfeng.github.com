@@ -5,7 +5,7 @@
   <meta charset="utf-8" />
   <title>DY.Feng's Blog 叶毅锋的博客</title>
   
-  <meta name="description" content="解决Firefox菜单不弹出和右键失效的问题 Aug 23rd, 2012 Tags: firefox, ubuntu, fcitx, kde 最近一次kubuntu升级后，我发现一个很奇怪的现象，我的Firefox某些时候菜单栏不能弹出，右键也失灵了。准确来说，是弹出了，又很快地焦点转移， &hellip;" />
+  <meta name="description" content="关于nginx的一些配置 Aug 24th, 2012 Tag: nginx 今天帮人配置了下nginx，主要是二级域名以对应文件夹为根目录。主要的问题是在Windows环境下配置的，而小生一直都是在Linux环境下工作的，对Windows不大了解，记录下今天学到的小技巧。 Read on & &hellip;" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
   <link rel="stylesheet" href="/stylesheets/screen.css" />
@@ -44,6 +44,63 @@ html,body{height:100%;overflow:hidden}
 
 <section class="main-wrap clearfix">
   
+  
+  
+    <article>
+      
+
+<header>
+  
+    <h1 class="entry-title"><a href="/2012/08/24/something-about-nginx-configuration/">关于nginx的一些配置</a></h1>
+  
+  
+    <p class="meta">
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-08-24T01:10:00+08:00" pubdate="pubdate" data-updated="true">Aug 24<span>th</span>, 2012</time>
+      
+
+<span class="tags">
+  Tag:
+  
+    <a href='/tags/nginx/'>nginx</a>
+  
+</span>
+
+      <span class="share-to-weibo">
+        <a href="javascript:void(0)" onclick="window.open('http://service.weibo.com/share/share.php?appkey=&amp;ralateUid=&amp;title=关于nginx的一些配置 - &amp;url=http://www.dyfeng.org/2012/08/24/something-about-nginx-configuration/', null, 'width=615,height=505,toolbar=0,status=0')" class="sina-weibo" title="分享到新浪微博"></a>
+
+        <a href="javascript:void(0)" onclick="window.open('http://share.v.t.qq.com/index.php?c=share&amp;a=index&amp;appkey=&amp;title=关于nginx的一些配置 - &amp;url=http://www.dyfeng.org/2012/08/24/something-about-nginx-configuration/', null, 'width=700,height=680,toolbar=0,status=0')" class="tencent-weibo" title="分享到腾讯微博"></a>
+
+        <a href="javascript:void(0)" onclick="window.open('https://twitter.com/intent/tweet?text=关于nginx的一些配置 - http://www.dyfeng.org/2012/08/24/something-about-nginx-configuration/', null, 'width=600,height=300,toolbar=0,status=0')" class="twitter" title="分享到Twitter"></a>
+      </span>
+    </p>
+  
+</header>
+
+
+  <div class="entry-content typo"><p>今天帮人配置了下nginx，主要是二级域名以对应文件夹为根目录。主要的问题是在<code>Windows</code>环境下配置的，而小生一直都是在<code>Linux</code>环境下工作的，对<code>Windows</code>不大了解，记录下今天学到的小技巧。</p>
+
+</div>
+  
+  
+    <footer class="align-r">
+      <a href="/2012/08/24/something-about-nginx-configuration/#ContinueReading">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -530,9 +587,7 @@ puts markdown.to_html
 </header>
 
 
-  <div class="entry-content typo"><p>Included file &#8216;JB/setup&#8217; not found in _includes directory</p>
-
-<p>最近有个改写moodle系统插件的项目，所以我又重操起php的老行当。moodle是一个非常不错的考试系统，多种题型，多种计分方式，唯一的缺点就是文档太少，非常的缺&#8230;开发人员列表里面也看到了好几个中国人的名字。</p>
+  <div class="entry-content typo"><p>最近有个改写moodle系统插件的项目，所以我又重操起php的老行当。moodle是一个非常不错的考试系统，多种题型，多种计分方式，唯一的缺点就是文档太少，非常的缺&#8230;开发人员列表里面也看到了好几个中国人的名字。</p>
 
 <p>下载，放到htdocs，<code>sudo lampp start</code>，结果发现他竟然要求php5.3以上。我的php还是5.1的老版本，那没法，唯有下载个最新的xampp吧。一切还算顺利，除了xampp好像怪怪的。因为我改了配置文件后，再重启，他竟然好像没有反应，这个到现在还是个不解之谜。</p>
 

@@ -3,9 +3,9 @@
 <html>
 <head>
   <meta charset="utf-8" />
-  <title>解决Firefox菜单不弹出和右键失效的问题 - DY.Feng's Blog 叶毅锋的博客</title>
+  <title>关于nginx的一些配置 - DY.Feng's Blog 叶毅锋的博客</title>
   
-  <meta name="description" content="解决Firefox菜单不弹出和右键失效的问题 Aug 23rd, 2012 Tags: firefox, ubuntu, fcitx, kde 最近一次kubuntu升级后，我发现一个很奇怪的现象，我的Firefox某些时候菜单栏不能弹出，右键也失灵了。准确来说，是弹出了，又很快地焦点转移， &hellip;" />
+  <meta name="description" content="关于nginx的一些配置 Aug 24th, 2012 Tag: nginx 今天帮人配置了下nginx，主要是二级域名以对应文件夹为根目录。主要的问题是在Windows环境下配置的，而小生一直都是在Linux环境下工作的，对Windows不大了解，记录下今天学到的小技巧。 使用lvh. &hellip;" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
   <link rel="stylesheet" href="/stylesheets/screen.css" />
@@ -49,7 +49,7 @@ html,body{height:100%;overflow:hidden}
 
 <header>
   
-    <h1 class="entry-title">解决Firefox菜单不弹出和右键失效的问题</h1>
+    <h1 class="entry-title">关于nginx的一些配置</h1>
   
   
     <p class="meta">
@@ -65,62 +65,129 @@ html,body{height:100%;overflow:hidden}
   
 
 
-<time datetime="2012-08-23T13:19:00+08:00" pubdate="pubdate" data-updated="true">Aug 23<span>rd</span>, 2012</time>
+<time datetime="2012-08-24T01:10:00+08:00" pubdate="pubdate" data-updated="true">Aug 24<span>th</span>, 2012</time>
       
 
 <span class="tags">
-  Tags:
+  Tag:
   
-    <a href='/tags/firefox/'>firefox</a>, <a href='/tags/ubuntu/'>ubuntu</a>, <a href='/tags/fcitx/'>fcitx</a>, <a href='/tags/kde/'>kde</a>
+    <a href='/tags/nginx/'>nginx</a>
   
 </span>
 
       <span class="share-to-weibo">
-        <a href="javascript:void(0)" onclick="window.open('http://service.weibo.com/share/share.php?appkey=&amp;ralateUid=&amp;title=解决Firefox菜单不弹出和右键失效的问题 - &amp;url=http://www.dyfeng.org/2012/08/23/menu-does-not-popup-and-right-click-does-not-work-in-firefox/', null, 'width=615,height=505,toolbar=0,status=0')" class="sina-weibo" title="分享到新浪微博"></a>
+        <a href="javascript:void(0)" onclick="window.open('http://service.weibo.com/share/share.php?appkey=&amp;ralateUid=&amp;title=关于nginx的一些配置 - &amp;url=http://www.dyfeng.org/2012/08/24/something-about-nginx-configuration/', null, 'width=615,height=505,toolbar=0,status=0')" class="sina-weibo" title="分享到新浪微博"></a>
 
-        <a href="javascript:void(0)" onclick="window.open('http://share.v.t.qq.com/index.php?c=share&amp;a=index&amp;appkey=&amp;title=解决Firefox菜单不弹出和右键失效的问题 - &amp;url=http://www.dyfeng.org/2012/08/23/menu-does-not-popup-and-right-click-does-not-work-in-firefox/', null, 'width=700,height=680,toolbar=0,status=0')" class="tencent-weibo" title="分享到腾讯微博"></a>
+        <a href="javascript:void(0)" onclick="window.open('http://share.v.t.qq.com/index.php?c=share&amp;a=index&amp;appkey=&amp;title=关于nginx的一些配置 - &amp;url=http://www.dyfeng.org/2012/08/24/something-about-nginx-configuration/', null, 'width=700,height=680,toolbar=0,status=0')" class="tencent-weibo" title="分享到腾讯微博"></a>
 
-        <a href="javascript:void(0)" onclick="window.open('https://twitter.com/intent/tweet?text=解决Firefox菜单不弹出和右键失效的问题 - http://www.dyfeng.org/2012/08/23/menu-does-not-popup-and-right-click-does-not-work-in-firefox/', null, 'width=600,height=300,toolbar=0,status=0')" class="twitter" title="分享到Twitter"></a>
+        <a href="javascript:void(0)" onclick="window.open('https://twitter.com/intent/tweet?text=关于nginx的一些配置 - http://www.dyfeng.org/2012/08/24/something-about-nginx-configuration/', null, 'width=600,height=300,toolbar=0,status=0')" class="twitter" title="分享到Twitter"></a>
       </span>
     </p>
   
 </header>
 
 
-  <div class="entry-content typo"><p>最近一次kubuntu升级后，我发现一个很奇怪的现象，我的Firefox某些时候菜单栏不能弹出，右键也失灵了。准确来说，是弹出了，又很快地焦点转移，导致他又关闭了。Google下发现遇到这个问题的童鞋还真不少，而且解决的方法各有不同，看来这个问题是Firefox一直存在的。</p>
+  <div class="entry-content typo"><p>今天帮人配置了下nginx，主要是二级域名以对应文件夹为根目录。主要的问题是在<code>Windows</code>环境下配置的，而小生一直都是在<code>Linux</code>环境下工作的，对<code>Windows</code>不大了解，记录下今天学到的小技巧。</p>
 
 <!-- more -->
 
 
-<p>网上的解决方法：</p>
+<h1>使用lvh.me做域名调试</h1>
+
+<p>因为我要配置二级域名，而我手头又没有域名，所以配置写起来很麻烦。其中一个方法是改<code>host</code>文件，可在我的XP里却死活不行，host文件改了跟没改一样，又没有开什么杀毒软件之类的，对Windows甚为不解。</p>
+
+<p>好在有人免费提供了一些指向<code>127.0.0.1</code>的域名，<code>lvh.me</code>就是其中的一个。用他来调试nginx域名配置就最好不过了。</p>
+
+<h1>nginx配置的</h1>
 
 <ul>
-<li>升级你的Firefox到14+。</li>
-<li>重装你的Firefox</li>
-<li>插件冲突</li>
+<li>nginx的<code>IF</code>语句没有ELSE，判断语句里面没有&amp;&amp;和||，你别想多了，他就是一个<code>IF</code>而已。</li>
 </ul>
 
 
-<p>后来我发现他有个规律，一开始Firefox是好的，后来我在里面搜索打中文的时候，灵异的事情发生了，右键和菜单又能用了。这时候我才发现是我的输入法<code>fcitx</code>的问题。</p>
+<p>如果要用到多个逻辑判断怎么办？没有&amp;&amp;又没有||。我们来设置一个标记<code>$flag</code></p>
 
-<p>解决的方法是安装<code>fcitx-frontend-gtk2</code>和<code>fcitx-frontend-gtk3</code>，因为<code>fcitx-frontend-qt4</code>我是一直有装的，所以就不重复了。</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>set $flag 'test';
+</span><span class='line'>
+</span><span class='line'>if ( 条件一 ){
+</span><span class='line'>set $flag '';
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>if ( 条件二 ){
+</span><span class='line'>set $flag '';
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>if ( $flag = 'test' ){
+</span><span class='line'>做点什么;
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span><span class="nb">sudo</span> apt-get install fcitx-frontend-gtk2 fcitx-frontend-gtk3
-</span></code></pre></td></tr></table></div></figure>
+
+<p>等价于</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>if ( !条件一 && !条件二 ){
+</span><span class='line'>做点什么
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
 
 
-<p>想起我这个ubuntu是先装了<code>Unity</code>界面，后来我卸载了<code>Unity</code>，重新回到我<code>KDE</code>的怀抱。可能就是在清理软件的时候，多手删了，善哉善哉。</p>
+<p>所有的逻辑语句都可以用这种标记法来实现。</p>
+
+<ul>
+<li><p>文件和目录判断，linux下好像-f也能判断目录，我今天就栽在这个上了。</p>
+
+<ul>
+<li>-f和!-f判断是否存在文件</li>
+<li>-d和!-d判断是否存在目录</li>
+<li>-e和!-e判断是否存在文件或目录</li>
+<li>-x和!-x判断文件是否可执行</li>
+</ul>
+</li>
+<li><p>nginx配置文件的字符串比较。要注意一点，nginx的字符串都是按正则使用的。</p>
+
+<ul>
+<li>匹配
+
+<ul>
+<li>区分大小写 <code>~</code></li>
+<li>不区分大小写 <code>~*</code></li>
+<li>精确匹配 <code>=</code></li>
+</ul>
+</li>
+<li>不匹配。前面加<code>!</code>
+
+<ul>
+<li>区分大小写 <code>!~</code></li>
+<li>不区分大小写 <code>!~*</code></li>
+<li>精确匹配 <code>!=</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
 </div>
 
 
     <footer>
       <p class="meta neighbor clearfix">
         
-          <a href="/2012/08/18/change-the-pygment-lexer-of-octopress/" class="float-l" title="Previous Post: 修改octopress的pygment语法">&laquo; 修改octopress的pygment语法</a>
+          <a href="/2012/08/23/menu-does-not-popup-and-right-click-does-not-work-in-firefox/" class="float-l" title="Previous Post: 解决Firefox菜单不弹出和右键失效的问题">&laquo; 解决Firefox菜单不弹出和右键失效的问题</a>
         
-        
-          <a href="/2012/08/24/something-about-nginx-configuration/" class="float-r" title="Next Post: 关于nginx的一些配置">关于nginx的一些配置 &raquo;</a>
         
       </p>
     </footer>
@@ -225,7 +292,7 @@ html,body{height:100%;overflow:hidden}
 })(jQuery); 
 </script>
 <div class="clean accordion-container" id="accordion-container">
-<h1>解决Firefox菜单不弹出和右键失效的问题</h1>
+<h1>关于nginx的一些配置</h1>
 </div>
 
 
@@ -275,7 +342,7 @@ html,body{height:100%;overflow:hidden}
 
 <script src="/javascripts/application.js"></script>
 
-<script>var disqus_shortname="dyfeng",disqus_identifier=disqus_url="http://www.dyfeng.org/2012/08/23/menu-does-not-popup-and-right-click-does-not-work-in-firefox/",disqus_script="embed.js";(function(){var a=document.createElement("script");a.async=!0,a.src="http://"+disqus_shortname+".disqus.com/"+disqus_script,document.getElementsByTagName("head")[0].appendChild(a)})()</script>
+<script>var disqus_shortname="dyfeng",disqus_identifier=disqus_url="http://www.dyfeng.org/2012/08/24/something-about-nginx-configuration/",disqus_script="embed.js";(function(){var a=document.createElement("script");a.async=!0,a.src="http://"+disqus_shortname+".disqus.com/"+disqus_script,document.getElementsByTagName("head")[0].appendChild(a)})()</script>
 <iframe src="/offline-cache.html" style="display:none"></iframe>
 </body>
 </html>
