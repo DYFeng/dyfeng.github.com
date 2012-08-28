@@ -5,8 +5,6 @@ description: ""
 category: Server
 tags: [linux , xampp , apache , moodle]
 ---
-{% include JB/setup %}
-
 
 最近有个改写moodle系统插件的项目，所以我又重操起php的老行当。moodle是一个非常不错的考试系统，多种题型，多种计分方式，唯一的缺点就是文档太少，非常的缺...开发人员列表里面也看到了好几个中国人的名字。
 

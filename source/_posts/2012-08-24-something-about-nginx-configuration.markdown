@@ -4,11 +4,11 @@ title: "关于nginx的一些配置"
 date: 2012-08-24 01:10
 comments: true
 categories: server
-tag: [nginx.conf]
+tags: [ nginx ]
 ---
 
 今天帮人配置了下nginx，主要是二级域名以对应文件夹为根目录。主要的问题是在`Windows`环境下配置的，而小生一直都是在`Linux`环境下工作的，对`Windows`不大了解，记录下今天学到的小技巧。
-
+<!-- more -->
 #使用lvh.me做域名调试
 
 因为我要配置二级域名，而我手头又没有域名，所以配置写起来很麻烦。其中一个方法是改`host`文件，可在我的XP里却死活不行，host文件改了跟没改一样，又没有开什么杀毒软件之类的，对Windows甚为不解。
