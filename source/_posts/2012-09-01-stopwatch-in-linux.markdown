@@ -4,7 +4,7 @@ title: "在Linux下做一个简单的秒表"
 date: 2012-09-01 10:00
 comments: true
 categories: Linux
-tag: [stopwatch , linux , bash ]
+tags: [stopwatch , linux , bash ]
 ---
 
 因为要比较`clang`和`gcc`哪个编译效率更高，我把我的一个项目分别用这两种编译器编译，还比较了添加`-j4`后的编译时间。可我的`apt-get`仓库下没发现有什么好的`秒表`或者`计时器`，有的计时器是用来定时执行任务的。不过山人自有妙计，我用一行命令也做了一个秒表，Linux下没有不可能的事情。
