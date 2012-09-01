@@ -3,9 +3,9 @@
 <html>
 <head>
   <meta charset="utf-8" />
-  <title>Tag: bash - DY.Feng's Blog 叶毅锋的博客</title>
+  <title>在Linux下做一个简单的秒表 - DY.Feng's Blog 叶毅锋的博客</title>
   
-  <meta name="description" content=" Tag: Bash 2012 在Linux下做一个简单的秒表 Sep 1st, 2012 Tags: stopwatch, linux, bash 为rake添加命令补全 Aug 12th, 2012 Tags: linux, bash, completion, rake " />
+  <meta name="description" content="在Linux下做一个简单的秒表 Sep 1st, 2012 Tags: stopwatch, linux, bash 因为要比较clang和gcc哪个编译效率更高，我把我的一个项目分别用这两种编译器编译，还比较了添加-j4后的编译时间。可我的apt-get仓库下没发现有什么好的秒表或者计时器， &hellip;" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
   <link rel="stylesheet" href="/stylesheets/screen.css" />
@@ -42,25 +42,18 @@ html,body{height:100%;overflow:hidden}
 
 <header class="my-nickname"><em title="">(≧▼≦) 喵喵</em></header>
 
+<link rel="stylesheet" href="/stylesheets/dcjqaccordion.css" />
 <section class="main-wrap clearfix">
-
-
-  
-  <header>
-    <h1 class="page-title">Tag: Bash</h1>
+  <article role="article">
     
-  </header>
+
+<header>
   
-  <dl class="archives">
+    <h1 class="entry-title">在Linux下做一个简单的秒表</h1>
   
   
-  
-    
-    <dt>2012</dt>
-  
-  <dd><h1 class="entry-title"><a href="/2012/09/01/stopwatch-in-linux/">在Linux下做一个简单的秒表</a></h1>
-<p class="meta">
-  
+    <p class="meta">
+      
 
 
 
@@ -73,7 +66,7 @@ html,body{height:100%;overflow:hidden}
 
 
 <time datetime="2012-09-01T10:00:00+08:00" pubdate="pubdate" data-updated="true">Sep 1<span>st</span>, 2012</time>
-  
+      
 
 <span class="tags">
   Tags:
@@ -82,45 +75,140 @@ html,body{height:100%;overflow:hidden}
   
 </span>
 
-</p>
-</dd>
+      <span class="share-to-weibo">
+        <a href="javascript:void(0)" onclick="window.open('http://service.weibo.com/share/share.php?appkey=&amp;ralateUid=&amp;title=在Linux下做一个简单的秒表 - &amp;url=http://www.dyfeng.org/2012/09/01/stopwatch-in-linux/', null, 'width=615,height=505,toolbar=0,status=0')" class="sina-weibo" title="分享到新浪微博"></a>
+
+        <a href="javascript:void(0)" onclick="window.open('http://share.v.t.qq.com/index.php?c=share&amp;a=index&amp;appkey=&amp;title=在Linux下做一个简单的秒表 - &amp;url=http://www.dyfeng.org/2012/09/01/stopwatch-in-linux/', null, 'width=700,height=680,toolbar=0,status=0')" class="tencent-weibo" title="分享到腾讯微博"></a>
+
+        <a href="javascript:void(0)" onclick="window.open('https://twitter.com/intent/tweet?text=在Linux下做一个简单的秒表 - http://www.dyfeng.org/2012/09/01/stopwatch-in-linux/', null, 'width=600,height=300,toolbar=0,status=0')" class="twitter" title="分享到Twitter"></a>
+      </span>
+    </p>
   
-  
-  
-  <dd><h1 class="entry-title"><a href="/2012/08/12/bash-completion-for-rake/">为rake添加命令补全</a></h1>
-<p class="meta">
-  
+</header>
 
 
+  <div class="entry-content typo"><p>因为要比较<code>clang</code>和<code>gcc</code>哪个编译效率更高，我把我的一个项目分别用这两种编译器编译，还比较了添加<code>-j4</code>后的编译时间。可我的<code>apt-get</code>仓库下没发现有什么好的<code>秒表</code>或者<code>计时器</code>，有的计时器是用来定时执行任务的。不过山人自有妙计，我用一行命令也做了一个秒表，Linux下没有不可能的事情。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ time read -n1</span></code></pre></td></tr></table></div></figure>
 
 
+<p>结束后按回车，就能看到运行时间了，而且还精确到0.002秒哦亲。话说回来，clang比gcc没快多少，差不多的样子而已。加了<code>j4</code>，效率也没有提高4倍，加之前36秒，加之后25秒的样子，当然这个还得具体看项目的依赖关系。</p>
+</div>
 
 
-
-
-  
-
-
-<time datetime="2012-08-12T00:32:00+08:00" pubdate="pubdate" data-updated="true">Aug 12<span>th</span>, 2012</time>
-  
-
-<span class="tags">
-  Tags:
-  
-    <a href='/tags/linux/'>linux</a>, <a href='/tags/bash/'>bash</a>, <a href='/tags/completion/'>completion</a>, <a href='/tags/rake/'>rake</a>
-  
-</span>
-
-</p>
-</dd>
-  
-</dl>
-
-
-
+    <footer>
+      <p class="meta neighbor clearfix">
+        
+          <a href="/2012/08/24/something-about-nginx-configuration/" class="float-l" title="Previous Post: 关于nginx的一些配置">&laquo; 关于nginx的一些配置</a>
+        
+        
+      </p>
+    </footer>
+  </article>
 
   <section id="disqus_thread"></section>
 </section>
+
+<script src="/javascripts/jquery.dcjqaccordion.2.7.js"></script>
+<script>
+(function($){
+    
+
+
+    
+    $(document).ready(function(){
+	var menu_widget = $("#accordion-container");  
+	var main_wrap=$("section.main-wrap");
+	
+	
+	var nav_bar=$("body nav.black-long-straight li:last");
+	function minimize_menu()
+	{
+	    menu_widget.hide();
+	}
+
+	function maximize_menu()
+	{
+	    menu_widget.show();
+	}
+
+	var chapters=$("section :header:not(:first)");
+	var curTagName,oldTagName=1;
+	var menu=$("<ul class='accordion' id='accordion-menu'></ul>");
+	var count=0;
+
+	chapters.each(function(){
+
+	    var item=$(this);
+	    item.attr("name",count).attr("id",count);
+	    curTagName=parseInt(this.tagName.replace("H",""));
+
+	    var link="<li tag='"+curTagName+"'><a href='#"+count+"'>"+item.text()+"</a></li>";
+	    var lastLink=menu.find("a[href='#"+(count-1)+"']");
+
+	    if (curTagName == 1)
+	    {
+		menu.append("<li><a href='#"+count+"'>"+item.text()+"</a></li>");
+	    }else if(curTagName<oldTagName)
+	    {
+		lastLink.closest("li[tag='"+curTagName+"']").after(link);
+	    }else if(curTagName==oldTagName)
+	    {
+		lastLink.parent().after(link);
+	    }else if (curTagName>oldTagName)
+	    {
+		lastLink.after("<ul>"+link+"</ul>")
+	    }
+	    count++;
+	    oldTagName=curTagName;
+	});
+
+	$('div#accordion-container').append(menu);
+	$('#accordion-menu').dcAccordion({
+	    eventType: 'click',
+	    autoClose: false,
+	    saveState: false,
+	    disableLink: true,
+	    showCount: false,
+	    speed: 'slow'
+	});
+	$('#accordion-menu a:not(.dcjq-parent)').click(function(){
+	    var href = $(this).attr("href");
+	    var pos = $(href).offset().top-30;
+	    $("html,body").animate({scrollTop: pos}, 1000);
+	});
+
+	var h1=250;
+	var h2=190;
+
+	var menu_width=menu_widget.width()+20;
+	if (menu_width>main_wrap.offset().left)
+	    minimize_menu();
+
+	$(window).scroll(function () {   
+	    offset = h2+$(document).scrollTop();
+	    
+	    if (offset<h1)
+		menu_widget.css("top",h1+"px");
+	    else
+		menu_widget.css("top",offset+"px");
+	}).resize(function(){
+
+	    if (menu_width>main_wrap.offset().left)
+		minimize_menu();
+	    else
+		maximize_menu();
+
+	}); 
+	
+    });
+})(jQuery); 
+</script>
+<div class="clean accordion-container" id="accordion-container">
+<h1>在Linux下做一个简单的秒表</h1>
+</div>
+
 
 <footer class="footer">
   &copy;2012 (≧▼≦) 喵喵
@@ -168,7 +256,7 @@ html,body{height:100%;overflow:hidden}
 
 <script src="/javascripts/application.js"></script>
 
-
+<script>var disqus_shortname="dyfeng",disqus_identifier=disqus_url="http://www.dyfeng.org/2012/09/01/stopwatch-in-linux/",disqus_script="embed.js";(function(){var a=document.createElement("script");a.async=!0,a.src="http://"+disqus_shortname+".disqus.com/"+disqus_script,document.getElementsByTagName("head")[0].appendChild(a)})()</script>
 <iframe src="/offline-cache.html" style="display:none"></iframe>
 </body>
 </html>

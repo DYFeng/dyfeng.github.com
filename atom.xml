@@ -4,7 +4,7 @@
   <title><![CDATA[DY.Feng's Blog 叶毅锋的博客]]></title>
   <link href="http://www.dyfeng.org/atom.xml" rel="self"/>
   <link href="http://www.dyfeng.org/"/>
-  <updated>2012-08-28T08:58:45+08:00</updated>
+  <updated>2012-09-01T10:12:30+08:00</updated>
   <id>http://www.dyfeng.org/</id>
   <author>
     <name><![CDATA[(≧▼≦) 喵喵]]></name>
@@ -12,6 +12,21 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[在Linux下做一个简单的秒表]]></title>
+    <link href="http://www.dyfeng.org/2012/09/01/stopwatch-in-linux/"/>
+    <updated>2012-09-01T10:00:00+08:00</updated>
+    <id>http://www.dyfeng.org/2012/09/01/stopwatch-in-linux</id>
+    <content type="html"><![CDATA[<p>因为要比较<code>clang</code>和<code>gcc</code>哪个编译效率更高，我把我的一个项目分别用这两种编译器编译，还比较了添加<code>-j4</code>后的编译时间。可我的<code>apt-get</code>仓库下没发现有什么好的<code>秒表</code>或者<code>计时器</code>，有的计时器是用来定时执行任务的。不过山人自有妙计，我用一行命令也做了一个秒表，Linux下没有不可能的事情。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ time read -n1</span></code></pre></td></tr></table></div></figure>
+
+
+<p>结束后按回车，就能看到运行时间了，而且还精确到0.002秒哦亲。话说回来，clang比gcc没快多少，差不多的样子而已。加了<code>j4</code>，效率也没有提高4倍，加之前36秒，加之后25秒的样子，当然这个还得具体看项目的依赖关系。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[关于nginx的一些配置]]></title>
