@@ -1,0 +1,45 @@
+/*!
+ * UI: Input
+ *
+ * @author Jay-Jay.Zhang@eDoctor.cn
+ */
+
+.input {
+  width: 210px;
+  height: 18px;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  @include box-shadow(0 1px 1px rgba(0, 0, 0, .075) inset);
+  color: $gray;
+  line-height: 1;
+
+  &:focus {
+    border-color: $gray-light;
+    @include box-shadow(0 1px 1px rgba(0, 0, 0, .075) inset, 0 0 8px rgba(0, 0, 0, .1));
+    outline: 0;
+    outline: thin dotted \9;
+  }
+
+  &.disabled, &[disabled], &[readonly] {
+    border-color: #ddd;
+    background-color: #f5f5f5;
+    cursor: not-allowed;
+  }
+}
+textarea.input {
+  height: auto;
+  line-height: 1.5;
+  word-wrap: break-word;
+}
+select.input {
+  width: auto;
+  height: auto;
+}
+.input-mini { width: 60px; }
+.input-small { width: 90px; }
+.input-medium { width: 150px; }
+.input-large { width: 270px; }
+.input-xlarge { width: 330px; }
+.input-xxlarge { width: 420px; }
+.input-fullsize { width: 99%; }

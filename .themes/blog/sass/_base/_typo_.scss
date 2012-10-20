@@ -1,0 +1,82 @@
+/*!
+ * Type Styles For Chinese Pages
+ * (c) https://github.com/sofish/typo.css
+ *
+ * @author Jay-Jay.Zhang@eDoctor.cn
+ */
+
+// 保证块/段落之间的空白隔行
+.typo p,
+.typo-p {
+  margin-bottom: 1em;
+}
+@each $tag in pre, ul, ol, dl, form, hr, table {
+  .typo #{$tag},
+  .typo-#{$tag} {
+    @extend .typo-p;
+  }
+}
+
+// 标题应该更贴紧内容，并与其他块区分，margin 值要相应做优化
+.typo-h1-6 {
+  margin-bottom: 0.4em;
+  font-weight: 500;
+  font-weight: 800\9;
+  line-height: 1.5;
+}
+@for $i from 1 through 6 {
+  .typo h#{$i},
+  .typo-h#{$i} {
+    @extend .typo-h1-6;
+  }
+}
+
+$max-size: 2em;
+$min-size: 1em;
+@for $i from 1 through 6 {
+  $this-size: $max-size - 0.2 * $i;
+
+  .typo h#{$i},
+  .typo-h#{$i} {
+    font-size: if($this-size < $min-size, $min-size, $this-size);
+  }
+}
+
+// 在文章中，应该还原 ul 和 ol 的样式
+.typo ul, .typo-ul {
+  margin-left: 1.3em;
+  list-style: disc;
+}
+.typo ol, .typo-ol {
+  margin-left: 1.9em;
+  list-style: decimal;
+}
+.typo li ul, .typo li ol, .typo-ul ul, .typo-ul ol, .typo-ol ul, .typo-ol ol {
+  margin: {
+    top: 0;
+    bottom: 0;
+    left: 2em;
+  }
+}
+.typo li ul, .typo-ul ul, .typo-ol ul {
+  list-style: circle;
+}
+
+// 同 ul/ol，在文章中应用 table 基本格式
+.typo-table {
+  th, td {
+    border: 1px solid #ddd;
+    padding: 5px 10px;
+  }
+
+  th {
+    background: #fbfbfb;
+  }
+
+  thead th {
+    background: #f1f1f1;
+  }
+}
+.typo table {
+  @extend .typo-table;
+}

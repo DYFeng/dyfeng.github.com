@@ -1,0 +1,87 @@
+/*!
+ * Reset
+ *
+ * @author Jay-Jay.Zhang@eDoctor.cn
+ */
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  background: $white;
+  color: $text-color;
+  @include text-size-adjust;
+}
+
+body,
+button, input, select, textarea {
+  font: #{$base-font-size}/#{$base-line-height} #{$base-font-family};
+}
+
+h1, h2, h3, h4, h5, h6,
+input, select, textarea {
+  font-size: 100%;
+}
+
+a {
+  color: $link-color;
+  text-decoration: none;
+  &:hover {
+    color: $link-color-hover;
+    text-decoration: underline;
+  }
+}
+
+ul, ol {
+  list-style: none;
+}
+
+address, em {
+  font-style: normal;
+}
+
+fieldset, img {
+  border: 0;
+}
+
+code {
+  font-family: Monaco, Consolas, 'Lucida Console', monospace;
+}
+
+// Consistent with img tag
+audio, canvas, video {
+  display: inline-block;
+  @include ie7-inline-block;
+}
+
+sub, sup {
+  position: relative;
+  font-size: 75%;
+  line-height: 0;
+  vertical-align: baseline;
+}
+sup {
+  top: -0.5em;
+}
+sub {
+  bottom: -0.25em;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+th {
+  text-align: left;
+}
+
+// ie8-: http://html5shim.googlecode.com/svn/trunk/html5.js
+@if $support-for-html5-tags-in-ie {
+
+  article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
+    display: block;
+  }
+
+}
