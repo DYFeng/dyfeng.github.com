@@ -1,0 +1,140 @@
+/*!
+ * UI: Button
+ *
+ * @author Jay-Jay.Zhang@eDoctor.cn
+ */
+
+.btn {
+  padding: 3px 12px 2px;
+  vertical-align: middle;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  @include btn-colors($white, darken($white, 10%));
+  @include box-shadow(0 1px rgba(255, 255, 255, .2) inset, 0 1px 2px rgba(0, 0, 0, .1));
+  color: $gray;
+  font-size: 15px;
+  text-align: center;
+  text-shadow: 0 1px 1px rgba(255, 255, 255, .75);
+  line-height: 23px;
+  cursor: pointer;
+
+  &:hover {
+    color: $gray;
+    text-decoration: none;
+    background-position: 0 -15px;
+    @include transition(background-position .1s linear);
+  }
+
+  &.disabled, &[disabled] {
+    background-image: none;
+    @include box-shadow(none);
+    @include opacity(0.65);
+    color: lighten($gray, 15%);
+    cursor: default;
+
+    &:hover {
+      color: lighten($gray, 15%);
+    }
+  }
+}
+
+// Size
+.btn-small {
+  font-size: 12px;
+  line-height: 18px;
+}
+.btn-large {
+  padding: 11px 25px 10px;
+  font-size: 19px;
+  line-height: normal;
+  border-radius: 5px;
+}
+
+// Color
+.btn-red, .btn-red:hover,
+.btn-green, .btn-green:hover,
+.btn-orange, .btn-orange:hover,
+.btn-black, .btn-black:hover {
+  color: $white;
+  text-shadow: 0 -1px rgba(0, 0, 0, .25);
+}
+.btn-red {
+  @include btn-colors(#ee5f5b, $red);
+}
+.btn-green {
+  @include btn-colors(#a0e028, $green);
+}
+.btn-orange {
+  @include btn-colors(lighten($orange, 15%), $orange);
+}
+.btn-black {
+  @include btn-colors(lighten($gray-dark, 12%), $gray-dark);
+}
+
+
+// Button Group
+.btn,
+.btn-toolbar .btn-group {
+  display: inline-block;
+  @include ie7-inline-block;
+}
+
+.btn-toolbar {
+  font-size: 0;
+
+  .btn + .btn,
+  .btn-group + .btn,
+  .btn + .btn-group {
+    margin-left: 5px;
+  }
+}
+
+.btn-group {
+  *margin-left: .3em;
+  font-size: 0;
+  white-space: nowrap;
+
+  &:first-child {
+    *margin-left: 0;
+  }
+
+  & + .btn-group {
+    margin-left: 5px;
+  }
+
+  > .btn {
+    position: relative;
+    border-radius: 0;
+
+    & + .btn {
+      margin-left: -1px;
+    }
+
+    &:first-child {
+      margin-left: 0;
+      border-radius: 4px 0 0 4px;
+    }
+
+    &:last-child {
+      border-radius: 0 4px 4px 0;
+    }
+  }
+}
+
+// Only for button tag
+button {
+  &.btn {
+    &::-moz-focus-inner {
+      padding: 0;
+      border: 0;
+    }
+
+    *padding: 2px 1px 0;
+    *line-height: 22px;
+  }
+
+  &.btn-large {
+    *padding-top: 8px;
+    *padding-bottom: 7px;
+  }
+}

@@ -1,0 +1,54 @@
+/*!
+ * Utility Classes
+ *
+ * @author Jay-Jay.Zhang@eDoctor.cn
+ */
+
+// ========== clearfix ==========
+.clearfix {
+  @include clearfix;
+}
+
+// ========== float ==========
+.float-l {
+  float: left;
+}
+.float-r {
+  float: right;
+}
+
+// ========== Hide / Show ==========
+.hide {
+  display: none;
+}
+.show {
+  display: block;
+}
+.inline-show {
+  display: inline-block;
+}
+
+// ========== text-align ==========
+.align-l {
+  text-align: left;
+}
+.align-c {
+  text-align: center;
+}
+.align-r {
+  text-align: right;
+}
+
+// ========== nowrap ==========
+.nowrap {
+  white-space: nowrap;
+}
+
+// ========== disabled ==========
+.disabled {
+  cursor: default;
+}
+a.disabled:hover {
+  text-decoration: none;
+  cursor: default;
+}
